@@ -12,7 +12,7 @@ public class Person  implements  IPerson{
     private String email;
     private String password;
     private int userId;
-    private ListView<Task> tasks;
+    private ArrayList<Task> tasks;
 
     public Person(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
@@ -25,7 +25,7 @@ public class Person  implements  IPerson{
         this.userId = userId;
     }
 
-    public void setTasks(ListView<Task> tasks)
+    public void setTasks(ArrayList<Task> tasks)
     {
         this.tasks = tasks;
     }
@@ -61,7 +61,7 @@ public class Person  implements  IPerson{
     }
 
     @Override
-    public ListView<Task> getTasks() {
+    public ArrayList<Task> getTasks() {
         return tasks;
     }
 }

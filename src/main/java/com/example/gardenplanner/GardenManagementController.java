@@ -4,11 +4,12 @@ import People.IPerson;
 import Tasks.ITaskDAO;
 import Tasks.MockTaskDAO;
 import Tasks.Task;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Accordion;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +29,28 @@ public class GardenManagementController {
 
     private TitledPane createUserSection(IPerson person)
     {
-        ListView<Task> taskList = person.getTasks();
+        // Create Assign Task Button
+        Button assignTasks = new Button("Assign Task");
+        //Create dropdown for tasks
+        ListView<HBox> taskList = new ListView<HBox>();
+        for (Task task : person.getTasks())
+        {
+            TextField taskDetails = new TextField(task.getTaskDetails());
+            TextField assignedDate = new TextField(task.getAssignedDate().toString());
+            TextField dueDate = new TextField(task.getDueDate().toString());
+            Button confirmChangesButton = new Button("Confirm Changes");
+            Button deleteTaskButton = new Button("Delete Task");
 
-        TitledPane taskPlane = new TitledPane("Assigned Tasks", taskList);
+            HBox taskBox = new HBox(taskDetails, assignedDate, dueDate, confirmChangesButton, deleteTaskButton);
+            taskList.getItems().add(taskBox);
+
+        }
+
+        VBox allTasks = new VBox(assignTasks, taskList);
+        TitledPane taskPlane = new TitledPane("Assigned Tasks", allTasks);
+
+        // Create dropdown for user options
+
 
         TitledPane user = new TitledPane(person.getName(), new Accordion(taskPlane));
         //ArrayList<TitledPane> userTasks = new ArrayList<TitledPane>();
@@ -40,7 +60,7 @@ public class GardenManagementController {
 
     private void syncContacts() {
         userDropBox.getPanes().clear();
-        List<IPerson> people = personDAO.getAllPeople();
+        ArrayList<IPerson> people = personDAO.getAllPeople();
         boolean hasContact = !people.isEmpty();
 
         if (hasContact) {
@@ -58,6 +78,7 @@ public class GardenManagementController {
 
     @FXML
     public void initialize() {
+        //contactsListView.setCellFactory(this::renderCell);
         syncContacts();
         // Select the first contact and display its information
         //contactsListView.getSelectionModel().selectFirst();

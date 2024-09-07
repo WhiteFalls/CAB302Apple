@@ -2,6 +2,7 @@ package com.example.gardenplanner;
 import People.IPerson;
 import People.Person;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,5 +35,5 @@ public interface IPersonDAO {
      * Retrieves all contacts from the database.
      * @return A list of all contacts in the database.
      */
-    public List<IPerson> getAllPeople();
+    public ArrayList<IPerson> getAllPeople();
 }

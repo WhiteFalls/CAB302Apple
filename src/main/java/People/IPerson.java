@@ -4,6 +4,7 @@ import Tasks.Task;
 import javafx.scene.control.ListView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface IPerson {
     /**
@@ -23,6 +24,6 @@ public interface IPerson {
 
     String getEmail();
 
-    ListView<Task> getTasks();
+    List<Task> getTasks();
 
 }

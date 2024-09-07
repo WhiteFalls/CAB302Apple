@@ -30,12 +30,18 @@ public class MockPersonDAO implements IPersonDAO {
     public void addPerson(Person person) {
         person.setId(autoIncrementedId);
 
-        ListView<Task> userTasks = new ListView<>();
+        ArrayList<Task> userTasks = new ArrayList<Task>();
         LocalDate aDate = LocalDate.of(2024, Month.APRIL, 1);
         LocalDate dDate = LocalDate.of(2024, Month.APRIL, 1);
-        Task task = new Task("Wash Beans", aDate, dDate);
-        task.setId(getAutoIncrementedIdTask);
-        userTasks.getItems().add(task);
+
+        Task task1 = new Task("Wash Beans", aDate, dDate);
+        Task task2 = new Task("Burn Cabbages", aDate, dDate);
+        task1.setId(getAutoIncrementedIdTask);
+        autoIncrementedId++;
+        task1.setId(getAutoIncrementedIdTask);
+
+        userTasks.add(task1);
+        userTasks.add(task2);
         person.setTasks(userTasks);
 
 
@@ -70,7 +76,7 @@ public class MockPersonDAO implements IPersonDAO {
     }
 
     @Override
-    public List<IPerson> getAllPeople() {
+    public ArrayList<IPerson> getAllPeople() {
         return new ArrayList<>(people);
     }
 }
