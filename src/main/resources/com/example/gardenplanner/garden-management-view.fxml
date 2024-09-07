@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gardenplanner.GardenManagementController">
+   <children>
+    <AnchorPane layoutX="204.0" layoutY="130.0" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <ScrollPane layoutY="-14.0" prefHeight="200.0" prefWidth="200.0">
+               <content>
+                  <Accordion fx:id="userDropBox" styleClass="dropdown_box">
+                    <panes>
+                      <TitledPane animated="false" styleClass="user_sections" text="untitled 1">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="dropdowns">
+                                 <opaqueInsets>
+                                    <Insets bottom="15.0" />
+                                 </opaqueInsets>
+                              </AnchorPane>
+                        </content>
+                           <padding>
+                              <Insets bottom="5.0" />
+                           </padding>
+                           <opaqueInsets>
+                              <Insets bottom="15.0" />
+                           </opaqueInsets>
+                      </TitledPane>
+                      <TitledPane animated="false" styleClass="user_sections" text="untitled 2">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        </content>
+                           <opaqueInsets>
+                              <Insets bottom="15.0" />
+                           </opaqueInsets>
+                      </TitledPane>
+                      <TitledPane animated="false" styleClass="user_sections" text="untitled 3">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        </content>
+                           <opaqueInsets>
+                              <Insets bottom="15.0" />
+                           </opaqueInsets>
+                      </TitledPane>
+                    </panes>
+                  </Accordion>
+               </content>
+            </ScrollPane>
+         </children>
+      </AnchorPane>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" />
+   </children>
+</AnchorPane>

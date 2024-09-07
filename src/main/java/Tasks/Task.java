@@ -2,16 +2,22 @@ package Tasks;
 import People.IPerson;
 import java.time.LocalDate;
 
-public abstract class Task implements ITask {
+public class Task implements ITask {
     private String taskDetails;
     private LocalDate assignedDate;
     private LocalDate dueDate;
+    private int taskId;
 
     public Task(String taskDetails, LocalDate assignedDate, LocalDate dueDate)
     {
         this.taskDetails = taskDetails;
         this.assignedDate = assignedDate;
         this.dueDate = dueDate;
+    }
+
+    public void setId(int taskId)
+    {
+        this.taskId = taskId;
     }
 
     public boolean isCompleted() {
