@@ -1,3 +1,5 @@
+package People;
+
 public interface IPerson {
     /**
      * Returns person's name
@@ -15,4 +17,5 @@ public interface IPerson {
     String getPassword();
 
     String getEmail();
+
 }
