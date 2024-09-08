@@ -7,7 +7,7 @@ import java.time.Month;
 import java.util.ArrayList;
 
 public class MockTaskDAO implements ITaskDAO{
-    private static int autoIncrementedId = 0;
+    private static int autoIncrementedIdTask = 1;
 
     @Override
     public ArrayList<Task> getUserTasks(IPerson person) {
@@ -15,10 +15,10 @@ public class MockTaskDAO implements ITaskDAO{
         LocalDate aDate = LocalDate.of(2024, Month.APRIL, 1);
         LocalDate dDate = LocalDate.of(2024, Month.APRIL, 1);
         Task task = new Task("Wash Beans", aDate, dDate);
-        task.setId(autoIncrementedId);
+        task.setId(autoIncrementedIdTask);
         userTasks.add(task);
 
-        autoIncrementedId++;
+        autoIncrementedIdTask++;
 
         return userTasks;
     }
@@ -35,7 +35,8 @@ public class MockTaskDAO implements ITaskDAO{
 
     @Override
     public void add(Task task) {
-
+        task.setId(autoIncrementedIdTask);
+        autoIncrementedIdTask++;
     }
 
 }

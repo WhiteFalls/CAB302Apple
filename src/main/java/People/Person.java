@@ -92,15 +92,9 @@ public class Person  implements  IPerson{
     }
 
     @Override
-    public void editTask(Task task) {
-        for (Task oldTask : tasks)
-        {
-            if (oldTask.getId() == task.getId())
-            {
-                tasks.remove(oldTask);
-                tasks.add(task);
-            }
-        }
+    public void editTask(Task newTask, Task oldTask) {
+        tasks.remove(oldTask);
+        tasks.add(newTask);
     }
 
     public void addTask(Task task)

@@ -10,8 +10,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Popup;
+import javafx.stage.PopupWindow;
 
+import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 public class GardenManagementController {
@@ -25,8 +29,8 @@ public class GardenManagementController {
     // Constructor
     public GardenManagementController()
     {
-        personDAO = new MockPersonDAO();
         taskDAO = new MockTaskDAO();
+        personDAO = new MockPersonDAO();
     }
 
     // Methods
@@ -55,19 +59,29 @@ public class GardenManagementController {
 
         for (Task task : person.getTasks()) {
             Label taskId = new Label(String.valueOf(task.getId()));
+
             TextField taskDetails = new TextField(task.getTaskDetails());
-            TextField assignedDate = new TextField(task.getAssignedDate().toString());
-            TextField dueDate = new TextField(task.getDueDate().toString());
+
+            DatePicker assignedDate = new DatePicker(task.getAssignedDate());
+
+            DatePicker dueDate = new DatePicker(task.getDueDate());
 
             Button confirmChangesButton = new Button("Confirm Changes");
             confirmChangesButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
                     String newTaskDetails = taskDetails.getCharacters().toString();
-                    CharSequence newAssignedDate = assignedDate.getCharacters();
-                    CharSequence newDueDate = dueDate.getCharacters();
-                    Task newTask = new Task(newTaskDetails, LocalDate.parse(newAssignedDate), LocalDate.parse(newDueDate));
-                    updateTask(person, task.getId(), newTask);
+                    try
+                    {
+                        LocalDate newAssignedDate = assignedDate.getValue();
+                        LocalDate newDueDate = dueDate.getValue();
+                        Task newTask = new Task(newTaskDetails, newAssignedDate, newDueDate);
+                        updateTask(person, task, newTask);
+                    }
+                    catch (DateTimeParseException e)
+                    {
+                        displayPopup("Date must be in appropriate format.");
+                    }
                 }
             });
 
@@ -129,21 +143,18 @@ public class GardenManagementController {
 
     @FXML
     public void initialize() {
-        //contactsListView.setCellFactory(this::renderCell);
+        for (IPerson person : personDAO.getAllPeople())
+        {
+            person.setTasks(taskDAO.getUserTasks(person));
+        }
         syncPeople();
-        // Select the first contact and display its information
-        //contactsListView.getSelectionModel().selectFirst();
-        /*Contact firstContact = contactsListView.getSelectionModel().getSelectedItem();
-        if (firstContact != null) {
-            selectContact(firstContact);
-        }*/
     }
 
-    public void updateTask(IPerson person, int id, Task newTask)
+    public void updateTask(IPerson person, Task oldTask, Task newTask)
     {
-        if (id != 0) {
-            newTask.setId(id);
-            person.editTask(newTask);
+        if (oldTask.getId() != 0) {
+            newTask.setId(oldTask.getId());
+            person.editTask(newTask, oldTask);
             taskDAO.update(newTask);
             syncPeople();
         }
@@ -162,8 +173,8 @@ public class GardenManagementController {
     private void addTask(IPerson person)
     {
         Task task = new Task("New Task", LocalDate.now(), LocalDate.now());
-        person.addTask(task);
         taskDAO.add(task);
+        person.addTask(task);
         syncPeople();
     }
 
@@ -171,5 +182,14 @@ public class GardenManagementController {
     {
         personDAO.deletePerson(person);
         syncPeople();
+    }
+
+    private void displayPopup(String text)
+    {
+        Label message = new Label(text);
+        Popup popup = new Popup();
+        popup.getContent().add(message);
+        popup.setAnchorLocation(PopupWindow.AnchorLocation.CONTENT_TOP_RIGHT);
+        popup.show(popup.getOwnerWindow());
     }
 }

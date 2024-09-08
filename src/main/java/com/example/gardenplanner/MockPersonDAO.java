@@ -2,6 +2,8 @@ package com.example.gardenplanner;
 
 import People.IPerson;
 import People.Person;
+import Tasks.ITaskDAO;
+import Tasks.MockTaskDAO;
 import Tasks.Task;
 import javafx.scene.control.ListView;
 
@@ -16,9 +18,10 @@ public class MockPersonDAO implements IPersonDAO {
      */
     public static final ArrayList<IPerson> people = new ArrayList<>();
     private static int autoIncrementedId = 0;
-    private static int getAutoIncrementedIdTask = 0;
+    private static ITaskDAO taskDAO;
 
     public MockPersonDAO() {
+        this.taskDAO = taskDAO;
         // Add some initial contacts to the mock database
         addPerson(new Person("John", "Doe", "johndoe@example.com", "0000"));
         addPerson(new Person("Jane", "Doe", "janedoe@example.com", "0001"));
@@ -34,19 +37,7 @@ public class MockPersonDAO implements IPersonDAO {
         LocalDate aDate = LocalDate.of(2024, Month.APRIL, 1);
         LocalDate dDate = LocalDate.of(2024, Month.APRIL, 1);
 
-        Task task1 = new Task("Wash Beans", aDate, dDate);
-        Task task2 = new Task("Burn Cabbages", aDate, dDate);
-        task1.setId(getAutoIncrementedIdTask);
-        getAutoIncrementedIdTask++;
-        task2.setId(getAutoIncrementedIdTask);
-
-        userTasks.add(task1);
-        userTasks.add(task2);
-        person.setTasks(userTasks);
-
-
         autoIncrementedId++;
-        getAutoIncrementedIdTask++;
         people.add(person);
     }
 

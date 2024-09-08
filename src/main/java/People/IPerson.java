@@ -33,7 +33,8 @@ public interface IPerson {
 
     Task getTask(int id);
 
-    void editTask(Task task);
+    void editTask(Task newTask, Task oldTask);
+
     void addTask(Task task);
 
 
