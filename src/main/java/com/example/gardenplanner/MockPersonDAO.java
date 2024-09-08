@@ -37,8 +37,8 @@ public class MockPersonDAO implements IPersonDAO {
         Task task1 = new Task("Wash Beans", aDate, dDate);
         Task task2 = new Task("Burn Cabbages", aDate, dDate);
         task1.setId(getAutoIncrementedIdTask);
-        autoIncrementedId++;
-        task1.setId(getAutoIncrementedIdTask);
+        getAutoIncrementedIdTask++;
+        task2.setId(getAutoIncrementedIdTask);
 
         userTasks.add(task1);
         userTasks.add(task2);

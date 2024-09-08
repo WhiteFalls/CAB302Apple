@@ -16,6 +16,8 @@ public interface ITask {
 
     LocalDate getDueDate();
 
+    int getId();
+
     void setId(int taskId);
 
 }

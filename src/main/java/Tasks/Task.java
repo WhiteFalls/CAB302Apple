@@ -39,5 +39,9 @@ public class Task implements ITask {
     public LocalDate getDueDate() {
         return dueDate;
     }
+
+    public int getId() {
+        return taskId;
+    }
 }
 

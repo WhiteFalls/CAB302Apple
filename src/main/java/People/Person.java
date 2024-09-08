@@ -36,8 +36,18 @@ public class Person  implements  IPerson{
     }
 
     @Override
+    public void setFirstName(String firstName) {
+
+    }
+
+    @Override
     public String getLastName() {
         return lastName;
+    }
+
+    @Override
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     @Override
@@ -61,7 +71,53 @@ public class Person  implements  IPerson{
     }
 
     @Override
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
     public ArrayList<Task> getTasks() {
         return tasks;
+    }
+
+    public Task getTask(int id) {
+        for (Task task : tasks)
+        {
+            if (task.getId() == id)
+            {
+                return task;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void editTask(Task task) {
+        for (Task oldTask : tasks)
+        {
+            if (oldTask.getId() == task.getId())
+            {
+                tasks.remove(oldTask);
+                tasks.add(task);
+            }
+        }
+    }
+
+    public void addTask(Task task)
+    {
+        tasks.add(task);
+    }
+
+
+    @Override
+    public void removeTask(int id) {
+        for (Task task : tasks)
+        {
+            if (task.getId() == id)
+            {
+                tasks.remove(task);
+                break;
+            }
+        }
     }
 }

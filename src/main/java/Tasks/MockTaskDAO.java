@@ -22,4 +22,20 @@ public class MockTaskDAO implements ITaskDAO{
 
         return userTasks;
     }
+
+    @Override
+    public void delete(int id) {
+
+    }
+
+    public void update(Task task)
+    {
+
+    }
+
+    @Override
+    public void add(Task task) {
+
+    }
+
 }
