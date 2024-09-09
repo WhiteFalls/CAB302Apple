@@ -13,7 +13,6 @@ public class DatabaseInitializer {
         try (Connection connection = DriverManager.getConnection(DB_URL);
              Statement statement = connection.createStatement()) {
 
-            // Create tables if they do not exist
             String createTablesQuery = """
                 PRAGMA foreign_keys = ON;
 
@@ -24,7 +23,7 @@ public class DatabaseInitializer {
                     email TEXT NOT NULL,
                     password TEXT NOT NULL
                 );
-                
+            
                 CREATE TABLE IF NOT EXISTS Gardens (
                     garden_id INTEGER PRIMARY KEY AUTOINCREMENT,
                     garden_owner INTEGER NOT NULL,
