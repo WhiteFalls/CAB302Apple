@@ -1,5 +1,6 @@
 package com.example.gardenplanner.model;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +26,7 @@ public interface IPerson {
         String getEmail();
         void setEmail(String email);
 
-        List<Task> getTasks();
+        ArrayList<Task> getTasks(); // tell darragh to chnage to array list
         void setTasks(ArrayList<Task> tasks);
 
         Task getTask(int id);

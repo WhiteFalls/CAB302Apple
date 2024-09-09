@@ -38,7 +38,7 @@
                   </AnchorPane>
             </content>
           </TitledPane>
-          <TitledPane animated="false" prefHeight="450.0" prefWidth="325.0" text="untitled 3">
+          <TitledPane fx:id="Custom" animated="false" prefHeight="450.0" prefWidth="325.0" text="Custom">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
