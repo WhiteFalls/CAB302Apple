@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 public class DatabaseInitializer {
 
-    private static final String DB_URL = "jdbc:sqlite:gardenproject.db";  // SQLite database URL
+    private static final String DB_URL = "jdbc:sqlite:GardenPlanner.db";
 
     public static void checkAndCreateDatabase() {
         try (Connection connection = DriverManager.getConnection(DB_URL);
