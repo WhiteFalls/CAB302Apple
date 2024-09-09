@@ -1,4 +1,4 @@
-package com.example.gardenplanner;
+package com.example.gardenplanner.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

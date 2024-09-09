@@ -1,3 +1,5 @@
+package com.example.gardenplanner.model;
+
 public interface IPerson {
     /**
      * Returns person's name
