@@ -1,6 +1,7 @@
 module com.example.gardenplanner {
     requires javafx.controls;
     requires javafx.fxml;
+    requires org.testng;
 
 
     opens com.example.gardenplanner to javafx.fxml;

@@ -1,11 +1,15 @@
 package com.example.gardenplanner.model;
 
-public class Person {
-    private int id;
+
+import java.util.ArrayList;
+
+public class Person  implements IPerson {
     private String firstName;
     private String lastName;
     private String email;
     private String password;
+    private int userId;
+    private ArrayList<Task> tasks;
 
     public Person(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
@@ -14,47 +18,97 @@ public class Person {
         this.password = password;
     }
 
-    public int getId() {
-        return id;
+    public void setId(int userId) {
+        this.userId = userId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setTasks(ArrayList<Task> tasks)
+    {
+        this.tasks = tasks;
     }
 
+    @Override
     public String getFirstName() {
         return firstName;
     }
 
+    @Override
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+
     }
 
+    @Override
     public String getLastName() {
         return lastName;
     }
 
+    @Override
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    public String getEmail() {
-        return email;
+    @Override
+    public String getName() {
+        return firstName.concat(lastName);
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    @Override
+    public int getId() {
+        return userId;
     }
 
+    @Override
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    @Override
+    public String getEmail() {
+        return email;
     }
 
-    public String getFullName() {
-        return firstName + " " + lastName + " (" + email + ")";
+    @Override
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
+    public ArrayList<Task> getTasks() {
+        return tasks;
+    }
+
+    public Task getTask(int id) {
+        for (Task task : tasks)
+        {
+            if (task.getId() == id)
+            {
+                return task;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void editTask(Task newTask, Task oldTask) {
+        tasks.remove(oldTask);
+        tasks.add(newTask);
+    }
+
+    public void addTask(Task task)
+    {
+        tasks.add(task);
+    }
+
+
+    @Override
+    public void removeTask(int id) {
+        for (Task task : tasks)
+        {
+            if (task.getId() == id)
+            {
+                tasks.remove(task);
+                break;
+            }
+        }
     }
 }
