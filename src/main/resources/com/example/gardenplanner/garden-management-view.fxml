@@ -7,9 +7,14 @@
 
 <AnchorPane id="page" prefHeight="400.0" prefWidth="600.0" styleClass="page" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gardenplanner.GardenManagementController">
    <children>
-      <ScrollPane prefHeight="200.0" prefWidth="589.0">
+      <Label alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="211.0" layoutY="37.0" text="Garden Manager" textAlignment="CENTER">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <ScrollPane hbarPolicy="NEVER" layoutY="97.0" prefHeight="500.0" prefWidth="600.0">
          <content>
-            <Accordion fx:id="userDropBox" prefHeight="261.0" prefWidth="572.0" styleClass="dropdown_box">
+            <Accordion fx:id="userDropBox" prefHeight="458.0" prefWidth="600.0" styleClass="userSectionAcordian">
               <panes>
                 <TitledPane alignment="CENTER" animated="false" styleClass="user_sections" text="untitled 1">
                   <content>

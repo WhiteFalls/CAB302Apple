@@ -12,8 +12,8 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("garden-management-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1200, 600);
-        //scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
-        stage.setTitle("Hello!");
+        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+        stage.setTitle("Garden Manager");
         stage.setScene(scene);
         stage.show();
     }

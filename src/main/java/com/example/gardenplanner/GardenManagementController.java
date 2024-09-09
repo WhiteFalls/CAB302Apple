@@ -13,7 +13,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
 import javafx.stage.PopupWindow;
 
-import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -37,19 +36,18 @@ public class GardenManagementController {
     private void syncPeople() {
         userDropBox.getPanes().clear();
         ArrayList<IPerson> people = personDAO.getAllPeople();
-        boolean hasContact = !people.isEmpty();
+        boolean hasPeople = !people.isEmpty();
 
-        if (hasContact) {
-            ArrayList<TitledPane> userSections = new ArrayList<TitledPane>();
-
+        if (hasPeople) {
             for (IPerson person : personDAO.getAllPeople()){
                 TitledPane user = createUserSection(person);
-                userSections.add(user);
+                user.getStyleClass().add("userSectionTitlePane");
+                //userSections.add(user);
+                userDropBox.getPanes().add(user);
             }
-            userDropBox.getPanes().addAll(userSections);
         }
-        // Show / hide based on whether there are contacts
-        userDropBox.setVisible(hasContact);
+        // Show / hide based on whether there are people
+        userDropBox.setVisible(hasPeople);
     }
 
     private ListView<HBox> createUserTasks(IPerson person)
@@ -59,20 +57,17 @@ public class GardenManagementController {
 
         for (Task task : person.getTasks()) {
             Label taskId = new Label(String.valueOf(task.getId()));
-
             TextField taskDetails = new TextField(task.getTaskDetails());
-
             DatePicker assignedDate = new DatePicker(task.getAssignedDate());
-
             DatePicker dueDate = new DatePicker(task.getDueDate());
 
             Button confirmChangesButton = new Button("Confirm Changes");
             confirmChangesButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
-                    String newTaskDetails = taskDetails.getCharacters().toString();
                     try
                     {
+                        String newTaskDetails = taskDetails.getCharacters().toString();
                         LocalDate newAssignedDate = assignedDate.getValue();
                         LocalDate newDueDate = dueDate.getValue();
                         Task newTask = new Task(newTaskDetails, newAssignedDate, newDueDate);
@@ -111,6 +106,8 @@ public class GardenManagementController {
         VBox userOptionsList = new VBox(removeUserButton);
 
         TitledPane userOptionsSection = new TitledPane("User Options", userOptionsList);
+        userOptionsSection.getStyleClass().add("userSectionTitlePane");
+
         return userOptionsSection;
     }
 
@@ -128,17 +125,20 @@ public class GardenManagementController {
         // Create dropdown for user tasks
         ListView<HBox> taskList = createUserTasks(person);
 
-        VBox allTasks = new VBox(assignTasksButton, taskList);
-        TitledPane taskPlane = new TitledPane("Assigned Tasks", allTasks);
+        VBox taskListAndButton = new VBox(assignTasksButton, taskList);
+
+        TitledPane userTasks = new TitledPane("Assigned Tasks", taskListAndButton);
+        userTasks.getStyleClass().add("userSectionTitlePane");
+
 
         // Create dropdown for user options
         TitledPane userOptions = createUserOptions(person);
 
-        TitledPane userTasks = new TitledPane(person.getName(), new Accordion(taskPlane, userOptions));
+        TitledPane userSection = new TitledPane(person.getName(), new Accordion(userTasks, userOptions));
         //ArrayList<TitledPane> userTasks = new ArrayList<TitledPane>();
 
 
-        return userTasks;
+        return userSection;
     }
 
     @FXML
