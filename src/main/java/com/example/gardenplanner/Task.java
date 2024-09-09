@@ -1,3 +1,5 @@
+package com.example.gardenplanner;
+
 public class Task implements ITask {
     private String taskName;
 
