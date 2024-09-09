@@ -1,4 +1,4 @@
-package com.register.gardenplanner;
+package com.example.gardenplanner;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -24,7 +24,7 @@ public class RegisterController {
     private PasswordField confirmPasswordField;
 
     // Database URL for SQLite
-    private static final String DB_URL = "jdbc:sqlite:gardenplanner.db";
+    private static final String DB_URL = "jdbc:sqlite:GardenPlanner.db";
 
     @FXML
     private void registerUser() {
@@ -65,8 +65,6 @@ public class RegisterController {
             return false;
         }
 
-        // Add any other validation you want here
-
         return true;
     }
 
@@ -79,7 +77,7 @@ public class RegisterController {
         alert.showAndWait();
     }
 
-    // Clears the fields after successful registration
+    // Clears the fields after successful registrationn
     private void clearFields() {
         firstNameField.clear();
         lastNameField.clear();

@@ -8,12 +8,15 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import static com.example.gardenplanner.DatabaseInitializer.checkAndCreateDatabase;
+
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("usertodoList.fxml"));
+
+        checkAndCreateDatabase();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("register.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        //scene.getStylesheets().add(getClass().getResource("/com/example/gardenplanner/Css/stylestodoList.css").toExternalForm());
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
