@@ -31,7 +31,7 @@ public class GardenToDoListController {
         taskDAO = new MockTaskDAO();
         userDAO = new MockPersonDAO();
         person = userDAO.getPerson(1);// subject to change // check if null
-        addTask(person, "Plant Beans");
+        addTask(person, "Plant Beans","Daily");
     }
 
 
@@ -39,10 +39,10 @@ public class GardenToDoListController {
 
     @FXML
     private void testAddTask(ActionEvent event) {
-        addTask(person, "Harvest Beans");
-        addTask(person, "Wash Beans");
-        addTask(person, "Boil Beans");
-        addTask(person, "DESTORY Beans");
+        addTask(person, "Harvest Beans","Daily");
+        addTask(person, "Wash Beans","Weekly");
+        addTask(person, "Boil Beans","Weekly");
+        addTask(person, "DESTORY Beans","Custom");
         syncPerson(person);
     }
 
@@ -70,12 +70,7 @@ public class GardenToDoListController {
         return new ListCell<Task>(){
             @Override
             protected void updateItem(Task task, boolean empty){
-                System.out.println("BINGO");
-
                 super.updateItem(task,empty);
-                // Print task details to see when the cell is being updated
-               // System.out.println("Update Cell: " + (task != null ? task.getTaskDetails() : "null task") + ", empty: " + empty);
-
 
                 // if task is invalid
                 if (empty || task == null || task.getId() <= 0 || task.getTaskDetails() == null ||
@@ -86,7 +81,7 @@ public class GardenToDoListController {
                 else{
                     // Create custom layout for each cell
                     Text taskDescription = new Text(task.getTaskDetails());
-                    Text dueDateText = new Text("       Due: " + task.getDueDate().toString());
+                    Text dueDateText = new Text("       Due: " + task.getDueDate().toString() + "      ") ;
                     Button completeButton = new Button("Complete");
 
                     // Add an action event to the button
@@ -124,40 +119,40 @@ public class GardenToDoListController {
                     case WEEKLY: weeklyListView.getItems().add(task); break;
                     case CUSTOM: customListView.getItems().add(task); break;
                 }
-                System.out.println("Task list items: " + task.getTaskDetails());
+                System.out.println("Task list items: " + task.getTaskDetails()); //-> dont know why this isnt on first
             }
         }
 
 
-        //same for weekly, custom
+        // Render cells for daily, weekly and custom
         dailyListView.setCellFactory(this::renderCell);
         weeklyListView.setCellFactory(this::renderCell);
         customListView.setCellFactory(this::renderCell);
 
 
-        //same for weekly, custom
+        // Update Titlepanes
         dailyTasks.setContent(dailyListView);
         weeklyTasks.setContent(weeklyListView);
         customTasks.setContent(customListView);
 
-
-        //add all weekly,custom as well
+        // Get all panes into the single accordion
         dropboxTasks.getPanes().addAll(dailyTasks,weeklyTasks,customTasks);
-
-
 
         syncPerson(person);
     }
 
-    private void addTask(IPerson person, String taskDescription)
+    private void addTask(IPerson person, String taskDescription, String category)
     {
-        Task task = new Task(taskDescription, LocalDate.now(), LocalDate.now(), Task.Category.DAILY);
+        try {
+            Task.Category categoryEnum = Task.Category.valueOf(category.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid category: " + category);
+        }
+        Task task = new Task(taskDescription, LocalDate.now(), LocalDate.now(), Task.Category.valueOf(category.toUpperCase()));
         taskDAO.add(task);
         person.addTask(task);
     }
 
-//    public void removeTask(ActionEvent actionEvent) {
-//    }
 }
 
 
