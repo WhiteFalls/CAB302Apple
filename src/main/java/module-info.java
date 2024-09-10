@@ -2,6 +2,7 @@ module com.example.gardenplanner {
     requires javafx.controls;
     requires javafx.fxml;
     requires org.testng;
+    requires java.desktop;
 
 
     opens com.example.gardenplanner to javafx.fxml;

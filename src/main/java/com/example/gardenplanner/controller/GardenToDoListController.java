@@ -1,6 +1,7 @@
 package com.example.gardenplanner.controller;
 
 import com.example.gardenplanner.model.*;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -30,11 +31,21 @@ public class GardenToDoListController {
         taskDAO = new MockTaskDAO();
         userDAO = new MockPersonDAO();
         person = userDAO.getPerson(1);// subject to change // check if null
-        //addTask(person);
+        addTask(person, "Plant Beans");
     }
 
 
     // Methods
+
+    @FXML
+    private void testAddTask(ActionEvent event) {
+        addTask(person, "Harvest Beans");
+        addTask(person, "Wash Beans");
+        addTask(person, "Boil Beans");
+        addTask(person, "DESTORY Beans");
+        syncPerson(person);
+    }
+
     private void syncPerson(IPerson person) {
         dailyListView.getItems().clear();
         weeklyListView.getItems().clear();
@@ -138,12 +149,11 @@ public class GardenToDoListController {
         syncPerson(person);
     }
 
-    private void addTask(IPerson person)
+    private void addTask(IPerson person, String taskDescription)
     {
-        Task task = new Task("New Task", LocalDate.now(), LocalDate.now(), Task.Category.DAILY);
+        Task task = new Task(taskDescription, LocalDate.now(), LocalDate.now(), Task.Category.DAILY);
         taskDAO.add(task);
         person.addTask(task);
-       // syncPerson(person);
     }
 
 //    public void removeTask(ActionEvent actionEvent) {
