@@ -9,7 +9,7 @@ public class Person  implements IPerson {
     private String email;
     private String password;
     private int userId;
-    private ArrayList<Task> tasks;
+    private ArrayList<Task> tasks= new ArrayList<>();;
 
     public Person(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 public interface ITaskDAO {
     ArrayList<Task> getUserTasks(IPerson person);
+    ArrayList<Task> getCategorisedTasks(IPerson person, String category);
 
     public void delete(int id);
 

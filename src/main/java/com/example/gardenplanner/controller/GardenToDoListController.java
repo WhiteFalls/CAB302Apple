@@ -1,53 +1,48 @@
 package com.example.gardenplanner.controller;
 
 import com.example.gardenplanner.model.*;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
 
 public class GardenToDoListController {
-         @FXML
-        private Accordion taskdropBox;
-         private TitledPane dailyTasks, weeklyTasks, custom;
+    @FXML
+    private Accordion dropboxTasks;
+    @FXML
+    private TitledPane weeklyTasks;
+    @FXML
+    private TitledPane dailyTasks;
+    @FXML
+    private TitledPane customTasks;
 
+    private ITaskDAO taskDAO;
+    private IPersonDAO userDAO;
+    private IPerson person;
 
-//        @FXML
-//        protected void addTask() {
-//            todolistText.appendText("Clean the garden!\n");
-//        }
-//
-//        @FXML
-//        private ListView<Task> contactsListView;
-        private ITaskDAO taskDAO;
-        private IPersonDAO userDAO;
-        private IPerson person = userDAO.getPerson(1); // subject to change
-        private ListView<Task> taskListView;
-        public GardenToDoListController() {
-            taskDAO = new MockTaskDAO();
-            userDAO = new MockPersonDAO();
-        }
+    private ListView<Task> dailyListView = new ListView<>();
+    private ListView<Task> weeklyListView = new ListView<>();
+    private ListView<Task> customListView = new ListView<>();
+    public GardenToDoListController() {
+        taskDAO = new MockTaskDAO();
+        userDAO = new MockPersonDAO();
+        person = userDAO.getPerson(1);// subject to change // check if null
+        //addTask(person);
+    }
+
 
     // Methods
     private void syncPerson(IPerson person) {
-//        taskdropBox.getPanes().clear();
-//        ArrayList<Task> userTasks = userDAO.getPerson(1).getTasks();
-//        boolean hasTasks = userTasks.isEmpty();
-//        if(!hasTasks) {
-//            ArrayList<TitledPane> userSections = new ArrayList<TitledPane>();
-//
-//            for (ITask task : userTasks){
-//               // TitledPane user = createUserTaskSection(task);
-//            }
-//        }
-//        // Show / hide based on whether there are contacts
-//        taskdropBox.setVisible(hasTasks);
-        taskListView.getItems().clear();
-        taskListView.getItems().addAll(taskDAO.getUserTasks(person));
+        dailyListView.getItems().clear();
+        weeklyListView.getItems().clear();
+        customListView.getItems().clear();
+
+        dailyListView.getItems().addAll(taskDAO.getCategorisedTasks(person,"DAILY")); // change --> for now should be wash beans
+        weeklyListView.getItems().addAll(taskDAO.getCategorisedTasks(person,"WEEKLY"));
+        customListView.getItems().addAll(taskDAO.getCategorisedTasks(person,"CUSTOM"));
     }
 
 //    public List<String> getVisibleTasks(ITaskDAO tasks, IPerson person){
@@ -60,27 +55,37 @@ public class GardenToDoListController {
 //        return visibleTasks;
 //    }
 
-    private ListCell<Task> renderCell(ListView<Task> task) {
+    private ListCell<Task> renderCell(ListView<Task> taskList) {
         return new ListCell<Task>(){
-            //@Override
-            protected void updateItem(Task task, Boolean empty){
+            @Override
+            protected void updateItem(Task task, boolean empty){
+                System.out.println("BINGO");
+
                 super.updateItem(task,empty);
+                // Print task details to see when the cell is being updated
+               // System.out.println("Update Cell: " + (task != null ? task.getTaskDetails() : "null task") + ", empty: " + empty);
+
 
                 // if task is invalid
-                if (empty || task.getId() <= 0 || task.getTaskDetails() == null ||
+                if (empty || task == null || task.getId() <= 0 || task.getTaskDetails() == null ||
                     task.getDueDate() == null || task.getAssignedDate() == null) {
                     setText(null);
                     setGraphic(null);
                 }
                 else{
                     // Create custom layout for each cell
-                    Label taskLabel = new Label(task.getTaskDetails());
+                    Text taskDescription = new Text(task.getTaskDetails());
+                    Text dueDateText = new Text("       Due: " + task.getDueDate().toString());
                     Button completeButton = new Button("Complete");
 
                     // Add an action event to the button
 
-                    completeButton.setOnAction(event-> taskListView.getItems().remove(task));
-
+                    completeButton.setOnAction(event->{
+                        if(taskList != null) {
+                            taskList.getItems().remove(task);
+                        }
+                    });
+                    setGraphic(new HBox(taskDescription, dueDateText, completeButton));
                 }
 
             }
@@ -98,25 +103,47 @@ public class GardenToDoListController {
 
     @FXML
     public void initialize() {
-        ListView<Task> daily = new ListView<>();
-        // do the same for weekly, custom
-        for (Task task : taskDAO.getUserTasks(person)) {//subject to change
-            // switch (task.getcategory)
-            daily.getItems().add(task);
-            // else ListView<Task> weekly
-            // else ListView<Task> custom
+        dropboxTasks.getPanes().clear();
+        List<Task> taskList = taskDAO.getUserTasks(person);
+        if (taskList != null && !taskList.isEmpty()) {
+
+            for (Task task : taskDAO.getUserTasks(person)) {//subject to change
+                switch (task.getCategory()) {
+                    case DAILY: dailyListView.getItems().add(task); break;
+                    case WEEKLY: weeklyListView.getItems().add(task); break;
+                    case CUSTOM: customListView.getItems().add(task); break;
+                }
+                System.out.println("Task list items: " + task.getTaskDetails());
+            }
         }
 
-        //same for weekly, custom
-        daily.setCellFactory(this::renderCell);
 
         //same for weekly, custom
-        dailyTasks.setContent(new HBox(daily));
+        dailyListView.setCellFactory(this::renderCell);
+        weeklyListView.setCellFactory(this::renderCell);
+        customListView.setCellFactory(this::renderCell);
+
+
+        //same for weekly, custom
+        dailyTasks.setContent(dailyListView);
+        weeklyTasks.setContent(weeklyListView);
+        customTasks.setContent(customListView);
+
 
         //add all weekly,custom as well
-        taskdropBox.getPanes().addAll(dailyTasks);
+        dropboxTasks.getPanes().addAll(dailyTasks,weeklyTasks,customTasks);
+
+
 
         syncPerson(person);
+    }
+
+    private void addTask(IPerson person)
+    {
+        Task task = new Task("New Task", LocalDate.now(), LocalDate.now(), Task.Category.DAILY);
+        taskDAO.add(task);
+        person.addTask(task);
+       // syncPerson(person);
     }
 
 //    public void removeTask(ActionEvent actionEvent) {

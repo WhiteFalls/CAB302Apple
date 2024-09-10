@@ -13,13 +13,25 @@ public class MockTaskDAO implements ITaskDAO {
         ArrayList<Task> userTasks = new ArrayList<Task>();
         LocalDate aDate = LocalDate.of(2024, Month.APRIL, 1);
         LocalDate dDate = LocalDate.of(2024, Month.APRIL, 1);
-        Task task = new Task("Wash Beans", aDate, dDate);
+        Task task = new Task("Wash Beans thoroughly!", aDate, dDate, Task.Category.DAILY);
         task.setId(autoIncrementedIdTask);
         userTasks.add(task);
 
         autoIncrementedIdTask++;
 
         return userTasks;
+    }
+
+
+    @Override
+    public ArrayList<Task> getCategorisedTasks(IPerson person, String category) {
+        ArrayList<Task> categorisedTasks = new ArrayList<>();
+        for (Task task : person.getTasks()){
+            if(task.getCategory() == Task.Category.valueOf(category.toUpperCase())) {
+                categorisedTasks.add(task);
+            }
+        }
+        return categorisedTasks;
     }
 
     @Override
@@ -39,3 +51,5 @@ public class MockTaskDAO implements ITaskDAO {
     }
 
 }
+
+

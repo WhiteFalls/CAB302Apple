@@ -71,7 +71,7 @@ public class GardenManagementController {
                     {
                         LocalDate newAssignedDate = assignedDate.getValue();
                         LocalDate newDueDate = dueDate.getValue();
-                        Task newTask = new Task(newTaskDetails, newAssignedDate, newDueDate);
+                        Task newTask = new Task(newTaskDetails, newAssignedDate, newDueDate, Task.Category.DAILY);
                         updateTask(person, task, newTask);
                     }
                     catch (DateTimeParseException e)
@@ -137,14 +137,14 @@ public class GardenManagementController {
         return userTasks;
     }
 
-    @FXML
-    public void initialize() {
-        for (IPerson person : personDAO.getAllPeople())
-        {
-            person.setTasks(taskDAO.getUserTasks(person));
-        }
-        syncPeople();
-    }
+//    @FXML
+//    public void initialize() {
+//        for (IPerson person : personDAO.getAllPeople())
+//        {
+//            person.setTasks(taskDAO.getUserTasks(person));
+//        }
+//        syncPeople();
+//    }
 
     public void updateTask(IPerson person, Task oldTask, Task newTask)
     {
@@ -168,7 +168,7 @@ public class GardenManagementController {
 
     private void addTask(IPerson person)
     {
-        Task task = new Task("New Task", LocalDate.now(), LocalDate.now());
+        Task task = new Task("New Task", LocalDate.now(), LocalDate.now(), Task.Category.DAILY);
         taskDAO.add(task);
         person.addTask(task);
         syncPeople();

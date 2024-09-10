@@ -17,34 +17,26 @@
             </image>
         </ImageView>
         <Label alignment="CENTER" contentDisplay="CENTER" layoutX="148.0" layoutY="14.0" prefHeight="50.0" prefWidth="102.0" text="To Do List" />
-        <Button fx:id="addTask" layoutX="29.0" layoutY="26.0" mnemonicParsing="false" onAction="#addTask" text="Button" />
-      <Accordion layoutX="29.0" layoutY="75.0">
+        <Button layoutX="29.0" layoutY="26.0" mnemonicParsing="false" text="Button" />
+      <Accordion fx:id="dropboxTasks" layoutX="29.0" layoutY="75.0">
         <panes>
-          <TitledPane fx:id="dailyTasks" animated="false" text="Daily">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <ListView layoutX="-13.0" layoutY="-10.0" prefHeight="510.0" prefWidth="338.0" />
-                     </children>
-                  </AnchorPane>
-            </content>
-          </TitledPane>
+            <TitledPane fx:id="dailyTasks" animated="false" text="Daily">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <ListView layoutX="-13.0" layoutY="-10.0" prefHeight="510.0" prefWidth="338.0" />
+                </AnchorPane>
+            </TitledPane>
           <TitledPane fx:id="weeklyTasks" animated="false" text="Weekly">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <ListView prefHeight="473.0" prefWidth="326.0" />
-                     </children>
-                  </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <ListView prefHeight="473.0" prefWidth="326.0"/>
+                </AnchorPane>
             </content>
           </TitledPane>
-          <TitledPane fx:id="Custom" animated="false" prefHeight="450.0" prefWidth="325.0" text="Custom">
+          <TitledPane fx:id="customTasks" animated="false" prefHeight="450.0" prefWidth="325.0" text="Custom">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <ListView prefHeight="423.0" prefWidth="326.0" />
-                     </children>
-                  </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <ListView prefHeight="423.0" prefWidth="326.0"/>
+                </AnchorPane>
             </content>
           </TitledPane>
         </panes>

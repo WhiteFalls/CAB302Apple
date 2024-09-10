@@ -19,4 +19,5 @@ public interface ITask {
 
     void setId(int taskId);
 
+    Task.Category getCategory();
 }
