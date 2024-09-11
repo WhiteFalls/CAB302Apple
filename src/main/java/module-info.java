@@ -1,6 +1,8 @@
 module com.example.gardenplanner {
     requires javafx.controls;
     requires javafx.fxml;
+    requires org.testng;
+    requires java.desktop;
     requires java.sql;
 
 
