@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox fx:controller="com.example.gardenplanner.RegisterController" spacing="10" alignment="CENTER" stylesheets="@style.css" xmlns:fx="http://javafx.com/fxml">
+    <Label text="Apple Garden" styleClass="title-label"/>
+
+    <VBox alignment="CENTER" spacing="10" styleClass="container">
+        <Label text="First Name" styleClass="label"/>
+        <TextField fx:id="firstNameField" promptText="Enter your first name" styleClass="text-field"/>
+
+        <Label text="Last Name" styleClass="label"/>
+        <TextField fx:id="lastNameField" promptText="Enter your last name" styleClass="text-field"/>
+
+        <Label text="Email" styleClass="label"/>
+        <TextField fx:id="emailField" promptText="Enter your email" styleClass="text-field"/>
+
+        <Label text="Password" styleClass="label"/>
+        <PasswordField fx:id="passwordField" promptText="Enter your password" styleClass="password-field"/>
+
+        <Label text="Confirm Password" styleClass="label"/>
+        <PasswordField fx:id="confirmPasswordField" promptText="Confirm your password" styleClass="password-field"/>
+
+        <Button text="Register" onAction="#registerUser" styleClass="button"/>
+    </VBox>
+</VBox>

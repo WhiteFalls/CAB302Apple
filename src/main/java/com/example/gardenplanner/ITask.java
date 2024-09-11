@@ -1,3 +1,5 @@
+package com.example.gardenplanner;
+
 public interface ITask {
 
     boolean isCompleted();
