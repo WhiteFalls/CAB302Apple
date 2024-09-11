@@ -2,9 +2,9 @@ module com.example.gardenplanner {
     requires javafx.controls;
     requires javafx.fxml;
     requires junit;
-    requires java.sql;
     requires org.testng;
     requires java.desktop;
+    requires java.sql;
 
 
     opens com.example.gardenplanner to javafx.fxml;
