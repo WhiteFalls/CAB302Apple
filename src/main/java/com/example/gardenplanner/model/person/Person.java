@@ -1,5 +1,7 @@
-package com.example.gardenplanner.model;
+package com.example.gardenplanner.model.person;
 
+
+import com.example.gardenplanner.model.task.Task;
 
 import java.util.ArrayList;
 

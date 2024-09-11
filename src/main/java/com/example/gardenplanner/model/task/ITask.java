@@ -1,5 +1,7 @@
-package com.example.gardenplanner.model;
+package com.example.gardenplanner.model.task;
 
+
+import com.example.gardenplanner.model.person.IPerson;
 
 import java.time.LocalDate;
 

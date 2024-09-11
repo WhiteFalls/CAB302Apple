@@ -1,6 +1,11 @@
 package com.example.gardenplanner.controller;
 
-import com.example.gardenplanner.model.*;
+import com.example.gardenplanner.model.dao.IPersonDAO;
+import com.example.gardenplanner.model.dao.ITaskDAO;
+import com.example.gardenplanner.model.dao.MockPersonDAO;
+import com.example.gardenplanner.model.dao.MockTaskDAO;
+import com.example.gardenplanner.model.person.IPerson;
+import com.example.gardenplanner.model.task.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -89,6 +94,7 @@ public class GardenToDoListController {
                     completeButton.setOnAction(event->{
                         if(taskList != null) {
                             taskList.getItems().remove(task);
+
                         }
                     });
                     setGraphic(new HBox(taskDescription, dueDateText, completeButton));

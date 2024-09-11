@@ -1,5 +1,9 @@
-package com.example.gardenplanner.model;
+package com.example.gardenplanner.model.dao;
 
+
+import com.example.gardenplanner.model.person.IPerson;
+import com.example.gardenplanner.model.person.Person;
+import com.example.gardenplanner.model.task.Task;
 
 import java.time.LocalDate;
 import java.time.Month;

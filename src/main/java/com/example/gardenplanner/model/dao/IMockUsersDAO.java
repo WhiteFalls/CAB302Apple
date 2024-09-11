@@ -1,4 +1,6 @@
-package com.example.gardenplanner.model;
+package com.example.gardenplanner.model.dao;
+
+import com.example.gardenplanner.model.person.Person;
 
 import java.util.List;
 

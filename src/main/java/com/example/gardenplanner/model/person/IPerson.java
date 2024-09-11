@@ -1,8 +1,8 @@
-package com.example.gardenplanner.model;
+package com.example.gardenplanner.model.person;
 
-import java.lang.reflect.Array;
+import com.example.gardenplanner.model.task.Task;
+
 import java.util.ArrayList;
-import java.util.List;
 
 public interface IPerson {
         /**
