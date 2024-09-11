@@ -1,0 +1,46 @@
+.root {
+    -fx-background-color: #2ecc71; /* Bright green background */
+}
+
+.container {
+    -fx-padding: 20px;
+    -fx-background-color: #ffffff;
+    -fx-border-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0.5, 0.0, 0.0);
+}
+
+.label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #34495e;
+    -fx-padding: 5px 0;
+}
+
+.text-field, .password-field {
+    -fx-pref-width: 200px;
+    -fx-padding: 8px;
+    -fx-border-radius: 5px;
+    -fx-border-color: #ced4da;
+    -fx-background-color: #ffffff;
+}
+
+.button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 5, 0.3, 0.0, 0.0);
+}
+
+.button:hover {
+    -fx-background-color: #2980b9;
+}
+
+.title-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #34495e;
+    -fx-padding-bottom: 20px;
+    -fx-alignment: center;
+}
