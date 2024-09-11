@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="page" prefHeight="400.0" prefWidth="600.0" styleClass="page" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gardenplanner.GardenManagementController">
+   <children>
+      <Label alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="211.0" layoutY="37.0" text="Garden Manager" textAlignment="CENTER">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <ScrollPane hbarPolicy="NEVER" layoutY="97.0" prefHeight="500.0" prefWidth="600.0">
+         <content>
+            <Accordion fx:id="userDropBox" prefHeight="458.0" prefWidth="600.0" styleClass="userSectionAcordian">
+              <panes>
+                <TitledPane alignment="CENTER" animated="false" styleClass="user_sections" text="untitled 1">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="dropdowns">
+                           <opaqueInsets>
+                              <Insets bottom="15.0" />
+                           </opaqueInsets>
+                           <children>
+                              <HBox layoutY="14.0" prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <TextFlow accessibleText="Yo" prefHeight="200.0" prefWidth="200.0" />
+                                    <TextFlow accessibleText="Mama" prefHeight="200.0" prefWidth="200.0" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                     <padding>
+                        <Insets bottom="5.0" />
+                     </padding>
+                     <opaqueInsets>
+                        <Insets bottom="15.0" />
+                     </opaqueInsets>
+                </TitledPane>
+                <TitledPane animated="false" styleClass="user_sections" text="untitled 2">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  </content>
+                     <opaqueInsets>
+                        <Insets bottom="15.0" />
+                     </opaqueInsets>
+                </TitledPane>
+                <TitledPane animated="false" styleClass="user_sections" text="untitled 3">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  </content>
+                     <opaqueInsets>
+                        <Insets bottom="15.0" />
+                     </opaqueInsets>
+                </TitledPane>
+              </panes>
+            </Accordion>
+         </content>
+      </ScrollPane>
+   </children>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+</AnchorPane>

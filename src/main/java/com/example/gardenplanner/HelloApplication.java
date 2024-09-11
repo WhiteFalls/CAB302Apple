@@ -16,9 +16,9 @@ public class HelloApplication extends Application {
 
         checkAndCreateDatabase();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("register.fxml"));
-
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Hello!");
+        Scene scene = new Scene(fxmlLoader.load(), 1200, 600);
+        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+        stage.setTitle("Garden Manager");
         stage.setScene(scene);
         stage.show();
     }

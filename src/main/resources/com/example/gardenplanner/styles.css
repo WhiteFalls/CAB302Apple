@@ -1,0 +1,13 @@
+.root {
+    -fx-background-image: url("apple_background.png");
+    -fx-background-repeat: repeat;
+    -fx-background-size: 25%;
+}
+
+.userSectionAcordian {
+    -fx-background-color: transparent;
+}
+
+.userSectionTitlePane {
+    -fx-background-color: transparent;
+}
