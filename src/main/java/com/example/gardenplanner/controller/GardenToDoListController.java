@@ -1,6 +1,12 @@
 package com.example.gardenplanner.controller;
 
-import com.example.gardenplanner.model.*;
+import People.IMockPerson;
+import Tasks.ITaskDAO;
+import Tasks.MockTaskDAO;
+import Tasks.Task;
+import Tasks.taskCategory;
+import com.example.gardenplanner.IPersonDAO;
+import com.example.gardenplanner.MockPersonDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -22,7 +28,7 @@ public class GardenToDoListController {
 
     private ITaskDAO taskDAO;
     private IPersonDAO userDAO;
-    private IPerson person;
+    private IMockPerson person;
 
     private ListView<Task> dailyListView = new ListView<>();
     private ListView<Task> weeklyListView = new ListView<>();
@@ -31,7 +37,7 @@ public class GardenToDoListController {
         taskDAO = new MockTaskDAO();
         userDAO = new MockPersonDAO();
         person = userDAO.getPerson(1);// subject to change // check if null
-        addTask(person, "Plant Beans","Daily");
+        addTask(person, "Plant Beans",taskCategory.WEEKLY);
     }
 
 
@@ -39,21 +45,21 @@ public class GardenToDoListController {
 
     @FXML
     private void testAddTask(ActionEvent event) {
-        addTask(person, "Harvest Beans","Daily");
-        addTask(person, "Wash Beans","Weekly");
-        addTask(person, "Boil Beans","Weekly");
-        addTask(person, "DESTORY Beans","Custom");
+        addTask(person, "Harvest Beans",taskCategory.DAILY);
+        addTask(person, "Wash Beans",taskCategory.WEEKLY);
+        addTask(person, "Boil Beans",taskCategory.WEEKLY);
+        addTask(person, "DESTORY Beans",taskCategory.CUSTOM);
         syncPerson(person);
     }
 
-    private void syncPerson(IPerson person) {
+    private void syncPerson(IMockPerson person) {
         dailyListView.getItems().clear();
         weeklyListView.getItems().clear();
         customListView.getItems().clear();
 
-        dailyListView.getItems().addAll(taskDAO.getCategorisedTasks(person,"DAILY")); // change --> for now should be wash beans
-        weeklyListView.getItems().addAll(taskDAO.getCategorisedTasks(person,"WEEKLY"));
-        customListView.getItems().addAll(taskDAO.getCategorisedTasks(person,"CUSTOM"));
+        dailyListView.getItems().addAll(taskDAO.getCategorisedTasks(person,taskCategory.DAILY)); // change --> for now should be wash beans
+        weeklyListView.getItems().addAll(taskDAO.getCategorisedTasks(person,taskCategory.WEEKLY));
+        customListView.getItems().addAll(taskDAO.getCategorisedTasks(person,taskCategory.CUSTOM));
     }
 
 //    public List<String> getVisibleTasks(ITaskDAO tasks, IPerson person){
@@ -141,16 +147,26 @@ public class GardenToDoListController {
         syncPerson(person);
     }
 
-    private void addTask(IPerson person, String taskDescription, String category)
+    private void addTask(IMockPerson person, String taskDescription, taskCategory category)
     {
         try {
-            Task.Category categoryEnum = Task.Category.valueOf(category.toUpperCase());
+
+            //taskCategory categoryEnum = taskCategory.(category);
+            Task task = new Task(taskDescription, LocalDate.now(), LocalDate.now(), category);
+            person.addTask(task);
+            taskDAO.add(task);
         } catch (IllegalArgumentException e) {
             System.out.println("Invalid category: " + category);
         }
-        Task task = new Task(taskDescription, LocalDate.now(), LocalDate.now(), Task.Category.valueOf(category.toUpperCase()));
-        taskDAO.add(task);
-        person.addTask(task);
+        catch (NullPointerException e) {
+            System.out.println("Tasks doesn't exist");
+        }
+
+        Task tasks = new Task("EAT BEANS", LocalDate.now(), LocalDate.now(), taskCategory.CUSTOM);
+        if (tasks == null){
+            System.out.println("NULL");
+        }
+
     }
 
 }

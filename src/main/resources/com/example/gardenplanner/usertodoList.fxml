@@ -9,13 +9,8 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gardenplanner.controller.GardenToDoListController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gardenplanner.controller.GardenToDoListController">
     <children>
-        <ImageView fitHeight="600.0" fitWidth="423.0" layoutX="-2.0" opacity="0.04" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@../../../../Images/Screenshot%202024-09-08%20212334.png" />
-            </image>
-        </ImageView>
         <Label alignment="CENTER" contentDisplay="CENTER" layoutX="148.0" layoutY="14.0" prefHeight="50.0" prefWidth="102.0" text="To Do List" />
         <Button fx:id="Refresh" layoutX="29.0" layoutY="26.0" mnemonicParsing="false" onAction="#testAddTask" text="Refresh" />
       <Accordion fx:id="dropboxTasks" layoutX="29.0" layoutY="75.0">

@@ -1,12 +1,11 @@
 package People;
 
+import People.IMockPerson;
 import Tasks.Task;
-import javafx.scene.control.ListView;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class Person  implements  IPerson{
+public class MockPerson implements IMockPerson {
     private String firstName;
     private String lastName;
     private String email;
@@ -14,7 +13,7 @@ public class Person  implements  IPerson{
     private int userId;
     private ArrayList<Task> tasks;
 
-    public Person(String firstName, String lastName, String email, String password) {
+    public MockPerson(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -61,8 +60,18 @@ public class Person  implements  IPerson{
     }
 
     @Override
+    public void setUserId(String userId) {
+
+    }
+
+    @Override
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public void setPassword(String password) {
+
     }
 
     @Override
