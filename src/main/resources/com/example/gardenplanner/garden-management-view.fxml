@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="page" prefHeight="400.0" prefWidth="600.0" styleClass="page" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gardenplanner.GardenManagementController">
+<AnchorPane id="page" prefHeight="400.0" prefWidth="600.0" styleClass="page" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gardenplanner.controller.GardenManagementController">
    <children>
       <Label alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="211.0" layoutY="37.0" text="Garden Manager" textAlignment="CENTER">
          <font>

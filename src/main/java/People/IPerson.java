@@ -1,4 +1,4 @@
-package com.example.gardenplanner;
+package People;
 
 public interface IPerson {
     /**

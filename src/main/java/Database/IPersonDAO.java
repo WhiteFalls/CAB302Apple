@@ -1,6 +1,5 @@
-package com.example.gardenplanner;
+package Database;
 import People.IMockPerson;
-import People.MockPerson;
 
 import java.util.ArrayList;
 

@@ -1,13 +1,12 @@
 package com.example.gardenplanner.controller;
 
 import People.IMockPerson;
-import People.MockPerson;
 import Tasks.ITaskDAO;
 import Tasks.MockTaskDAO;
 import Tasks.Task;
 import Tasks.taskCategory;
-import com.example.gardenplanner.IPersonDAO;
-import com.example.gardenplanner.MockPersonDAO;
+import Database.IPersonDAO;
+import Database.MockPersonDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;

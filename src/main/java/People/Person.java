@@ -1,4 +1,4 @@
-package com.example.gardenplanner;
+package People;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

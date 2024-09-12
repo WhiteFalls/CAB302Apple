@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<VBox fx:controller="com.example.gardenplanner.RegisterController" spacing="10" alignment="CENTER" stylesheets="@style.css" xmlns:fx="http://javafx.com/fxml">
+<VBox fx:controller="com.example.gardenplanner.controller.RegisterController" spacing="10" alignment="CENTER" stylesheets="@style.css" xmlns:fx="http://javafx.com/fxml">
     <Label text="Apple Garden" styleClass="title-label"/>
 
     <VBox alignment="CENTER" spacing="10" styleClass="container">
