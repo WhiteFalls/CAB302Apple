@@ -88,7 +88,9 @@ public class GardenToDoListController {
                 else{
                     // Create custom layout for each cell
                     Text taskDescription = new Text(task.getTaskDetails());
+                    Text assignedDateText = new Text("       Assigned: " + task.getAssignedDate().toString() + "      ") ;
                     Text dueDateText = new Text("       Due: " + task.getDueDate().toString() + "      ") ;
+
                     Button completeButton = new Button("Complete");
 
                     // Add an action event to the button
@@ -98,7 +100,7 @@ public class GardenToDoListController {
                             taskList.getItems().remove(task);
                         }
                     });
-                    setGraphic(new HBox(taskDescription, dueDateText, completeButton));
+                    setGraphic(new HBox(taskDescription, assignedDateText,dueDateText, completeButton));
                 }
 
             }
@@ -159,15 +161,6 @@ public class GardenToDoListController {
         } catch (IllegalArgumentException e) {
             System.out.println("Invalid category: " + category);
         }
-        catch (NullPointerException e) {
-            System.out.println("Tasks doesn't exist");
-        }
-
-        Task tasks = new Task("EAT BEANS", LocalDate.now(), LocalDate.now(), taskCategory.CUSTOM);
-        if (tasks == null){
-            System.out.println("NULL");
-        }
-
     }
 
 }

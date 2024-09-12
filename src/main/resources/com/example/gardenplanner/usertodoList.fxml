@@ -9,32 +9,36 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gardenplanner.controller.GardenToDoListController">
+<?import javafx.scene.text.Font?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gardenplanner.controller.GardenToDoListController">
     <children>
-        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="148.0" layoutY="14.0" prefHeight="50.0" prefWidth="102.0" text="To Do List" />
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="448.0" layoutY="13.0" prefHeight="50.0" prefWidth="154.0" text="To Do List" underline="true">
+            <font>
+                <Font size="30.0" />
+            </font></Label>
         <Button fx:id="Refresh" layoutX="29.0" layoutY="26.0" mnemonicParsing="false" onAction="#testAddTask" text="Refresh" />
-      <Accordion fx:id="dropboxTasks" layoutX="29.0" layoutY="75.0">
-        <panes>
-            <TitledPane fx:id="dailyTasks" animated="false" text="Daily">
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                    <ListView layoutX="-13.0" layoutY="-10.0" prefHeight="510.0" prefWidth="338.0" />
-                </AnchorPane>
-            </TitledPane>
-          <TitledPane fx:id="weeklyTasks" animated="false" text="Weekly">
-            <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                    <ListView prefHeight="473.0" prefWidth="326.0" />
-                </AnchorPane>
-            </content>
-          </TitledPane>
-          <TitledPane fx:id="customTasks" animated="false" prefHeight="450.0" prefWidth="325.0" text="Custom">
-            <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                    <ListView prefHeight="423.0" prefWidth="326.0" />
-                </AnchorPane>
-            </content>
-          </TitledPane>
-        </panes>
-      </Accordion>
+        <Accordion fx:id="dropboxTasks" layoutX="29.0" layoutY="75.0" prefHeight="258.0" prefWidth="941.0">
+            <panes>
+                <TitledPane fx:id="dailyTasks" animated="false" text="Daily">
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <ListView layoutX="-13.0" layoutY="-10.0" prefHeight="510.0" prefWidth="338.0" />
+                    </AnchorPane>
+                </TitledPane>
+                <TitledPane fx:id="weeklyTasks" animated="false" text="Weekly">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <ListView prefHeight="473.0" prefWidth="326.0" />
+                        </AnchorPane>
+                    </content>
+                </TitledPane>
+                <TitledPane fx:id="customTasks" animated="false" prefHeight="450.0" prefWidth="325.0" text="Custom">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <ListView prefHeight="423.0" prefWidth="326.0" />
+                        </AnchorPane>
+                    </content>
+                </TitledPane>
+            </panes>
+        </Accordion>
     </children>
 </AnchorPane>
