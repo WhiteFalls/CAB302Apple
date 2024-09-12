@@ -27,7 +27,7 @@ public class MockPersonDAO implements IPersonDAO {
     }
 
     @Override
-    public void addPerson(MockPerson mockPerson) {
+    public void addPerson(IMockPerson mockPerson) {
         mockPerson.setId(autoIncrementedId);
 
         ArrayList<Task> userTasks = new ArrayList<Task>();

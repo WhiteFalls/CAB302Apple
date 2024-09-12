@@ -13,7 +13,7 @@ public interface IPersonDAO {
      * Adds a new contact to the database.
      * @param mockPerson The contact to add.
      */
-    public void addPerson(MockPerson mockPerson);
+    public void addPerson(IMockPerson mockPerson);
     /**
      * Updates an existing contact in the database.
      * @param person The contact to update.

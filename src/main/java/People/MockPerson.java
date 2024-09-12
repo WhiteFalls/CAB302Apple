@@ -18,6 +18,7 @@ public class MockPerson implements IMockPerson {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.tasks = new ArrayList<>();
     }
 
     public void setId(int userId) {
@@ -57,11 +58,6 @@ public class MockPerson implements IMockPerson {
     @Override
     public int getId() {
         return userId;
-    }
-
-    @Override
-    public void setUserId(String userId) {
-
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.example.gardenplanner.controller;
 
 import People.IMockPerson;
+import People.MockPerson;
 import Tasks.ITaskDAO;
 import Tasks.MockTaskDAO;
 import Tasks.Task;

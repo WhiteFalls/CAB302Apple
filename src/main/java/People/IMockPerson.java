@@ -63,7 +63,7 @@ public interface IMockPerson {
      * Sets the user's unique ID.
      * @param userId A String containing the user's unique ID.
      */
-    void setUserId(String userId);
+    void setId(int userId);
 
     /**
      * Returns the full name of the user (combines first and last name).
