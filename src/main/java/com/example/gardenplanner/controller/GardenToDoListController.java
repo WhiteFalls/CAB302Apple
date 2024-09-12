@@ -6,6 +6,7 @@ import com.example.gardenplanner.model.dao.MockPersonDAO;
 import com.example.gardenplanner.model.dao.MockTaskDAO;
 import com.example.gardenplanner.model.person.IPerson;
 import com.example.gardenplanner.model.task.Task;
+import com.example.gardenplanner.model.task.taskCategories;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -150,11 +151,11 @@ public class GardenToDoListController {
     private void addTask(IPerson person, String taskDescription, String category)
     {
         try {
-            Task.Category categoryEnum = Task.Category.valueOf(category.toUpperCase());
+            taskCategories categoryEnum = taskCategories.valueOf(category.toUpperCase());
         } catch (IllegalArgumentException e) {
             System.out.println("Invalid category: " + category);
         }
-        Task task = new Task(taskDescription, LocalDate.now(), LocalDate.now(), Task.Category.valueOf(category.toUpperCase()));
+        Task task = new Task(taskDescription, LocalDate.now(), LocalDate.now(), taskCategories.valueOf(category.toUpperCase()));
         taskDAO.add(task);
         person.addTask(task);
     }

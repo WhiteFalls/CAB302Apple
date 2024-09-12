@@ -5,20 +5,17 @@ import com.example.gardenplanner.model.person.IPerson;
 
 import java.time.LocalDate;
 
+
 public class Task implements ITask {
     private String taskDetails;
     private LocalDate assignedDate;
     private LocalDate dueDate;
     private int taskId;
-    private Category category;
+    private taskCategories category;
 
-    public enum Category {
-        DAILY,
-        WEEKLY,
-        CUSTOM
-    }
 
-    public Task(String taskDetails, LocalDate assignedDate, LocalDate dueDate, Category category)
+
+    public Task(String taskDetails, LocalDate assignedDate, LocalDate dueDate, taskCategories category)
     {
         this.taskDetails = taskDetails;
         this.assignedDate = assignedDate;
@@ -32,7 +29,7 @@ public class Task implements ITask {
     }
 
     @Override
-    public Category getCategory() {
+    public taskCategories getCategory() {
         return category;
     }
 

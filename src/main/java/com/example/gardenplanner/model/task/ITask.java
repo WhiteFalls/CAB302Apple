@@ -7,6 +7,8 @@ import java.time.LocalDate;
 
 public interface ITask {
 
+
+
     boolean isCompleted();
 
     void assignTo(IPerson person);
@@ -21,5 +23,5 @@ public interface ITask {
 
     void setId(int taskId);
 
-    Task.Category getCategory();
+    taskCategories getCategory();
 }

@@ -3,6 +3,7 @@ package com.example.gardenplanner.model.dao;
 
 import com.example.gardenplanner.model.person.IPerson;
 import com.example.gardenplanner.model.task.Task;
+import com.example.gardenplanner.model.task.taskCategories;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -16,7 +17,7 @@ public class MockTaskDAO implements ITaskDAO {
         ArrayList<Task> userTasks = new ArrayList<Task>();
         LocalDate aDate = LocalDate.of(2024, Month.APRIL, 1);
         LocalDate dDate = LocalDate.of(2024, Month.APRIL, 1);
-        Task task = new Task("Wash Beans thoroughly!", aDate, dDate, Task.Category.DAILY);
+        Task task = new Task("Wash Beans thoroughly!", aDate, dDate, taskCategories.DAILY);
         task.setId(autoIncrementedIdTask);
         userTasks.add(task);
 
@@ -30,7 +31,7 @@ public class MockTaskDAO implements ITaskDAO {
     public ArrayList<Task> getCategorisedTasks(IPerson person, String category) {
         ArrayList<Task> categorisedTasks = new ArrayList<>();
         for (Task task : person.getTasks()){
-            if(task.getCategory() == Task.Category.valueOf(category.toUpperCase())) {
+            if(task.getCategory() == taskCategories.valueOf(category.toUpperCase())) {
                 categorisedTasks.add(task);
             }
         }
