@@ -25,7 +25,7 @@ public class MockTaskDAO implements ITaskDAO{
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(Task task) {
 
     }
 

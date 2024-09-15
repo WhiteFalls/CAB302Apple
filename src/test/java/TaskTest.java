@@ -1,5 +1,7 @@
+import People.MockPerson;
 import People.Person;
 import Tasks.Task;
+import Tasks.taskCategory;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -10,15 +12,15 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TaskTest {
-    private Person person;
+    private MockPerson person;
     private Task task;
 
     @BeforeEach
     public void setUp() {
-        person = new Person("John", "Doe", "john.doe@example.com", "1234567890");
-        Task task = new Task("task", LocalDate.now(), LocalDate.now());
+        person = new MockPerson("John", "Doe", "john.doe@example.com", "1234567890");
+        Task task = new Task("task", LocalDate.now(), LocalDate.now(), taskCategory.DAILY);
     }
 
-    @Test
-    testContructorInvalidArgument
+    //@Test
+    //testContructorInvalidArgument
 }

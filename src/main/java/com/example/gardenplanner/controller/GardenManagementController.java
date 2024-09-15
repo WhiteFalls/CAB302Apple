@@ -1,6 +1,7 @@
 package com.example.gardenplanner.controller;
 
 import People.IMockPerson;
+import People.MockPerson;
 import Tasks.ITaskDAO;
 import Tasks.MockTaskDAO;
 import Tasks.Task;
@@ -53,12 +54,57 @@ public class GardenManagementController {
         userDropBox.setVisible(hasPeople);
     }
 
+
+    @FXML
+    public void initialize() {
+        for (IMockPerson person : personDAO.getAllPeople())
+        {
+            person.setTasks(taskDAO.getUserTasks(person));
+        }
+        syncPeople();
+    }
+
+    private TitledPane createUserSection(IMockPerson person)
+    {
+        // Create dropdown for user tasks
+        ListView<HBox> taskList = createUserTasks(person);
+
+        // Create dropdown for user tasks
+        taskList = createUserTasks(person);
+
+        TitledPane userTasks = new TitledPane("Assigned Tasks", taskList);
+        userTasks.getStyleClass().add("userSectionTitlePane");
+
+
+        // Create dropdown for user options
+        TitledPane userOptions = createUserOptions(person);
+
+        TitledPane userSection = new TitledPane(person.getName(), new Accordion(userTasks, userOptions));
+        //ArrayList<TitledPane> userTasks = new ArrayList<TitledPane>();
+
+
+        return userSection;
+    }
+
     private ListView<HBox> createUserTasks(IMockPerson person)
     {
         //Create dropdown for tasks
         ListView<HBox> taskList = new ListView<HBox>();
 
+        // Create Assign Task Button
+        Button assignTasksButton = new Button("Assign Task");
+        HBox assignTasksButtonBox = new HBox(assignTasksButton);
+        taskList.getItems().add(assignTasksButtonBox);
+        assignTasksButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                addTask(person);
+            }
+        });
+
         for (Task task : person.getTasks()) {
+            HBox taskBox = new HBox();
+
             Label taskId = new Label(String.valueOf(task.getId()));
             TextField taskDetails = new TextField(task.getTaskDetails());
             DatePicker assignedDate = new DatePicker(task.getAssignedDate());
@@ -87,14 +133,56 @@ public class GardenManagementController {
             deleteTaskButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
-                    deleteTask(person, task.getId());
+                    taskList.getItems().remove(taskBox);
+                    deleteTask(person, task);
                 }
             });
 
-            HBox taskBox = new HBox(taskId, taskDetails, assignedDate, dueDate, confirmChangesButton, deleteTaskButton);
+            taskBox.getChildren().addAll(taskId, taskDetails, assignedDate, dueDate, confirmChangesButton, deleteTaskButton);
             taskList.getItems().add(taskBox);
         }
         return taskList;
+    }
+
+    private HBox getTaskBox(MockPerson person, Task task, ListView<HBox> taskList)
+    {
+        HBox taskBox = new HBox();
+
+        Label taskId = new Label(String.valueOf(task.getId()));
+        TextField taskDetails = new TextField(task.getTaskDetails());
+        DatePicker assignedDate = new DatePicker(task.getAssignedDate());
+        DatePicker dueDate = new DatePicker(task.getDueDate());
+
+        Button confirmChangesButton = new Button("Confirm Changes");
+        confirmChangesButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                try
+                {
+                    String newTaskDetails = taskDetails.getCharacters().toString();
+                    LocalDate newAssignedDate = assignedDate.getValue();
+                    LocalDate newDueDate = dueDate.getValue();
+                    Task newTask = new Task(newTaskDetails, newAssignedDate, newDueDate, taskCategory.DAILY);
+                    updateTask(person, task, newTask);
+                }
+                catch (DateTimeParseException e)
+                {
+                    displayPopup("Date must be in appropriate format.");
+                }
+            }
+        });
+
+        Button deleteTaskButton = new Button("Delete Task");
+        deleteTaskButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                taskList.getItems().remove(taskBox);
+                deleteTask(person, task);
+            }
+        });
+
+        taskBox.getChildren().addAll(taskId, taskDetails, assignedDate, dueDate, confirmChangesButton, deleteTaskButton);
+        return taskBox;
     }
 
     private TitledPane createUserOptions(IMockPerson person) {
@@ -114,45 +202,6 @@ public class GardenManagementController {
         return userOptionsSection;
     }
 
-    private TitledPane createUserSection(IMockPerson person)
-    {
-        // Create Assign Task Button
-        Button assignTasksButton = new Button("Assign Task");
-        assignTasksButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                addTask(person);
-            }
-        });
-
-        // Create dropdown for user tasks
-        ListView<HBox> taskList = createUserTasks(person);
-
-        VBox taskListAndButton = new VBox(assignTasksButton, taskList);
-
-        TitledPane userTasks = new TitledPane("Assigned Tasks", taskListAndButton);
-        userTasks.getStyleClass().add("userSectionTitlePane");
-
-
-        // Create dropdown for user options
-        TitledPane userOptions = createUserOptions(person);
-
-        TitledPane userSection = new TitledPane(person.getName(), new Accordion(userTasks, userOptions));
-        //ArrayList<TitledPane> userTasks = new ArrayList<TitledPane>();
-
-
-        return userSection;
-    }
-
-    @FXML
-    public void initialize() {
-        for (IMockPerson person : personDAO.getAllPeople())
-        {
-            person.setTasks(taskDAO.getUserTasks(person));
-        }
-        syncPeople();
-    }
-
     public void updateTask(IMockPerson person, Task oldTask, Task newTask)
     {
         if (oldTask.getId() != 0) {
@@ -163,14 +212,11 @@ public class GardenManagementController {
         }
     }
 
-    private void deleteTask(IMockPerson person, int id)
+    private void deleteTask(IMockPerson person, Task task)
     {
         // Get the selected contact from the list view
-        if (id != 0) {
-            person.removeTask(id);
-            taskDAO.delete(id);
-            syncPeople();
-        }
+            person.removeTask(task);
+            taskDAO.delete(task);
     }
 
     private void addTask(IMockPerson person)
@@ -178,7 +224,6 @@ public class GardenManagementController {
         Task task = new Task("New Task", LocalDate.now(), LocalDate.now(), taskCategory.DAILY);
         taskDAO.add(task);
         person.addTask(task);
-        syncPeople();
     }
 
     private void removeUser(IMockPerson person)
@@ -187,12 +232,12 @@ public class GardenManagementController {
         syncPeople();
     }
 
-    private void displayPopup(String text)
+    private void displayPopup(String message)
     {
-        Label message = new Label(text);
-        Popup popup = new Popup();
-        popup.getContent().add(message);
-        popup.setAnchorLocation(PopupWindow.AnchorLocation.CONTENT_TOP_RIGHT);
-        popup.show(popup.getOwnerWindow());
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

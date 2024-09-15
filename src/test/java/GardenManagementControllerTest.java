@@ -1,6 +1,6 @@
 import People.Person;
 import Tasks.Task;
-import com.example.gardenplanner.GardenManagementController;
+import com.example.gardenplanner.controller.GardenManagementController;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 

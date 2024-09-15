@@ -2,6 +2,7 @@ package Tasks;
 import People.IMockPerson;
 import java.time.LocalDate;
 
+
 public class Task implements ITask {
     private String taskDetails;
     private LocalDate assignedDate;
@@ -11,11 +12,12 @@ public class Task implements ITask {
 
     /**
      * Contructs a new task with the specified task details, assigned date, due date and category type
-     * @param taskDetails
-     * @param assignedDate
-     * @param dueDate
+     * @param taskDetails The details of the task that needs to be completed
+     * @param assignedDate the assigned date of the task
+     * @param dueDate the due date of the task
+     * @param category the category of how often the task needs to be completed
      */
-    public Task(String taskDetails, LocalDate assignedDate, LocalDate dueDate)
+    public Task(String taskDetails, LocalDate assignedDate, LocalDate dueDate, taskCategory category)
     {
         this.taskDetails = taskDetails;
         this.assignedDate = assignedDate;

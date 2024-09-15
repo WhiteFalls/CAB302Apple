@@ -73,17 +73,51 @@ public interface IMockPerson {
         return getFirstName() + " " + getLastName();
     }
 
+    /**
+     * Returns all the person's tasks.
+     * @return An ArrayList of the persons tasks
+     */
     ArrayList<Task> getTasks();
+
+    /**
+     * Sets the user's tasks
+     * @param tasks The tasks associated with the user
+     */
     void setTasks(ArrayList<Task> tasks);
 
+    /**
+     * Returns a task with the same task id
+     * @param id The task id of the task wanting to be returned
+     * @return The task with the matching task id
+     */
     Task getTask(int id);
 
+    /**
+     *
+     * @return
+     */
+    public Task getNewestTask();
+
+
+    /**
+     * Replaces an old task with a new task
+     * @param newTask The new task to replace the old task
+     * @param oldTask THe old task to be replaced
+     */
     void editTask(Task newTask, Task oldTask);
 
+    /**
+     * Adds a new task to the user
+     * @param task The task to be added
+     */
     void addTask(Task task);
 
 
-    void removeTask(int id);
+    /**
+     * Removes a task from the user
+     * @param task The task to be removed
+     */
+    void removeTask(Task task);
 
 
 
