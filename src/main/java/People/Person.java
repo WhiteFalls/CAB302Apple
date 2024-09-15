@@ -19,6 +19,7 @@ public class Person  implements  IPerson{
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        tasks = new ArrayList<>();
     }
 
     public void setId(int userId) {

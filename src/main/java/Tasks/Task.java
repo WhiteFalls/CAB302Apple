@@ -8,6 +8,12 @@ public class Task implements ITask {
     private LocalDate dueDate;
     private int taskId;
 
+    /**
+     * Contructs a new task with the specified task details, assigned date, due date and category type
+     * @param taskDetails
+     * @param assignedDate
+     * @param dueDate
+     */
     public Task(String taskDetails, LocalDate assignedDate, LocalDate dueDate)
     {
         this.taskDetails = taskDetails;

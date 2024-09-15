@@ -142,7 +142,7 @@ public class GardenManagementController {
     }
 
     @FXML
-    public void initialize() {
+    private void initialize() {
         for (IPerson person : personDAO.getAllPeople())
         {
             person.setTasks(taskDAO.getUserTasks(person));
@@ -150,7 +150,7 @@ public class GardenManagementController {
         syncPeople();
     }
 
-    public void updateTask(IPerson person, Task oldTask, Task newTask)
+    private void updateTask(IPerson person, Task oldTask, Task newTask)
     {
         if (oldTask.getId() != 0) {
             newTask.setId(oldTask.getId());

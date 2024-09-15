@@ -4,10 +4,16 @@
     -fx-background-size: 25%;
 }
 
-.userSectionAcordian {
+.scrollPane .accordion .titled-pane .title {
     -fx-background-color: transparent;
+    -fx-color: transparent;
 }
 
-.userSectionTitlePane {
-    -fx-background-color: transparent;
+
+.accordion > .titled-pane {
+    -fx-padding: 0 0 0.5em 0;
+}
+
+.titled-pand > .title {
+    -fx-text-align: center;
 }
