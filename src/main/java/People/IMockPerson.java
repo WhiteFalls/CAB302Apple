@@ -1,6 +1,10 @@
 package People;
 
-public interface IPerson {
+import Tasks.Task;
+
+import java.util.ArrayList;
+
+public interface IMockPerson {
     /**
      * Returns the user's first name.
      * @return a String of the user's first name.
@@ -53,13 +57,13 @@ public interface IPerson {
      * Returns the user's unique ID.
      * @return a String of the user's ID.
      */
-    String getUserId();
+    int getId();
 
     /**
      * Sets the user's unique ID.
      * @param userId A String containing the user's unique ID.
      */
-    void setUserId(String userId);
+    void setId(int userId);
 
     /**
      * Returns the full name of the user (combines first and last name).
@@ -68,4 +72,19 @@ public interface IPerson {
     default String getName() {
         return getFirstName() + " " + getLastName();
     }
+
+    ArrayList<Task> getTasks();
+    void setTasks(ArrayList<Task> tasks);
+
+    Task getTask(int id);
+
+    void editTask(Task newTask, Task oldTask);
+
+    void addTask(Task task);
+
+
+    void removeTask(int id);
+
+
+
 }

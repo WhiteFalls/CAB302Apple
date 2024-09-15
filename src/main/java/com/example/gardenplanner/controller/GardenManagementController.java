@@ -1,9 +1,12 @@
-package com.example.gardenplanner;
+package com.example.gardenplanner.controller;
 
-import People.IPerson;
+import People.IMockPerson;
 import Tasks.ITaskDAO;
 import Tasks.MockTaskDAO;
 import Tasks.Task;
+import Tasks.taskCategory;
+import Database.IPersonDAO;
+import Database.MockPersonDAO;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -35,11 +38,11 @@ public class GardenManagementController {
     // Methods
     private void syncPeople() {
         userDropBox.getPanes().clear();
-        ArrayList<IPerson> people = personDAO.getAllPeople();
+        ArrayList<IMockPerson> people = personDAO.getAllPeople();
         boolean hasPeople = !people.isEmpty();
 
         if (hasPeople) {
-            for (IPerson person : personDAO.getAllPeople()){
+            for (IMockPerson person : personDAO.getAllPeople()){
                 TitledPane user = createUserSection(person);
                 user.getStyleClass().add("userSectionTitlePane");
                 //userSections.add(user);
@@ -50,7 +53,7 @@ public class GardenManagementController {
         userDropBox.setVisible(hasPeople);
     }
 
-    private ListView<HBox> createUserTasks(IPerson person)
+    private ListView<HBox> createUserTasks(IMockPerson person)
     {
         //Create dropdown for tasks
         ListView<HBox> taskList = new ListView<HBox>();
@@ -70,7 +73,7 @@ public class GardenManagementController {
                         String newTaskDetails = taskDetails.getCharacters().toString();
                         LocalDate newAssignedDate = assignedDate.getValue();
                         LocalDate newDueDate = dueDate.getValue();
-                        Task newTask = new Task(newTaskDetails, newAssignedDate, newDueDate);
+                        Task newTask = new Task(newTaskDetails, newAssignedDate, newDueDate, taskCategory.DAILY);
                         updateTask(person, task, newTask);
                     }
                     catch (DateTimeParseException e)
@@ -94,7 +97,7 @@ public class GardenManagementController {
         return taskList;
     }
 
-    private TitledPane createUserOptions(IPerson person) {
+    private TitledPane createUserOptions(IMockPerson person) {
         Button removeUserButton = new Button("Remove User From Garden");
         removeUserButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -111,7 +114,7 @@ public class GardenManagementController {
         return userOptionsSection;
     }
 
-    private TitledPane createUserSection(IPerson person)
+    private TitledPane createUserSection(IMockPerson person)
     {
         // Create Assign Task Button
         Button assignTasksButton = new Button("Assign Task");
@@ -142,15 +145,15 @@ public class GardenManagementController {
     }
 
     @FXML
-    private void initialize() {
-        for (IPerson person : personDAO.getAllPeople())
+    public void initialize() {
+        for (IMockPerson person : personDAO.getAllPeople())
         {
             person.setTasks(taskDAO.getUserTasks(person));
         }
         syncPeople();
     }
 
-    private void updateTask(IPerson person, Task oldTask, Task newTask)
+    public void updateTask(IMockPerson person, Task oldTask, Task newTask)
     {
         if (oldTask.getId() != 0) {
             newTask.setId(oldTask.getId());
@@ -160,7 +163,7 @@ public class GardenManagementController {
         }
     }
 
-    private void deleteTask(IPerson person, int id)
+    private void deleteTask(IMockPerson person, int id)
     {
         // Get the selected contact from the list view
         if (id != 0) {
@@ -170,15 +173,15 @@ public class GardenManagementController {
         }
     }
 
-    private void addTask(IPerson person)
+    private void addTask(IMockPerson person)
     {
-        Task task = new Task("New Task", LocalDate.now(), LocalDate.now());
+        Task task = new Task("New Task", LocalDate.now(), LocalDate.now(), taskCategory.DAILY);
         taskDAO.add(task);
         person.addTask(task);
         syncPeople();
     }
 
-    private void removeUser(IPerson person)
+    private void removeUser(IMockPerson person)
     {
         personDAO.deletePerson(person);
         syncPeople();

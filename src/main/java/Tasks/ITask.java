@@ -1,6 +1,6 @@
 package Tasks;
 
-import People.IPerson;
+import People.IMockPerson;
 
 import java.time.LocalDate;
 
@@ -8,7 +8,7 @@ public interface ITask {
 
     boolean isCompleted();
 
-    void assignTo(IPerson person);
+    void assignTo(IMockPerson person);
 
     String getTaskDetails();
 
@@ -19,5 +19,7 @@ public interface ITask {
     int getId();
 
     void setId(int taskId);
+
+    taskCategory getCategory();
 
 }

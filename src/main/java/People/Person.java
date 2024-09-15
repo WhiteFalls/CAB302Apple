@@ -1,34 +1,26 @@
 package People;
 
-import Tasks.Task;
-import javafx.scene.control.ListView;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Person  implements  IPerson{
+public class Person implements IPerson {
     private String firstName;
     private String lastName;
-    private String email;
+    private final String userId;
     private String password;
-    private int userId;
-    private ArrayList<Task> tasks;
+    private String email;
+    /**
+     * Returns person's name
+     * return a string of the user's name
+     */
 
-    public Person(String firstName, String lastName, String email, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        tasks = new ArrayList<>();
-    }
-
-    public void setId(int userId) {
+    // Constructor to initialize the person object from the database :P
+    public Person(String userId) {
         this.userId = userId;
-    }
-
-    public void setTasks(ArrayList<Task> tasks)
-    {
-        this.tasks = tasks;
+        loadPersonFromDatabase();
     }
 
     @Override
@@ -38,7 +30,8 @@ public class Person  implements  IPerson{
 
     @Override
     public void setFirstName(String firstName) {
-
+        this.firstName = firstName;
+        updatePersonInDatabase("fname", firstName);
     }
 
     @Override
@@ -49,16 +42,22 @@ public class Person  implements  IPerson{
     @Override
     public void setLastName(String lastName) {
         this.lastName = lastName;
+        updatePersonInDatabase("lname", lastName);
     }
 
     @Override
     public String getName() {
-        return firstName.concat(lastName);
+        return firstName + " " + lastName;
     }
 
     @Override
-    public int getId() {
+    public String getUserId() {
         return userId;
+    }
+
+    @Override
+    public void setUserId(String userId) {
+        throw new UnsupportedOperationException("User ID is immutable.");
     }
 
     @Override
@@ -67,52 +66,67 @@ public class Person  implements  IPerson{
     }
 
     @Override
+    public void setPassword(String password) {
+        this.password = password;
+        updatePersonInDatabase("password", password);
+    }
+
+    @Override
     public String getEmail() {
         return email;
+
     }
 
     @Override
     public void setEmail(String email) {
         this.email = email;
+        updatePersonInDatabase("email", email);
     }
 
-    @Override
-    public ArrayList<Task> getTasks() {
-        return tasks;
-    }
+    // Fetches details from THE database
+    private void loadPersonFromDatabase() {
+        String dbUrl = "jdbc:sqlite:GardenPlanner.db";
 
-    public Task getTask(int id) {
-        for (Task task : tasks)
-        {
-            if (task.getId() == id)
-            {
-                return task;
+        try (Connection connection = DriverManager.getConnection(dbUrl)) {
+            String query = "SELECT fname, lname, email, password FROM Users WHERE user_id = ?";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, userId);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                this.firstName = resultSet.getString("fname");
+                this.lastName = resultSet.getString("lname");
+                this.email = resultSet.getString("email");
+                this.password = resultSet.getString("password");
+            } else {
+                System.out.println("User with ID " + userId + " not found.");
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return null;
     }
 
-    @Override
-    public void editTask(Task newTask, Task oldTask) {
-        tasks.remove(oldTask);
-        tasks.add(newTask);
-    }
+    // Updates a single field in the database for the current user
+    private void updatePersonInDatabase(String field, String value) {
+        String dbUrl = "jdbc:sqlite:GardenPlanner.db";
 
-    public void addTask(Task task)
-    {
-        tasks.add(task);
-    }
+        String updateQuery = "UPDATE Users SET " + field + " = ? WHERE user_id = ?";
 
+        try (Connection connection = DriverManager.getConnection(dbUrl)) {
+            PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
+            preparedStatement.setString(1, value);
+            preparedStatement.setString(2, userId);
+            int rowsUpdated = preparedStatement.executeUpdate();
 
-    @Override
-    public void removeTask(int id) {
-        for (Task task : tasks)
-        {
-            if (task.getId() == id)
-            {
-                tasks.remove(task);
-                break;
+            if (rowsUpdated > 0) {
+                System.out.println("User " + field + " updated successfully.");
+            } else {
+                System.out.println("Failed to update " + field + " for user " + userId);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }
