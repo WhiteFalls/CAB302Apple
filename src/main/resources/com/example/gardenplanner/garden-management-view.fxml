@@ -7,16 +7,21 @@
 
 <AnchorPane id="page" prefHeight="600.0" prefWidth="1200.0" styleClass="page" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gardenplanner.controller.GardenManagementController">
    <children>
+      <Button alignment="TOP_LEFT" layoutX="14.0" layoutY="27.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="18.0" style="-fx-background-color: null; -fx-text-fill: black;" styleClass="exit-button" text="X">
+         <font>
+            <Font name="System Bold" size="45.0" />
+         </font>
+      </Button>
       <StackPane alignment="TOP_CENTER" layoutX="500.0" layoutY="14.0" prefHeight="30.0" prefWidth="200.0">
          <children>
-            <Label alignment="TOP_CENTER" contentDisplay="CENTER" text="Garden Manager" textAlignment="CENTER">
+            <Label alignment="TOP_CENTER" contentDisplay="CENTER" style="-fx-background-color: rgb(92,173,92);" styleClass="page-title" text="Garden Manager" textAlignment="CENTER">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
          </children>
       </StackPane>
-      <StackPane layoutX="101.0" layoutY="72.0" prefHeight="500.0" prefWidth="1000.0">
+      <StackPane layoutX="101.0" layoutY="72.0" prefHeight="344.0" prefWidth="1000.0">
          <children>
             <Accordion fx:id="userDropBox" prefHeight="500.0" prefWidth="1000.0" styleClass="userSectionAcordian">
               <panes>

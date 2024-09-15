@@ -21,6 +21,33 @@ public class TaskTest {
         Task task = new Task("task", LocalDate.now(), LocalDate.now(), taskCategory.DAILY);
     }
 
-    //@Test
-    //testContructorInvalidArgument
+    @Test
+    public void testGetId() {
+        task.setId(1);
+        assertEquals(1, task.getId());
+    }
+
+    @Test
+    public void testGetTaskDetails()
+    {
+        assertEquals("task", task.getTaskDetails());
+    }
+
+    @Test
+    public void testGetTaskAssignedDate()
+    {
+        assertEquals(LocalDate.now(), task.getAssignedDate());
+    }
+
+    @Test
+    public void testGetTaskDueDate()
+    {
+        assertEquals(LocalDate.now(), task.getDueDate());
+    }
+
+    @Test
+    public void testGetCategory()
+    {
+        assertEquals(taskCategory.DAILY, task.getCategory());
+    }
 }
