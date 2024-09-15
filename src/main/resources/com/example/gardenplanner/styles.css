@@ -1,5 +1,5 @@
 .root {
-    -fx-background-image: url("apple_background.png");
+    -fx-background-image: url("Images/apple_background.png");
     -fx-background-repeat: repeat;
     -fx-background-size: 25%;
 }
