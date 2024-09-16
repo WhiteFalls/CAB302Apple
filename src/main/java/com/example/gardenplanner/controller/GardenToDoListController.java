@@ -1,12 +1,13 @@
 package com.example.gardenplanner.controller;
 
-import com.example.gardenplanner.model.dao.IPersonDAO;
-import com.example.gardenplanner.model.dao.ITaskDAO;
-import com.example.gardenplanner.model.dao.MockPersonDAO;
-import com.example.gardenplanner.model.dao.MockTaskDAO;
-import com.example.gardenplanner.model.person.IPerson;
-import com.example.gardenplanner.model.task.Task;
-import com.example.gardenplanner.model.task.taskCategories;
+import Database.MockPersonDAO;
+import Tasks.ITaskDAO;
+import Tasks.taskCategory;
+import Tasks.Task;
+import Tasks.MockTaskDAO;
+import People.IMockPerson;
+import Database.IPersonDAO;
+
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,6 +19,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class GardenToDoListController {
+    public Button Refresh;
     @FXML
     private Accordion dropboxTasks;
     @FXML
@@ -129,7 +131,7 @@ public class GardenToDoListController {
                     case WEEKLY: weeklyListView.getItems().add(task); break;
                     case CUSTOM: customListView.getItems().add(task); break;
                 }
-                System.out.println("Task list items: " + task.getTaskDetails()); //-> dont know why this isnt on first
+               // System.out.println("Task list items: " + task.getTaskDetails()); //-> dont know why this isnt on first
             }
         }
 
@@ -154,8 +156,6 @@ public class GardenToDoListController {
     private void addTask(IMockPerson person, String taskDescription, taskCategory category)
     {
         try {
-<<<<<<< HEAD
-
             //taskCategory categoryEnum = taskCategory.(category);
             Task task = new Task(taskDescription, LocalDate.now(), LocalDate.now(), category);
             person.addTask(task);
@@ -163,15 +163,6 @@ public class GardenToDoListController {
         } catch (IllegalArgumentException e) {
             System.out.println("Invalid category: " + category);
         }
-=======
-            taskCategories categoryEnum = taskCategories.valueOf(category.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            System.out.println("Invalid category: " + category);
-        }
-        Task task = new Task(taskDescription, LocalDate.now(), LocalDate.now(), taskCategories.valueOf(category.toUpperCase()));
-        taskDAO.add(task);
-        person.addTask(task);
->>>>>>> usertodoList
     }
 
 }

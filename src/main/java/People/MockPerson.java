@@ -1,13 +1,10 @@
-<<<<<<<< HEAD:src/main/java/People/MockPerson.java
+
 package People;
-========
-package com.example.gardenplanner.model.person;
->>>>>>>> usertodoList:src/main/java/com/example/gardenplanner/model/person/Person.java
+
 
 import People.IMockPerson;
 import Tasks.Task;
 
-import com.example.gardenplanner.model.task.Task;
 
 import java.util.ArrayList;
 

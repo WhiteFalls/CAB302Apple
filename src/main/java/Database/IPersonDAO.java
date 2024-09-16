@@ -1,13 +1,9 @@
-<<<<<<<< HEAD:src/main/java/Database/IPersonDAO.java
+
 package Database;
 import People.IMockPerson;
-========
-package com.example.gardenplanner.model.dao;
 
->>>>>>>> usertodoList:src/main/java/com/example/gardenplanner/model/dao/IPersonDAO.java
-
-import com.example.gardenplanner.model.person.IPerson;
-import com.example.gardenplanner.model.person.Person;
+import People.IPerson;
+import People.Person;
 
 import java.util.ArrayList;
 
