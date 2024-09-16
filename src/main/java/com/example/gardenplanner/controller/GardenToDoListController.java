@@ -1,13 +1,12 @@
 package com.example.gardenplanner.controller;
 
-import com.example.gardenplanner.model.dao.IPersonDAO;
-import com.example.gardenplanner.model.dao.ITaskDAO;
-import com.example.gardenplanner.model.dao.MockPersonDAO;
-import com.example.gardenplanner.model.dao.MockTaskDAO;
-import com.example.gardenplanner.model.person.IPerson;
-import com.example.gardenplanner.model.task.Task;
-import com.example.gardenplanner.model.task.taskCategories;
-
+import People.IMockPerson;
+import Tasks.ITaskDAO;
+import Tasks.MockTaskDAO;
+import Tasks.Task;
+import Tasks.taskCategory;
+import Database.IPersonDAO;
+import Database.MockPersonDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -98,7 +97,6 @@ public class GardenToDoListController {
                     completeButton.setOnAction(event->{
                         if(taskList != null) {
                             taskList.getItems().remove(task);
-
                         }
                     });
                     setGraphic(new HBox(taskDescription, assignedDateText,dueDateText, completeButton));
@@ -154,7 +152,6 @@ public class GardenToDoListController {
     private void addTask(IMockPerson person, String taskDescription, taskCategory category)
     {
         try {
-<<<<<<< HEAD
 
             //taskCategory categoryEnum = taskCategory.(category);
             Task task = new Task(taskDescription, LocalDate.now(), LocalDate.now(), category);
@@ -163,15 +160,6 @@ public class GardenToDoListController {
         } catch (IllegalArgumentException e) {
             System.out.println("Invalid category: " + category);
         }
-=======
-            taskCategories categoryEnum = taskCategories.valueOf(category.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            System.out.println("Invalid category: " + category);
-        }
-        Task task = new Task(taskDescription, LocalDate.now(), LocalDate.now(), taskCategories.valueOf(category.toUpperCase()));
-        taskDAO.add(task);
-        person.addTask(task);
->>>>>>> usertodoList
     }
 
 }

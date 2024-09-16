@@ -1,17 +1,9 @@
-<<<<<<<< HEAD:src/main/java/Database/MockPersonDAO.java
 package Database;
-========
-package com.example.gardenplanner.model.dao;
->>>>>>>> usertodoList:src/main/java/com/example/gardenplanner/model/dao/MockPersonDAO.java
 
 import People.IMockPerson;
 import People.MockPerson;
 import Tasks.ITaskDAO;
 import Tasks.Task;
-
-import com.example.gardenplanner.model.person.IPerson;
-import com.example.gardenplanner.model.person.Person;
-import com.example.gardenplanner.model.task.Task;
 
 import java.time.LocalDate;
 import java.time.Month;
