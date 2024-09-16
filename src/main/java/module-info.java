@@ -7,5 +7,6 @@ module com.example.gardenplanner {
 
 
     opens com.example.gardenplanner to javafx.fxml;
+
     exports com.example.gardenplanner;
 }
