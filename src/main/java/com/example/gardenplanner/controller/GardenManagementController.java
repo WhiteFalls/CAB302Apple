@@ -15,6 +15,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Popup;
 import javafx.stage.PopupWindow;
 
@@ -44,6 +45,18 @@ public class GardenManagementController {
 
     // Methods
 
+    @FXML
+    /**
+     * Allocates each task to their respective user and loads the user section
+     */
+    public void initialize() {
+        for (IMockPerson person : personDAO.getAllPeople())
+        {
+            person.setTasks(taskDAO.getUserTasks(person));
+        }
+        syncPeople();
+    }
+
     /**
      * Syncs all data by resetting the accordion and regenerating the user section
      */
@@ -64,19 +77,6 @@ public class GardenManagementController {
         userDropBox.setVisible(hasPeople);
     }
 
-
-    @FXML
-    /**
-     * Allocates each task to their respective user and loads the user section
-     */
-    public void initialize() {
-        for (IMockPerson person : personDAO.getAllPeople())
-        {
-            person.setTasks(taskDAO.getUserTasks(person));
-        }
-        syncPeople();
-    }
-
     /**
      * Creates a title pane for a user that contains their task and other user options
      * @param person The person whose tasks and options will be displayed
@@ -87,13 +87,21 @@ public class GardenManagementController {
         TitledPane userTasks = new TitledPane();
 
         // Create dropdown for user tasks
-        ListView<HBox> taskList = createUserTasks(person);
+        ListView<Task> taskList = new ListView<Task>();
+        taskList.getItems().addAll(person.getTasks());
+        taskList.setCellFactory(this::renderCell);
 
+        Button assignTasksButton = new Button("Assign Task");
+        assignTasksButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                addTask(person);
+                taskList.getItems().add(person.getNewestTask());
+            }
+        });
+        VBox taskBox = new VBox(assignTasksButton, taskList);
 
-        // Create dropdown for user tasks
-        taskList = createUserTasks(person);
-
-        userTasks = new TitledPane("Assigned Tasks", taskList);
+        userTasks = new TitledPane("Assigned Tasks", taskBox);
         userTasks.getStyleClass().add("userSectionTitlePane");
 
 
@@ -107,71 +115,82 @@ public class GardenManagementController {
         return userSection;
     }
 
+    private ListCell<Task> renderCell(ListView<Task> taskList) {
+        return new ListCell<Task>(){
+            @Override
+            protected void updateItem(Task task, boolean empty){
+                super.updateItem(task,empty);
+
+                // Create Assign Task Button
+
+               /* Label detailsLabel = new Label("Details");
+                Label assignedDateLabel = new Label("Assigned Date");
+                Label dueDateLabel = new Label("Due Date");
+
+                HBox detailsTitle = new HBox(detailsLabel, assignedDateLabel, dueDateLabel);
+                taskList.getItems().add(detailsTitle);*/
+
+                if (empty || task == null || task.getId() <= 0 || task.getTaskDetails() == null ||
+                        task.getDueDate() == null || task.getAssignedDate() == null) {
+                    setText(null);
+                    setGraphic(null);
+                }
+                else {
+
+                    HBox taskBox = new HBox();
+                    taskBox.getStyleClass().add("hbox");
+
+                    Label taskId = new Label("ID: " + String.valueOf(task.getId()));
+                    TextField taskDetails = new TextField(task.getTaskDetails());
+                    DatePicker assignedDate = new DatePicker(task.getAssignedDate());
+                    DatePicker dueDate = new DatePicker(task.getDueDate());
+
+                    Button confirmChangesButton = new Button("Confirm Changes");
+                    confirmChangesButton.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent actionEvent) {
+                            try
+                            {
+                                String newTaskDetails = taskDetails.getCharacters().toString();
+                                LocalDate newAssignedDate = assignedDate.getValue();
+                                LocalDate newDueDate = dueDate.getValue();
+                                Task newTask = new Task(newTaskDetails, newAssignedDate, newDueDate, taskCategory.DAILY);
+                                //updateTask(person, task, newTask);
+                            }
+                            catch (Exception e)
+                            {
+                                e.printStackTrace();
+                                displayPopup("Date must be in appropriate format.");
+                            }
+                        }
+                    });
+
+                    Button deleteTaskButton = new Button("Delete Task");
+                    deleteTaskButton.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent actionEvent) {
+                            taskList.getItems().remove(task);
+                            //deleteTask(person, task);
+                        }
+                    });
+
+                    taskBox.getChildren().addAll(taskId, taskDetails, assignedDate, dueDate, confirmChangesButton, deleteTaskButton);
+
+                    setGraphic(taskBox);
+                }
+            }
+        };
+
+    }
+
     /**
      * Creates a list view containing all the user's tasks and options such as adding, deleting and editing tasks
      * @param person the person whose tasks are being listed
      * @return a vertical ListView of HBoxs, each detailing a unique task
      */
-    private ListView<HBox> createUserTasks(IMockPerson person)
-    {
-        //Create dropdown for tasks
-        ListView<HBox> taskList = new ListView<HBox>();
-        taskList.getStyleClass().add("task-list");
-
-        // Create Assign Task Button
-        Button assignTasksButton = new Button("Assign Task");
-        assignTasksButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                addTask(person);
-            }
-        });
-        HBox assignTasksBox = new HBox(assignTasksButton);
-        taskList.getItems().add(assignTasksBox);
-
-        for (Task task : person.getTasks()) {
-            HBox taskBox = new HBox();
-            taskBox.getStyleClass().add("hbox");
-
-            Label taskId = new Label(String.valueOf(task.getId()));
-            TextField taskDetails = new TextField(task.getTaskDetails());
-            DatePicker assignedDate = new DatePicker(task.getAssignedDate());
-            DatePicker dueDate = new DatePicker(task.getDueDate());
-
-            Button confirmChangesButton = new Button("Confirm Changes");
-            confirmChangesButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    try
-                    {
-                        String newTaskDetails = taskDetails.getCharacters().toString();
-                        LocalDate newAssignedDate = assignedDate.getValue();
-                        LocalDate newDueDate = dueDate.getValue();
-                        Task newTask = new Task(newTaskDetails, newAssignedDate, newDueDate, taskCategory.DAILY);
-                        updateTask(person, task, newTask);
-                    }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
-                        displayPopup("Date must be in appropriate format.");
-                    }
-                }
-            });
-
-            Button deleteTaskButton = new Button("Delete Task");
-            deleteTaskButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    taskList.getItems().remove(taskBox);
-                    deleteTask(person, task);
-                }
-            });
-
-            taskBox.getChildren().addAll(taskId, taskDetails, assignedDate, dueDate, confirmChangesButton, deleteTaskButton);
-            taskList.getItems().add(taskBox);
-        }
-        return taskList;
-    }
+//    private ListView<HBox> createUserTasks(IMockPerson person)
+//    {
+//          }
 
 
     /**
@@ -233,7 +252,6 @@ public class GardenManagementController {
         Task task = new Task("New Task", LocalDate.now(), LocalDate.now(), taskCategory.DAILY);
         taskDAO.add(task);
         person.addTask(task);
-        syncPeople();
     }
 
     /**

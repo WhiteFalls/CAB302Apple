@@ -6,48 +6,47 @@
 
 
 .accordion > .titled-pane {
-    -fx-padding: 0 0 0.5em 0;
+    -fx-padding: 0.5em 0 0 0;
     -fx-border-radius: 50%
 
 }
 
-.titled-pane .stack-pane .accordion .list-view{
-    -fx-background-color: rgb(102, 255, 153);
-    -fx-border-radius: 10px;
-}
-
 .hbox {
     -fx-spacing: 1em;
-    -fx-background-color:
+    -fx-background-color: #81C049;
+}
+
+.titled-pane {
+    -fx-background-radius: 20px;
 }
 
 .titled-pane > .title {
     -fx-alignment: center;
-    -fx-border-radius: 10px;
-    -fx-background-color: rgb(102, 255, 153);;
+    -fx-background-color: rgba(232, 230, 225, 0.9);
+    -fx-border-width: 1px;
+    -fx-border-radius: 20px;
 }
 
 .titled-pane > .content {
-    -fx-background-color: rgb(102, 255, 153);;
+    -fx-background-color: #81C049;
+    -fx-border-radius: 20px;
 }
 
 .task-list {
-    -fx-background-color: rgb(102, 255, 153);;
+    -fx-background-color: #81C049;
 
 }
 
 .list-view {
-    -fx-background-color: rgb(102, 255, 153);;
-
+    -fx-background-color: #81C049;
 }
 
 .page-title {
-    -fx-background-color: green;
+    -fx-background-color: #81C049;
 }
 
 .exit-button {
     -fx-background-color: transparent;
-    -fx-color: green;
 }
 
 .titled-pane > .title > .arrow-button {

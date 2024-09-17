@@ -14,7 +14,7 @@
       </Button>
       <StackPane alignment="TOP_CENTER" layoutX="500.0" layoutY="14.0" prefHeight="30.0" prefWidth="200.0">
          <children>
-            <Label alignment="TOP_CENTER" contentDisplay="CENTER" style="-fx-background-color: rgb(92,173,92);" styleClass="page-title" text="Garden Manager" textAlignment="CENTER">
+            <Label alignment="TOP_CENTER" contentDisplay="CENTER" style="-fx-background-color: #81C049;;" styleClass="page-title" text="Garden Manager" textAlignment="CENTER">
                <font>
                   <Font size="24.0" />
                </font>
