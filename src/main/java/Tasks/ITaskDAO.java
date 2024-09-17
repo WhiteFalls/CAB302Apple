@@ -1,15 +1,15 @@
 package Tasks;
 
-import java.util.ArrayList;
+import People.Person;
+
+import java.util.List;
 
 public interface ITaskDAO {
-    ArrayList<Task> getUserTasks(IMockPerson person);
-
-    public void delete(int id);
-
-    public void update(Task task);
-
-    public void add(Task task);
-
-    public ArrayList<Task> getCategorisedTasks(IMockPerson person, taskCategory category);
+    void add(Task task);
+    Task get(int id);
+    List<Task> getAllTasks();
+    void update(Task task);
+    void delete(int id);
+    Object getUserTasks(Person person);
+    List<Task> getCategorisedTasks(Person person, taskCategory taskCategory);
 }

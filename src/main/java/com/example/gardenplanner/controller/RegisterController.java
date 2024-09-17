@@ -1,6 +1,8 @@
 package com.example.gardenplanner.controller;
 
 import Database.IPersonDAO;
+import Database.PersonDAO;
+import People.Person;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
@@ -13,45 +15,54 @@ public class RegisterController {
     @FXML
     private TextField lastNameField;
     @FXML
-    private TextField emailField;
+    public TextField emailField;
     @FXML
     private PasswordField passwordField;
     @FXML
     private PasswordField confirmPasswordField;
 
-    private final IPersonDAO personDAO;
-
-    // Database URL for SQLite
-    private static final String DB_URL = "jdbc:sqlite:GardenPlanner.db";
+    private IPersonDAO personDAO;
 
     public RegisterController() {
-        personDAO = new PersonDAO();  // Connect to the actual database
+        personDAO = new PersonDAO();
     }
 
     @FXML
-    public void registerUser(String name, String email) {
-        // Create a new Person object with the user input
-        Person newPerson = new Person(name, email);
-
-        // Check if the person already exists
-        if (personExists(newPerson)) {
-            // Handle the case where the user is already registered
-            showAlert("Error", "User already exists!");
-        } else {
-            // Save the new user to the database
-            personDAO.addPerson(newPerson);
-            showAlert("Success", "User successfully registered!");
+    public void registerUser() {
+        // Validate user input before proceeding
+        if (!validateInput()) {
+            return;  // If validation fails, do not proceed
         }
+
+        // Create a new Person object with the user input
+        Person newPerson = new Person(
+                firstNameField.getText(),
+                lastNameField.getText(),
+                emailField.getText(),
+                passwordField.getText()
+        );
+
+        System.out.println("First Name: " + newPerson.getFirstName());
+        System.out.println("Last Name: " + newPerson.getLastName());
+        System.out.println("Email: " + emailField.getText());
+        System.out.println("Password: " + newPerson.getPassword());
+
+
+        // Save the new user to the database
+        personDAO.addPerson(newPerson);
+        showAlert("Success", "User successfully registered!");
+
+        // Clear input fields after successful registration
+//        clearFields();
     }
 
-    // Checks to see if user exists
-    private boolean personExists(Person person) {
-        Person existingPerson = personDAO.getPersonByEmail(person.getEmail());
-        return existingPerson != null;
-    }
+    private boolean validateInput() {
+        String firstName = firstNameField.getText();
+        String lastName = lastNameField.getText();
+        String email = emailField.getText();
+        String password = passwordField.getText();
+        String confirmPassword = confirmPasswordField.getText();
 
-    // Validates user input
-    private boolean validateInput(String firstName, String lastName, String email, String password, String confirmPassword) {
         if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
             showAlert("Validation Error", "All fields are required.");
             return false;
@@ -62,10 +73,9 @@ public class RegisterController {
             return false;
         }
 
-        return true;
+        return true;  // If all validations pass, return true
     }
 
-    // Show an alert dialog with a message
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
@@ -74,12 +84,16 @@ public class RegisterController {
         alert.showAndWait();
     }
 
-    // Clears the fields after successful registrationn
     private void clearFields() {
         firstNameField.clear();
         lastNameField.clear();
         emailField.clear();
         passwordField.clear();
         confirmPasswordField.clear();
+    }
+
+    @FXML
+    public void initialize() {
+        System.out.println("RegisterController initialized.");
     }
 }
