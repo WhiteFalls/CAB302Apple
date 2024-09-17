@@ -23,6 +23,7 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class GardenManagementController {
     // Fields
@@ -88,6 +89,7 @@ public class GardenManagementController {
 
         // Create dropdown for user tasks
         ListView<Task> taskList = new ListView<Task>();
+        taskList.getStyleClass().add("taskList");
         taskList.getItems().addAll(person.getTasks());
         taskList.setCellFactory(this::renderCell);
 
@@ -121,15 +123,6 @@ public class GardenManagementController {
             protected void updateItem(Task task, boolean empty){
                 super.updateItem(task,empty);
 
-                // Create Assign Task Button
-
-               /* Label detailsLabel = new Label("Details");
-                Label assignedDateLabel = new Label("Assigned Date");
-                Label dueDateLabel = new Label("Due Date");
-
-                HBox detailsTitle = new HBox(detailsLabel, assignedDateLabel, dueDateLabel);
-                taskList.getItems().add(detailsTitle);*/
-
                 if (empty || task == null || task.getId() <= 0 || task.getTaskDetails() == null ||
                         task.getDueDate() == null || task.getAssignedDate() == null) {
                     setText(null);
@@ -155,7 +148,7 @@ public class GardenManagementController {
                                 LocalDate newAssignedDate = assignedDate.getValue();
                                 LocalDate newDueDate = dueDate.getValue();
                                 Task newTask = new Task(newTaskDetails, newAssignedDate, newDueDate, taskCategory.DAILY);
-                                //updateTask(person, task, newTask);
+                                updateTask(task, newTask);
                             }
                             catch (Exception e)
                             {
@@ -169,8 +162,11 @@ public class GardenManagementController {
                     deleteTaskButton.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent actionEvent) {
-                            taskList.getItems().remove(task);
-                            //deleteTask(person, task);
+                            if (displayConfirmPopup("Are you sure?"))
+                            {
+                                taskList.getItems().remove(task);
+                                deleteTask(task);
+                            }
                         }
                     });
 
@@ -182,16 +178,6 @@ public class GardenManagementController {
         };
 
     }
-
-    /**
-     * Creates a list view containing all the user's tasks and options such as adding, deleting and editing tasks
-     * @param person the person whose tasks are being listed
-     * @return a vertical ListView of HBoxs, each detailing a unique task
-     */
-//    private ListView<HBox> createUserTasks(IMockPerson person)
-//    {
-//          }
-
 
     /**
      * Creates a section listing other non-task related options for the user
@@ -217,29 +203,24 @@ public class GardenManagementController {
 
     /**
      * Updates a user's task with a new task
-     * @param person The user whose task is being updated
      * @param oldTask The old task that is being replaced
      * @param newTask The new task that is replacing the old task
      */
-    public void updateTask(IMockPerson person, Task oldTask, Task newTask)
+    public void updateTask(Task oldTask, Task newTask)
     {
         if (newTask != null) {
             newTask.setId(oldTask.getId());
-            person.editTask(newTask, oldTask);
-            taskDAO.update(newTask);
-            syncPeople();
+            taskDAO.update(oldTask, newTask);
         }
     }
 
     /**
      * Deletes a user's task
-     * @param person The person whose task is being deleted
      * @param task The task to be deleted
      */
-    private void deleteTask(IMockPerson person, Task task)
+    private void deleteTask(Task task)
     {
         // Get the selected contact from the list view
-            person.removeTask(task);
             taskDAO.delete(task);
     }
 
@@ -275,5 +256,20 @@ public class GardenManagementController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    private boolean displayConfirmPopup(String message)
+    {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("CONFIRMATION");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK)
+        {
+            return true;
+        }
+        return false;
     }
 }

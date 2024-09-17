@@ -13,7 +13,7 @@
 
 .hbox {
     -fx-spacing: 1em;
-    -fx-background-color: #81C049;
+    -fx-background-color: transparent;
 }
 
 .titled-pane {
@@ -32,9 +32,15 @@
     -fx-border-radius: 20px;
 }
 
-.task-list {
+.taskList {
     -fx-background-color: #81C049;
+}
 
+.list-view .list-cell {
+    -fx-background-color: #81C049;
+}
+.list-view .list-cell:odd {
+    -fx-background-color: #9fed58;
 }
 
 .list-view {

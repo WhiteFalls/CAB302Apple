@@ -29,7 +29,7 @@ public class MockTaskDAO implements ITaskDAO{
 
     }
 
-    public void update(Task task)
+    public void update(Task oldTask, Task newTask)
     {
 
     }

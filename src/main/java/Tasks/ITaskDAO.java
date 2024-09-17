@@ -17,7 +17,7 @@ public interface ITaskDAO {
      * Updates a task in the database
      * @param task The task to be updated
      */
-    public void update(Task task);
+    public void update(Task oldTask, Task newTask);
 
     /**
      * Add a task to the database
