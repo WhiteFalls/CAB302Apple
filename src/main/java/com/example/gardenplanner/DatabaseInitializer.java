@@ -1,9 +1,6 @@
 package com.example.gardenplanner;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class DatabaseInitializer {
 
@@ -67,8 +64,63 @@ public class DatabaseInitializer {
             """;
             statement.executeUpdate(createTablesQuery);
             System.out.println("Database and tables created successfully.");
+
+            checkAndInsertDefaultUsers(connection);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private static void checkAndInsertDefaultUsers(Connection connection) {
+        try {
+            // Check if the users already exist
+            String userCheckQuery = "SELECT COUNT(*) AS userCount FROM Users WHERE fname IN ('test', 'Liam', 'John')";
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(userCheckQuery);
+
+            if (rs.next() && rs.getInt("userCount") == 0) {
+                // If no users exist, insert test, Liam, and John
+                String insertUsersQuery = """
+                    INSERT INTO Users (fname, lname, email, password) VALUES
+                    ('test', 'user', 'test@test.com', 'testpass'),
+                    ('Liam', 'Smith', 'liam@test.com', 'liampass'),
+                    ('John', 'Doe', 'john@test.com', 'johnpass');
+                """;
+                stmt.executeUpdate(insertUsersQuery);
+
+                // Fetch user IDs for Liam and John to assign tasks
+                int liamId = getUserIdByName(connection, "Liam");
+                int johnId = getUserIdByName(connection, "John");
+
+                // Insert tasks for Liam and John
+                String insertTasksQuery = """
+                    INSERT INTO Tasks (user_id, garden_id, assigned_date, due_date, task_details) VALUES
+                    (?, 1, '2024-09-01', '2024-09-15', 'Water the plants'),
+                    (?, 1, '2024-09-01', '2024-09-10', 'Prune the shrubs');
+                """;
+                PreparedStatement taskStmt = connection.prepareStatement(insertTasksQuery);
+                taskStmt.setInt(1, liamId);
+                taskStmt.setInt(2, johnId);
+
+                taskStmt.executeUpdate();
+                System.out.println("Default users and tasks inserted.");
+            } else {
+                System.out.println("Users already exist, skipping insertion.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static int getUserIdByName(Connection connection, String firstName) throws SQLException {
+        String query = "SELECT user_id FROM Users WHERE fname = ?";
+        try (PreparedStatement prep = connection.prepareStatement(query)) {
+            prep.setString(1, firstName);
+            ResultSet rs = prep.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("user_id");
+            }
+        }
+        throw new SQLException("User with first name " + firstName + " not found.");
     }
 }

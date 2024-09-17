@@ -1,7 +1,5 @@
 package Tasks;
 
-import People.IMockPerson;
-
 import java.time.LocalDate;
 
 public interface ITask {

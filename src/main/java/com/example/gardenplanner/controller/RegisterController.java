@@ -1,14 +1,10 @@
 package com.example.gardenplanner.controller;
 
+import Database.IPersonDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 public class RegisterController {
 
@@ -23,34 +19,35 @@ public class RegisterController {
     @FXML
     private PasswordField confirmPasswordField;
 
+    private final IPersonDAO personDAO;
+
     // Database URL for SQLite
     private static final String DB_URL = "jdbc:sqlite:GardenPlanner.db";
 
+    public RegisterController() {
+        personDAO = new PersonDAO();  // Connect to the actual database
+    }
+
     @FXML
-    private void registerUser() {
-        String firstName = firstNameField.getText();
-        String lastName = lastNameField.getText();
-        String email = emailField.getText();
-        String password = passwordField.getText();
-        String confirmPassword = confirmPasswordField.getText();
+    public void registerUser(String name, String email) {
+        // Create a new Person object with the user input
+        Person newPerson = new Person(name, email);
 
-        if (validateInput(firstName, lastName, email, password, confirmPassword)) {
-            try (Connection conn = DriverManager.getConnection(DB_URL)) {
-                String sql = "INSERT INTO Users (fname, lname, email, password) VALUES (?, ?, ?, ?)";
-                PreparedStatement pstmt = conn.prepareStatement(sql);
-                pstmt.setString(1, firstName);
-                pstmt.setString(2, lastName);
-                pstmt.setString(3, email);
-                pstmt.setString(4, password);
-
-                pstmt.executeUpdate();
-                showAlert("Registration Successful", "User registered successfully!");
-                clearFields();
-            } catch (SQLException e) {
-                e.printStackTrace();
-                showAlert("Database Error", "Failed to register user.");
-            }
+        // Check if the person already exists
+        if (personExists(newPerson)) {
+            // Handle the case where the user is already registered
+            showAlert("Error", "User already exists!");
+        } else {
+            // Save the new user to the database
+            personDAO.addPerson(newPerson);
+            showAlert("Success", "User successfully registered!");
         }
+    }
+
+    // Checks to see if user exists
+    private boolean personExists(Person person) {
+        Person existingPerson = personDAO.getPersonByEmail(person.getEmail());
+        return existingPerson != null;
     }
 
     // Validates user input

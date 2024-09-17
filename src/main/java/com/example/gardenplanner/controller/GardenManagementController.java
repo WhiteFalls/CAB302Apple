@@ -1,12 +1,10 @@
 package com.example.gardenplanner.controller;
 
-import People.IMockPerson;
 import Tasks.ITaskDAO;
 import Tasks.MockTaskDAO;
 import Tasks.Task;
 import Tasks.taskCategory;
 import Database.IPersonDAO;
-import Database.MockPersonDAO;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -26,13 +24,15 @@ public class GardenManagementController {
     private Accordion userDropBox;
 
     private IPersonDAO personDAO;
+    private GardenDAO gardenDAO;
     private ITaskDAO taskDAO;
 
     // Constructor
     public GardenManagementController()
     {
         taskDAO = new MockTaskDAO();
-        personDAO = new MockPersonDAO();
+        personDAO = new PersonDAO();
+        gardenDAO = new GardenDAO();
     }
 
     // Methods

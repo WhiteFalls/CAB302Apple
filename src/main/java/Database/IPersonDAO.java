@@ -1,5 +1,5 @@
 package Database;
-import People.IMockPerson;
+import People.Person;
 
 import java.util.ArrayList;
 
@@ -8,6 +8,8 @@ import java.util.ArrayList;
  * the CRUD operations for the Contact class with the database.
  */
 public interface IPersonDAO {
+    void addPerson(Person person);
+
     /**
      * Adds a new contact to the database.
      * @param mockPerson The contact to add.
