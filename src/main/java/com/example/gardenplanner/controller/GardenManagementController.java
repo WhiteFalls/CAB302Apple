@@ -2,6 +2,7 @@ package com.example.gardenplanner.controller;
 
 import People.IMockPerson;
 import People.MockPerson;
+import People.Person;
 import Tasks.ITaskDAO;
 import Tasks.MockTaskDAO;
 import Tasks.Task;
@@ -66,7 +67,13 @@ public class GardenManagementController {
         ArrayList<IMockPerson> people = personDAO.getAllPeople();
         boolean hasPeople = !people.isEmpty();
 
+
         if (hasPeople) {
+            // Create dropdown for adding users
+            TitledPane addUsers = getAddUsersSection();
+            userDropBox.getPanes().add(addUsers);
+
+            // Create dropdown for each user
             for (IMockPerson person : personDAO.getAllPeople()){
                 TitledPane user = createUserSection(person);
                 user.getStyleClass().add("userSectionTitlePane");
@@ -78,6 +85,31 @@ public class GardenManagementController {
         userDropBox.setVisible(hasPeople);
     }
 
+    private TitledPane getAddUsersSection() {
+        Label addUsersLabel = new Label("Type in the user ID: ");
+        TextField addUserText = new TextField();
+        Button addUserButton = new Button("Add User");
+        addUserButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                try{
+                    int userId = Integer.parseInt(addUserText.getCharacters().toString());
+                    addUser(userId);
+                }
+                catch (NumberFormatException e)
+                {
+                    displayPopup("User ID must be a valid number.");
+                }
+            }
+        });
+
+        HBox addUsersBox = new HBox(addUsersLabel, addUserText, addUserButton);
+        addUsersBox.getStyleClass().add("hbox");
+
+        TitledPane addUsers = new TitledPane("Add Users", addUsersBox);
+        return addUsers;
+    }
+
     /**
      * Creates a title pane for a user that contains their task and other user options
      * @param person The person whose tasks and options will be displayed
@@ -85,8 +117,6 @@ public class GardenManagementController {
      */
     private TitledPane createUserSection(IMockPerson person)
     {
-        TitledPane userTasks = new TitledPane();
-
         // Create dropdown for user tasks
         ListView<Task> taskList = new ListView<Task>();
         taskList.getStyleClass().add("taskList");
@@ -103,7 +133,7 @@ public class GardenManagementController {
         });
         VBox taskBox = new VBox(assignTasksButton, taskList);
 
-        userTasks = new TitledPane("Assigned Tasks", taskBox);
+        TitledPane userTasks = new TitledPane("Assigned Tasks", taskBox);
         userTasks.getStyleClass().add("userSectionTitlePane");
 
 
@@ -243,6 +273,18 @@ public class GardenManagementController {
     {
         personDAO.deletePerson(person);
         syncPeople();
+    }
+
+    private void addUser(int id)
+    {
+        IMockPerson newPerson = personDAO.getPerson(id);
+        if (newPerson == null)
+        {
+            displayPopup("No user with that ID exists");
+        }
+        else {
+            syncPeople();
+        }
     }
 
     /**
