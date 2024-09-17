@@ -8,6 +8,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 public class RegisterController {
 
     @FXML
@@ -21,10 +25,12 @@ public class RegisterController {
     @FXML
     private PasswordField confirmPasswordField;
 
+    private Connection connection;
+
     private IPersonDAO personDAO;
 
     public RegisterController() {
-        personDAO = new PersonDAO();
+        personDAO = new PersonDAO(connection);
     }
 
     @FXML

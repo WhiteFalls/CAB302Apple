@@ -10,8 +10,8 @@ public class PersonDAO implements IPersonDAO {
     private final Connection connection;
 
     // Constructor to initialize the database connection
-    public PersonDAO() {
-        connection = DatabaseConnection.getConnection();
+    public PersonDAO(Connection connection) {
+        this.connection = DatabaseConnection.getConnection();
     }
 
     @Override
@@ -27,7 +27,7 @@ public class PersonDAO implements IPersonDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
+        }
 
 
     @Override

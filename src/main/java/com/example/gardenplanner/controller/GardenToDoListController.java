@@ -16,6 +16,11 @@ import javafx.scene.text.Text;
 import java.time.LocalDate;
 import java.util.List;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+
 public class GardenToDoListController {
     @FXML
     private Accordion dropboxTasks;
@@ -25,6 +30,8 @@ public class GardenToDoListController {
     private TitledPane dailyTasks;
     @FXML
     private TitledPane customTasks;
+
+    private Connection connection;
 
     private ITaskDAO taskDAO;
     private IPersonDAO personDAO;
@@ -37,7 +44,7 @@ public class GardenToDoListController {
     // Constructor
     public GardenToDoListController() {
         taskDAO = new TaskDAO();  // Use real TaskDAO
-        personDAO = new PersonDAO();  // Use real PersonDAO
+        personDAO = new PersonDAO(connection);  // Use real PersonDAO
         person = personDAO.getPerson(1);  // Load person from the database, person with id 1
         addTask(person, "Plant Beans", taskCategory.WEEKLY);
     }

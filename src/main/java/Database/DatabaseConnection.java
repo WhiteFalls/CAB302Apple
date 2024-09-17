@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class DatabaseConnection {
 
-    private static final String DB_URL = "jdbc:sqlite:GardenPlanner.db";
+    private static final String DB_URL = "jdbc:sqlite:GardenPlanner.sqlite";
 
     public static Connection getConnection() {
         Connection connection = null;

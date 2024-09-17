@@ -21,10 +21,16 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+
 public class GardenManagementController {
     // Fields
     @FXML
     private Accordion userDropBox;
+    private Connection connection;
 
     private IPersonDAO personDAO;
     private GardenDAO gardenDAO;
@@ -32,9 +38,9 @@ public class GardenManagementController {
 
     // Constructor
     public GardenManagementController() {
-        taskDAO = new TaskDAO();  // Replace with real TaskDAO
-        personDAO = new PersonDAO();  // Replace with real PersonDAO
-        gardenDAO = new GardenDAO();  // Replace with real GardenDAO
+        taskDAO = new TaskDAO();
+        personDAO = new PersonDAO(connection);
+        gardenDAO = new GardenDAO();
     }
 
     // Methods

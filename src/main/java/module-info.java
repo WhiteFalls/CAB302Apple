@@ -5,6 +5,7 @@ module com.example.gardenplanner {
     requires org.testng;
     requires java.desktop;
     requires java.sql;
+    requires org.junit.jupiter.api;
 
 
     opens com.example.gardenplanner to javafx.fxml;

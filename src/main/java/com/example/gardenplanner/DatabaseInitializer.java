@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class DatabaseInitializer {
 
-    private static final String DB_URL = "jdbc:sqlite:GardenPlanner.db";
+    private static final String DB_URL = "jdbc:sqlite:GardenPlanner.sqlite";
 
     public static void checkAndCreateDatabase() {
         try (Connection connection = DriverManager.getConnection(DB_URL);
