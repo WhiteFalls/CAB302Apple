@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 public class Person implements IPerson {
     private static final Logger LOGGER = Logger.getLogger(Person.class.getName());
 
-    private int userId;  // User ID should likely be an integer
+    private int userId;  // User ID should be an integer not a string XD
     private String firstName;
     private String lastName;
     private String password;
