@@ -1,7 +1,6 @@
-import People.MockPerson;
+import People.Person;
 import Tasks.Task;
 import Tasks.taskCategory;
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -10,19 +9,19 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.time.LocalDate;
 
 public class PersonTest {
-    private MockPerson person;
+    private Person person;
     private Task task;
 
     @BeforeEach
     public void setUp() {
-        person = new MockPerson("John", "Doe", "john.doe@example.com", "1234567890");
+        person = new Person("John", "Doe", "john.doe@example.com", "1234567890");
         task = new Task("task", LocalDate.now(), LocalDate.now(), taskCategory.DAILY);
     }
 
     @org.junit.jupiter.api.Test
     public void testGetId() {
-        person.setId(1);
-        assertEquals(1, person.getId());
+        person.setUserId(1);
+        assertEquals(1, person.getUserId());
     }
 
     @org.junit.jupiter.api.Test
@@ -77,7 +76,7 @@ public class PersonTest {
     @org.junit.jupiter.api.Test
     public void testAddTask() {
         person.addTask(task);
-        assertEquals(task, person.getTasks().get(0));
+        assertEquals(task, person.getTasks()[0]);
     }
 
     @org.junit.jupiter.api.Test
@@ -86,14 +85,14 @@ public class PersonTest {
 
         Task new_task = new Task("new_task", LocalDate.now(), LocalDate.now(), taskCategory.DAILY);
         person.editTask(new_task, task);
-        assertEquals(new_task, person.getTasks().get(0));
+        assertEquals(new_task, person.getTasks()[0]);
     }
 
     @org.junit.jupiter.api.Test
     public void testRemoveTask() {
         person.addTask(task);
-        person.removeTask(task);
-        assertTrue(person.getTasks().isEmpty());
+        person.removeTask(task.getId());
+        assertTrue(person.getTasks().length == 0);
 
     }
 

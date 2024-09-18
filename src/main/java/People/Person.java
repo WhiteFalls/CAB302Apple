@@ -48,6 +48,7 @@ public class Person implements IPerson {
     @Override
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+        updatePersonInDatabase("fname", firstName);
     }
 
     @Override
@@ -58,6 +59,7 @@ public class Person implements IPerson {
     @Override
     public void setLastName(String lastName) {
         this.lastName = lastName;
+        updatePersonInDatabase("lname", lastName);
     }
 
     @Override
@@ -104,13 +106,41 @@ public class Person implements IPerson {
     }
 
     @Override
+    public Task getNewestTask() {
+        return tasks.getLast();
+    }
+
+    @Override
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    @Override
+    public void addTask(Task task) {
+        tasks.add(task);
+    }
+
+    @Override
+    public void editTask(Task newTask, Task oldTask) {
+        int index = tasks.indexOf(oldTask);
+        if (index >= 0) {
+            tasks.set(index, newTask);
+        }
+    }
+
+    @Override
+    public void removeTask(int id) {
+        tasks.removeIf(task -> task.getId() == id);
+    }
+
+    @Override
     public void setUserId(String userId) {
 
     }
 
     @Override
     public void setUserId(int userId) {
-        throw new UnsupportedOperationException("User ID is immutable.");
+        this.userId = userId;
     }
 
     @Override
@@ -146,10 +176,10 @@ public class Person implements IPerson {
                 this.email = resultSet.getString("email");
                 this.password = resultSet.getString("password");
             } else {
-                LOGGER.warning("User with ID " + userId + " not found.");
+                System.out.println("User with ID " + userId + " not found.");
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Failed to load person from database", e);
+            e.printStackTrace();
         }
     }
 
@@ -162,12 +192,12 @@ public class Person implements IPerson {
             int rowsUpdated = preparedStatement.executeUpdate();
 
             if (rowsUpdated > 0) {
-                LOGGER.info("User " + field + " updated successfully.");
+                System.out.println("User " + field + " updated successfully.");
             } else {
-                LOGGER.warning("Failed to update " + field + " for user " + userId);
+                System.out.println("Failed to update " + field + " for user " + userId);
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Failed to update person in database", e);
+            e.printStackTrace();
         }
     }
 

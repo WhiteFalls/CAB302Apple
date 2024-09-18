@@ -1,5 +1,6 @@
 package com.example.gardenplanner.controller;
 
+import People.IPerson;
 import Tasks.ITaskDAO;
 import Tasks.Task;
 import Tasks.TaskDAO;
@@ -35,7 +36,7 @@ public class GardenToDoListController {
 
     private ITaskDAO taskDAO;
     private IPersonDAO personDAO;
-    private Person person;
+    private IPerson person;
 
     private ListView<Task> dailyListView = new ListView<>();
     private ListView<Task> weeklyListView = new ListView<>();
@@ -61,7 +62,7 @@ public class GardenToDoListController {
         syncPerson(person);
     }
 
-    private void syncPerson(Person person) {
+    private void syncPerson(IPerson person) {
         dailyListView.getItems().clear();
         weeklyListView.getItems().clear();
         customListView.getItems().clear();
@@ -86,10 +87,10 @@ public class GardenToDoListController {
 //    }
 
     private ListCell<Task> renderCell(ListView<Task> taskList) {
-        return new ListCell<Task>() {
+        return new ListCell<Task>(){
             @Override
-            protected void updateItem(Task task, boolean empty) {
-                super.updateItem(task, empty);
+            protected void updateItem(Task task, boolean empty){
+                super.updateItem(task,empty);
 
                 if (empty || task == null || task.getId() <= 0 || task.getTaskDetails() == null ||
                         task.getDueDate() == null || task.getAssignedDate() == null) {
@@ -139,7 +140,6 @@ public class GardenToDoListController {
                         customListView.getItems().add(task);
                         break;
                 }
-                System.out.println("Task list items: " + task.getTaskDetails());
             }
         }
 
@@ -159,11 +159,12 @@ public class GardenToDoListController {
         syncPerson(person);
     }
 
-    private void addTask(Person person, String taskDescription, taskCategory category) {
+    private void addTask(IPerson person, String taskDescription, taskCategory category)
+    {
         try {
             Task task = new Task(taskDescription, LocalDate.now(), LocalDate.now(), category);
             taskDAO.add(task);
-            person.addTask(task);  // Assuming Person class has a method to add tasks
+            person.addTask(task);
         } catch (IllegalArgumentException e) {
             System.out.println("Invalid category: " + category);
         }

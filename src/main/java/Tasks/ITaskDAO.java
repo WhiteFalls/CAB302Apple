@@ -1,15 +1,36 @@
 package Tasks;
 
-import People.Person;
+import People.IPerson;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public interface ITaskDAO {
-    void add(Task task);
-    Task get(int id);
-    List<Task> getAllTasks();
-    void update(Task task);
-    void delete(int id);
-    Object getUserTasks(Person person);
-    List<Task> getCategorisedTasks(Person person, taskCategory taskCategory);
+    ArrayList<Task> getUserTasks(IPerson person);
+
+    /**
+     * Deletes a task from the database
+     * @param task The task to be deleted
+     */
+    public void delete(Task task);
+
+    /**
+     * Updates a task in the database
+     * @param oldTask The task to be updated
+     * @param newTask The task that will replace oldTask
+     */
+    public void update(Task oldTask, Task newTask);
+
+    /**
+     * Add a task to the database
+     * @param task The task to be added
+     */
+    public void add(Task task);
+
+    /**
+     * Returns all the tasks of a person associated with a certain category
+     * @param person
+     * @param category
+     * @return
+     */
+    public ArrayList<Task> getCategorisedTasks(IPerson person, taskCategory category);
 }

@@ -1,5 +1,5 @@
 package Database;
-import People.Person;
+import People.IPerson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,13 +9,30 @@ import java.util.List;
  * the CRUD operations for the Contact class with the database.
  */
 public interface IPersonDAO {
-    void addPerson(Person newPerson);
-
-    Person getPersonByEmail(String email);
-
-    Person getPerson(int id);
-
-    List<Person> getAllPeople();
-
-    void deletePerson(Person person);
+    /**
+     * Adds a new contact to the database.
+     * @param person The contact to add.
+     */
+    public void addPerson(IPerson person);
+    /**
+     * Updates an existing contact in the database.
+     * @param person The contact to update.
+     */
+    public void updatePerson(IPerson person);
+    /**
+     * Deletes a contact from the database.
+     * @param person The contact to delete.
+     */
+    public void deletePerson(IPerson person);
+    /**
+     * Retrieves a contact from the database.
+     * @param id The id of the contact to retrieve.
+     * @return The contact with the given id, or null if not found.
+     */
+    public IPerson getPerson(int id);
+    /**
+     * Retrieves all contacts from the database.
+     * @return A list of all contacts in the database.
+     */
+    public ArrayList<IPerson> getAllPeople();
 }

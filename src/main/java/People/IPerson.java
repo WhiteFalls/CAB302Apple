@@ -78,6 +78,8 @@ public interface IPerson {
 
     Task[] getTasks();
 
+    Task getNewestTask();
+
     void setTasks(Object userTasks);
 
     void setTasks(List<Task> tasks);

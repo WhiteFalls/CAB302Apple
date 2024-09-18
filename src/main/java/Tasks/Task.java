@@ -1,5 +1,4 @@
 package Tasks;
-
 import java.time.LocalDate;
 
 
@@ -52,6 +51,10 @@ public class Task implements ITask {
 
     public LocalDate getDueDate() {
         return dueDate;
+    }
+
+    public int getId() {
+        return taskId;
     }
 
     public void setDueDate(LocalDate dueDate) {
