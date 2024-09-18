@@ -45,7 +45,7 @@ public class MockPerson implements IMockPerson {
 
     @Override
     public void setFirstName(String firstName) {
-
+        this.firstName = firstName;
     }
 
     @Override
@@ -60,7 +60,7 @@ public class MockPerson implements IMockPerson {
 
     @Override
     public String getName() {
-        return firstName.concat(lastName);
+        return firstName + " " + lastName;
     }
 
     @Override
@@ -75,7 +75,7 @@ public class MockPerson implements IMockPerson {
 
     @Override
     public void setPassword(String password) {
-
+        this.password = password;
     }
 
     @Override

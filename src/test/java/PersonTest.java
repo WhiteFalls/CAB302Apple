@@ -1,14 +1,13 @@
 import People.MockPerson;
-import People.Person;
 import Tasks.Task;
 import Tasks.taskCategory;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.time.LocalDate;
 
 public class PersonTest {
     private MockPerson person;
@@ -17,7 +16,7 @@ public class PersonTest {
     @BeforeEach
     public void setUp() {
         person = new MockPerson("John", "Doe", "john.doe@example.com", "1234567890");
-        Task task = new Task("task", LocalDate.now(), LocalDate.now(), taskCategory.DAILY);
+        task = new Task("task", LocalDate.now(), LocalDate.now(), taskCategory.DAILY);
     }
 
     @org.junit.jupiter.api.Test
@@ -65,23 +64,23 @@ public class PersonTest {
     }
 
     @org.junit.jupiter.api.Test
-    public void testSetPhone() {
+    public void testSetPassword() {
         person.setPassword("0987654321");
         assertEquals("0987654321", person.getPassword());
     }
 
     @org.junit.jupiter.api.Test
-    public void testGetFullName() {
+    public void testGetName() {
         assertEquals("John Doe", person.getName());
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testAddTask() {
         person.addTask(task);
         assertEquals(task, person.getTasks().get(0));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testEditTask() {
         person.addTask(task);
 
@@ -90,7 +89,7 @@ public class PersonTest {
         assertEquals(new_task, person.getTasks().get(0));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testRemoveTask() {
         person.addTask(task);
         person.removeTask(task);
