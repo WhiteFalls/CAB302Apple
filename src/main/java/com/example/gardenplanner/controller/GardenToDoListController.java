@@ -1,6 +1,6 @@
 package com.example.gardenplanner.controller;
 
-import People.IMockPerson;
+import People.IPerson;
 import Tasks.ITaskDAO;
 import Tasks.MockTaskDAO;
 import Tasks.Task;
@@ -28,7 +28,7 @@ public class GardenToDoListController {
 
     private ITaskDAO taskDAO;
     private IPersonDAO userDAO;
-    private IMockPerson person;
+    private IPerson person;
 
     private ListView<Task> dailyListView = new ListView<>();
     private ListView<Task> weeklyListView = new ListView<>();
@@ -52,7 +52,7 @@ public class GardenToDoListController {
         syncPerson(person);
     }
 
-    private void syncPerson(IMockPerson person) {
+    private void syncPerson(IPerson person) {
         dailyListView.getItems().clear();
         weeklyListView.getItems().clear();
         customListView.getItems().clear();
@@ -149,7 +149,7 @@ public class GardenToDoListController {
         syncPerson(person);
     }
 
-    private void addTask(IMockPerson person, String taskDescription, taskCategory category)
+    private void addTask(IPerson person, String taskDescription, taskCategory category)
     {
         try {
 

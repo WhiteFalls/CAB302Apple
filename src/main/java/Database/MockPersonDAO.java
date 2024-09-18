@@ -1,7 +1,7 @@
 package Database;
 
-import People.IMockPerson;
-import People.MockPerson;
+import People.IPerson;
+import People.Person;
 import Tasks.ITaskDAO;
 import Tasks.Task;
 
@@ -13,35 +13,36 @@ public class MockPersonDAO implements IPersonDAO {
     /**
      * A static list of contacts to be used as a mock database.
      */
-    public static final ArrayList<IMockPerson> people = new ArrayList<>();
+    public static final ArrayList<IPerson> people = new ArrayList<>();
     private static int autoIncrementedId = 0;
     private static ITaskDAO taskDAO;
 
     public MockPersonDAO() {
         //this.taskDAO = taskDAO;
         // Add some initial contacts to the mock database
-        addPerson(new MockPerson("John", "Doe", "johndoe@example.com", "0000"));
-        addPerson(new MockPerson("Jane", "Doe", "janedoe@example.com", "0001"));
-        addPerson(new MockPerson("Jay", "Doe", "jaydoe@example.com", "0002"));
-        addPerson(new MockPerson("Jerry", "Doe", "jerrydoe@example.com", "0003"));
+        addPerson(new Person("John", "Doe", "johndoe@example.com", "0000"));
+        addPerson(new Person("Jane", "Doe", "janedoe@example.com", "0001"));
+        addPerson(new Person("Jay", "Doe", "jaydoe@example.com", "0002"));
+        addPerson(new Person("Jerry", "Doe", "jerrydoe@example.com", "0003"));
     }
 
     @Override
-    public void addPerson(IMockPerson mockPerson) {
-        mockPerson.setId(autoIncrementedId);
+    public void addPerson(IPerson person) {
+        //person.setUserId(autoIncrementedId);
+        person.setUserId(autoIncrementedId);
 
         ArrayList<Task> userTasks = new ArrayList<Task>();
         LocalDate aDate = LocalDate.of(2024, Month.APRIL, 1);
         LocalDate dDate = LocalDate.of(2024, Month.APRIL, 1);
 
         autoIncrementedId++;
-        people.add(mockPerson);
+        people.add(person);
     }
 
     @Override
-    public void updatePerson(IMockPerson contact) {
+    public void updatePerson(IPerson contact) {
         for (int i = 0; i < people.size(); i++) {
-            if (people.get(i).getId() == contact.getId()) {
+            if (people.get(i).getUserId() == contact.getUserId()) {
                 people.set(i, contact);
                 break;
             }
@@ -49,14 +50,14 @@ public class MockPersonDAO implements IPersonDAO {
     }
 
     @Override
-    public void deletePerson(IMockPerson contact) {
+    public void deletePerson(IPerson contact) {
         people.remove(contact);
     }
 
     @Override
-    public IMockPerson getPerson(int id) {
-        for (IMockPerson contact : people) {
-            if (contact.getId() == id) {
+    public IPerson getPerson(int id) {
+        for (IPerson contact : people) {
+            if (contact.getUserId() == id) {
                 return contact;
             }
         }
@@ -64,7 +65,7 @@ public class MockPersonDAO implements IPersonDAO {
     }
 
     @Override
-    public ArrayList<IMockPerson> getAllPeople() {
+    public ArrayList<IPerson> getAllPeople() {
         return new ArrayList<>(people);
     }
 }

@@ -1,11 +1,11 @@
 package Tasks;
 
-import People.IMockPerson;
+import People.IPerson;
 
 import java.util.ArrayList;
 
 public interface ITaskDAO {
-    ArrayList<Task> getUserTasks(IMockPerson person);
+    ArrayList<Task> getUserTasks(IPerson person);
 
     /**
      * Deletes a task from the database
@@ -15,7 +15,8 @@ public interface ITaskDAO {
 
     /**
      * Updates a task in the database
-     * @param task The task to be updated
+     * @param oldTask The task to be updated
+     * @param newTask The task that will replace oldTask
      */
     public void update(Task oldTask, Task newTask);
 
@@ -31,5 +32,5 @@ public interface ITaskDAO {
      * @param category
      * @return
      */
-    public ArrayList<Task> getCategorisedTasks(IMockPerson person, taskCategory category);
+    public ArrayList<Task> getCategorisedTasks(IPerson person, taskCategory category);
 }

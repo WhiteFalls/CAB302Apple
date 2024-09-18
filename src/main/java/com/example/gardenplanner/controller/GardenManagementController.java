@@ -1,6 +1,6 @@
 package com.example.gardenplanner.controller;
 
-import People.IMockPerson;
+import People.IPerson;
 import Tasks.ITaskDAO;
 import Tasks.MockTaskDAO;
 import Tasks.Task;
@@ -44,7 +44,7 @@ public class GardenManagementController {
      * Allocates each task to their respective user and loads the user section
      */
     public void initialize() {
-        for (IMockPerson person : personDAO.getAllPeople())
+        for (IPerson person : personDAO.getAllPeople())
         {
             person.setTasks(taskDAO.getUserTasks(person));
         }
@@ -56,7 +56,7 @@ public class GardenManagementController {
      */
     private void syncPeople() {
         userDropBox.getPanes().clear();
-        ArrayList<IMockPerson> people = personDAO.getAllPeople();
+        ArrayList<IPerson> people = personDAO.getAllPeople();
         boolean hasPeople = !people.isEmpty();
 
 
@@ -66,7 +66,7 @@ public class GardenManagementController {
             userDropBox.getPanes().add(addUsers);
 
             // Create dropdown for each user
-            for (IMockPerson person : personDAO.getAllPeople()){
+            for (IPerson person : personDAO.getAllPeople()){
                 TitledPane user = createUserSection(person);
                 user.getStyleClass().add("userSectionTitlePane");
                 //userSections.add(user);
@@ -107,7 +107,7 @@ public class GardenManagementController {
      * @param person The person whose tasks and options will be displayed
      * @return The title pane containing the user's tasks and options
      */
-    private TitledPane createUserSection(IMockPerson person)
+    private TitledPane createUserSection(IPerson person)
     {
         // Create dropdown for user tasks
         ListView<Task> taskList = new ListView<Task>();
@@ -210,7 +210,7 @@ public class GardenManagementController {
      * @param person The person of whom these options affect
      * @return A title pane containing all non-task related user options
      */
-    private TitledPane createUserOptions(IMockPerson person) {
+    private TitledPane createUserOptions(IPerson person) {
         Button removeUserButton = new Button("Remove User From Garden");
         removeUserButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -255,7 +255,7 @@ public class GardenManagementController {
      * Adds a new task to the user
      * @param person The user who is receiving the new task
      */
-    private void addTask(IMockPerson person)
+    private void addTask(IPerson person)
     {
         Task task = new Task("New Task", LocalDate.now(), LocalDate.now(), taskCategory.DAILY);
         taskDAO.add(task);
@@ -266,7 +266,7 @@ public class GardenManagementController {
      * Removes a user from the garden
      * @param person The person to be removed
      */
-    private void removeUser(IMockPerson person)
+    private void removeUser(IPerson person)
     {
         personDAO.deletePerson(person);
         syncPeople();
@@ -274,7 +274,7 @@ public class GardenManagementController {
 
     private void addUser(int id)
     {
-        IMockPerson newPerson = personDAO.getPerson(id);
+        IPerson newPerson = personDAO.getPerson(id);
         if (newPerson == null)
         {
             displayPopup("No user with that ID exists");

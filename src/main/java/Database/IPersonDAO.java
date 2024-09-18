@@ -1,5 +1,5 @@
 package Database;
-import People.IMockPerson;
+import People.IPerson;
 
 import java.util.ArrayList;
 
@@ -10,28 +10,28 @@ import java.util.ArrayList;
 public interface IPersonDAO {
     /**
      * Adds a new contact to the database.
-     * @param mockPerson The contact to add.
+     * @param person The contact to add.
      */
-    public void addPerson(IMockPerson mockPerson);
+    public void addPerson(IPerson person);
     /**
      * Updates an existing contact in the database.
      * @param person The contact to update.
      */
-    public void updatePerson(IMockPerson person);
+    public void updatePerson(IPerson person);
     /**
      * Deletes a contact from the database.
      * @param person The contact to delete.
      */
-    public void deletePerson(IMockPerson person);
+    public void deletePerson(IPerson person);
     /**
      * Retrieves a contact from the database.
      * @param id The id of the contact to retrieve.
      * @return The contact with the given id, or null if not found.
      */
-    public IMockPerson getPerson(int id);
+    public IPerson getPerson(int id);
     /**
      * Retrieves all contacts from the database.
      * @return A list of all contacts in the database.
      */
-    public ArrayList<IMockPerson> getAllPeople();
+    public ArrayList<IPerson> getAllPeople();
 }

@@ -1,6 +1,6 @@
 package Tasks;
 
-import People.IMockPerson;
+import People.IPerson;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -11,7 +11,7 @@ public class MockTaskDAO implements ITaskDAO{
 
 
     @Override
-    public ArrayList<Task> getUserTasks(IMockPerson person) {
+    public ArrayList<Task> getUserTasks(IPerson person) {
         ArrayList<Task> userTasks = new ArrayList<Task>();
         LocalDate aDate = LocalDate.of(2024, Month.APRIL, 1);
         LocalDate dDate = LocalDate.of(2024, Month.APRIL, 1);
@@ -41,7 +41,7 @@ public class MockTaskDAO implements ITaskDAO{
     }
 
     @Override
-    public ArrayList<Task> getCategorisedTasks(IMockPerson person, taskCategory category) {
+    public ArrayList<Task> getCategorisedTasks(IPerson person, taskCategory category) {
         ArrayList<Task> categorisedTasks = new ArrayList<>();
         for (Task task : person.getTasks()){
             if(task.getCategory() == category) {

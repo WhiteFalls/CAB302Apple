@@ -1,4 +1,9 @@
+
 package People;
+
+import Tasks.Task;
+
+import java.util.List;
 
 public interface IPerson {
     /**
@@ -37,6 +42,8 @@ public interface IPerson {
      */
     void setEmail(String email);
 
+    void setUserId(int userId);
+
     /**
      * Returns the user's password.
      * @return a String of the user's password.
@@ -51,9 +58,10 @@ public interface IPerson {
 
     /**
      * Returns the user's unique ID.
+     *
      * @return a String of the user's ID.
      */
-    String getUserId();
+    int getUserId();
 
     /**
      * Sets the user's unique ID.
@@ -68,4 +76,18 @@ public interface IPerson {
     default String getName() {
         return getFirstName() + " " + getLastName();
     }
+
+    Task[] getTasks();
+
+    Task getNewestTask();
+
+    void setTasks(Object userTasks);
+
+    void setTasks(List<Task> tasks);
+
+    void addTask(Task task);
+
+    void editTask(Task newTask, Task oldTask);
+
+    void removeTask(int id);
 }

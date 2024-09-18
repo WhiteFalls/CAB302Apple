@@ -1,26 +1,44 @@
+
+//This File was and still is pretty mad
+
 package People;
 
+import Tasks.Task;
+
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Person implements IPerson {
+    private static final Logger LOGGER = Logger.getLogger(Person.class.getName());
+
+    private int userId;  // User ID should be an integer not a string XD
     private String firstName;
     private String lastName;
-    private final String userId;
     private String password;
     private String email;
-    /**
-     * Returns person's name
-     * return a string of the user's name
-     */
+    private List<Task> tasks = new ArrayList<>();
 
-    // Constructor to initialize the person object from the database :P
-    public Person(String userId) {
+    // Constructor for loading from database
+    public Person(int userId, Connection connection) {
         this.userId = userId;
-        loadPersonFromDatabase();
+        loadPersonFromDatabase(connection);
+    }
+
+    // Constructor for new Person object to be inserted
+    public Person(String firstName, String lastName, String email, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+    }
+
+    public Person(int userId, String fname, String lname, String email, String password) {
     }
 
     @Override
@@ -31,7 +49,6 @@ public class Person implements IPerson {
     @Override
     public void setFirstName(String firstName) {
         this.firstName = firstName;
-        updatePersonInDatabase("fname", firstName);
     }
 
     @Override
@@ -42,7 +59,6 @@ public class Person implements IPerson {
     @Override
     public void setLastName(String lastName) {
         this.lastName = lastName;
-        updatePersonInDatabase("lname", lastName);
     }
 
     @Override
@@ -51,13 +67,56 @@ public class Person implements IPerson {
     }
 
     @Override
-    public String getUserId() {
+    public Task[] getTasks() {
+        return tasks.toArray(new Task[0]);
+    }
+
+    @Override
+    public Task getNewestTask() {
+        return tasks.getLast();
+    }
+
+    @Override
+    public void setTasks(Object userTasks) {
+
+    }
+
+    @Override
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    @Override
+    public void addTask(Task task) {
+        tasks.add(task);
+    }
+
+    @Override
+    public void editTask(Task newTask, Task oldTask) {
+        int index = tasks.indexOf(oldTask);
+        if (index >= 0) {
+            tasks.set(index, newTask);
+        }
+    }
+
+    @Override
+    public void removeTask(int id) {
+        tasks.removeIf(task -> task.getId() == id);
+    }
+
+    @Override
+    public int getUserId() {
         return userId;
     }
 
     @Override
     public void setUserId(String userId) {
-        throw new UnsupportedOperationException("User ID is immutable.");
+
+    }
+
+    @Override
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     @Override
@@ -68,31 +127,23 @@ public class Person implements IPerson {
     @Override
     public void setPassword(String password) {
         this.password = password;
-        updatePersonInDatabase("password", password);
     }
 
     @Override
     public String getEmail() {
         return email;
-
     }
 
     @Override
     public void setEmail(String email) {
         this.email = email;
-        updatePersonInDatabase("email", email);
     }
 
-    // Fetches details from THE database
-    private void loadPersonFromDatabase() {
-        String dbUrl = "jdbc:sqlite:GardenPlanner.db";
+    private void loadPersonFromDatabase(Connection connection) {
+        String query = "SELECT fname, lname, email, password FROM Users WHERE user_id = ?";
 
-        try (Connection connection = DriverManager.getConnection(dbUrl)) {
-            String query = "SELECT fname, lname, email, password FROM Users WHERE user_id = ?";
-
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, userId);
-
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, userId);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
@@ -101,32 +152,43 @@ public class Person implements IPerson {
                 this.email = resultSet.getString("email");
                 this.password = resultSet.getString("password");
             } else {
-                System.out.println("User with ID " + userId + " not found.");
+                LOGGER.warning("User with ID " + userId + " not found.");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Failed to load person from database", e);
         }
     }
 
-    // Updates a single field in the database for the current user
-    private void updatePersonInDatabase(String field, String value) {
-        String dbUrl = "jdbc:sqlite:GardenPlanner.db";
-
+    public void updatePersonInDatabase(String field, String value, Connection connection) {
         String updateQuery = "UPDATE Users SET " + field + " = ? WHERE user_id = ?";
 
-        try (Connection connection = DriverManager.getConnection(dbUrl)) {
-            PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
             preparedStatement.setString(1, value);
-            preparedStatement.setString(2, userId);
+            preparedStatement.setInt(2, userId);
             int rowsUpdated = preparedStatement.executeUpdate();
 
             if (rowsUpdated > 0) {
-                System.out.println("User " + field + " updated successfully.");
+                LOGGER.info("User " + field + " updated successfully.");
             } else {
-                System.out.println("Failed to update " + field + " for user " + userId);
+                LOGGER.warning("Failed to update " + field + " for user " + userId);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Failed to update person in database", e);
+        }
+    }
+
+    public void updateDetailsInDatabase(Connection connection) {
+        if (firstName != null && !firstName.isEmpty()) {
+            updatePersonInDatabase("fname", firstName, connection);
+        }
+        if (lastName != null && !lastName.isEmpty()) {
+            updatePersonInDatabase("lname", lastName, connection);
+        }
+        if (email != null && !email.isEmpty()) {
+            updatePersonInDatabase("email", email, connection);
+        }
+        if (password != null && !password.isEmpty()) {
+            updatePersonInDatabase("password", password, connection);
         }
     }
 }
