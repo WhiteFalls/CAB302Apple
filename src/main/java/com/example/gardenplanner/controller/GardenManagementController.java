@@ -1,8 +1,6 @@
 package com.example.gardenplanner.controller;
 
 import People.IMockPerson;
-import People.MockPerson;
-import People.Person;
 import Tasks.ITaskDAO;
 import Tasks.MockTaskDAO;
 import Tasks.Task;
@@ -12,17 +10,11 @@ import Database.MockPersonDAO;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import javafx.stage.Popup;
-import javafx.stage.PopupWindow;
 
-import java.time.DateTimeException;
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -167,6 +159,9 @@ public class GardenManagementController {
                     TextField taskDetails = new TextField(task.getTaskDetails());
                     DatePicker assignedDate = new DatePicker(task.getAssignedDate());
                     DatePicker dueDate = new DatePicker(task.getDueDate());
+                    ComboBox<taskCategory> taskCategoryDrop = new ComboBox<taskCategory>();
+                    taskCategoryDrop.getSelectionModel().select(task.getCategory());
+                    taskCategoryDrop.getItems().addAll(taskCategory.DAILY, taskCategory.WEEKLY, taskCategory.CUSTOM);
 
                     Button confirmChangesButton = new Button("Confirm Changes");
                     confirmChangesButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -177,7 +172,8 @@ public class GardenManagementController {
                                 String newTaskDetails = taskDetails.getCharacters().toString();
                                 LocalDate newAssignedDate = assignedDate.getValue();
                                 LocalDate newDueDate = dueDate.getValue();
-                                Task newTask = new Task(newTaskDetails, newAssignedDate, newDueDate, taskCategory.DAILY);
+                                taskCategory newCategory = taskCategoryDrop.getValue();
+                                Task newTask = new Task(newTaskDetails, newAssignedDate, newDueDate, newCategory);
                                 updateTask(task, newTask);
                             }
                             catch (Exception e)
@@ -200,7 +196,7 @@ public class GardenManagementController {
                         }
                     });
 
-                    taskBox.getChildren().addAll(taskId, taskDetails, assignedDate, dueDate, confirmChangesButton, deleteTaskButton);
+                    taskBox.getChildren().addAll(taskId, taskDetails, assignedDate, dueDate, taskCategoryDrop, confirmChangesButton, deleteTaskButton);
 
                     setGraphic(taskBox);
                 }
