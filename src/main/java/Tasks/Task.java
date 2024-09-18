@@ -1,5 +1,5 @@
 package Tasks;
-import People.IMockPerson;
+
 import java.time.LocalDate;
 
 
@@ -46,17 +46,25 @@ public class Task implements ITask {
         return assignedDate;
     }
 
+    public void setAssignedDate(LocalDate assignedDate) {
+        this.assignedDate = assignedDate;
+    }
+
     public LocalDate getDueDate() {
         return dueDate;
     }
 
-    public int getId() {
-        return taskId;
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
     }
 
     @Override
     public taskCategory getCategory() {
         return category;
+    }
+
+    public void setCategory(taskCategory category) {
+        this.category = category;
     }
 
     public void updateTask(Task newTask)
@@ -67,4 +75,3 @@ public class Task implements ITask {
         this.category = newTask.category;
     }
 }
-

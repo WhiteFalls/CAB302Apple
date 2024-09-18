@@ -6,22 +6,24 @@ import Tasks.Task;
 import Tasks.TaskDAO;
 import Tasks.taskCategory;
 import Database.IPersonDAO;
+import Database.PersonDAO;
+import Database.GardenDAO;
+import People.Person;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-im
+import javafx.stage.Popup;
+import javafx.stage.PopupWindow;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Optional;
-import java.io.IOException;
+import java.time.format.DateTimeParseException;
+import java.util.List;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
@@ -29,20 +31,17 @@ public class GardenManagementController {
     // Fields
     @FXML
     private Accordion userDropBox;
+    private Connection connection;
 
     private IPersonDAO personDAO;
+    private GardenDAO gardenDAO;
     private ITaskDAO taskDAO;
 
     // Constructor
-
-    /**
-     * Contructs the controller for the Garden Management page with the specified task and person DAOs
-     */
-    public GardenManagementController()
-    {
-
+    public GardenManagementController() {
         taskDAO = new TaskDAO();
-        personDAO = new PersonDAO(Connection con);
+        personDAO = new PersonDAO(connection);
+        gardenDAO = new GardenDAO();
     }
 
     // Methods
@@ -64,7 +63,7 @@ public class GardenManagementController {
      */
     private void syncPeople() {
         userDropBox.getPanes().clear();
-        ArrayList<IMockPerson> people = personDAO.getAllPeople();
+        List<Person> people = personDAO.getAllPeople();  // Fetch actual people from the database
         boolean hasPeople = !people.isEmpty();
 
 

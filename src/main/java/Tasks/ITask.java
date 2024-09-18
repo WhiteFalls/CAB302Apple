@@ -1,19 +1,9 @@
 package Tasks;
 
-import People.IMockPerson;
-
 import java.time.LocalDate;
 
 public interface ITask {
-
-    boolean isCompleted();
-
-    void assignTo(IMockPerson person);
-
-    /**
-     * Returns the details of what needs to be done in the task
-     * @return A string of the task details
-     */
+    int getId();
     String getTaskDetails();
 
     /**
