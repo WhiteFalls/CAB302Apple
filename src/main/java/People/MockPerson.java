@@ -13,6 +13,14 @@ public class MockPerson implements IMockPerson {
     private int userId;
     private ArrayList<Task> tasks;
 
+    /**
+     * Contructs a new person with the speified first name, last name, email and password.
+     * Also, initialises the list of the users tasks
+     * @param firstName The first name of the person
+     * @param lastName The last name of the person
+     * @param email The person's email
+     * @param password The person's password for logging into their account
+     */
     public MockPerson(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -37,7 +45,7 @@ public class MockPerson implements IMockPerson {
 
     @Override
     public void setFirstName(String firstName) {
-
+        this.firstName = firstName;
     }
 
     @Override
@@ -52,7 +60,7 @@ public class MockPerson implements IMockPerson {
 
     @Override
     public String getName() {
-        return firstName.concat(lastName);
+        return firstName + " " + lastName;
     }
 
     @Override
@@ -67,7 +75,7 @@ public class MockPerson implements IMockPerson {
 
     @Override
     public void setPassword(String password) {
-
+        this.password = password;
     }
 
     @Override
@@ -79,6 +87,7 @@ public class MockPerson implements IMockPerson {
     public void setEmail(String email) {
         this.email = email;
     }
+
 
     @Override
     public ArrayList<Task> getTasks() {
@@ -96,6 +105,11 @@ public class MockPerson implements IMockPerson {
         return null;
     }
 
+    public Task getNewestTask()
+    {
+        return tasks.getLast();
+    }
+
     @Override
     public void editTask(Task newTask, Task oldTask) {
         tasks.remove(oldTask);
@@ -107,16 +121,8 @@ public class MockPerson implements IMockPerson {
         tasks.add(task);
     }
 
-
     @Override
-    public void removeTask(int id) {
-        for (Task task : tasks)
-        {
-            if (task.getId() == id)
-            {
-                tasks.remove(task);
-                break;
-            }
-        }
+    public void removeTask(Task task) {
+        tasks.remove(task);
     }
 }

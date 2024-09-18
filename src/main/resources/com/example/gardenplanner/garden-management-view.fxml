@@ -5,18 +5,27 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="page" prefHeight="400.0" prefWidth="600.0" styleClass="page" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gardenplanner.controller.GardenManagementController">
+<AnchorPane id="page" prefHeight="600.0" prefWidth="1200.0" styleClass="page" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gardenplanner.controller.GardenManagementController">
    <children>
-      <Label alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="211.0" layoutY="37.0" text="Garden Manager" textAlignment="CENTER">
+      <Button alignment="TOP_LEFT" layoutX="14.0" layoutY="27.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="18.0" style="-fx-background-color: null; -fx-text-fill: black;" styleClass="exit-button" text="X">
          <font>
-            <Font size="24.0" />
+            <Font name="System Bold" size="45.0" />
          </font>
-      </Label>
-      <ScrollPane hbarPolicy="NEVER" layoutY="97.0" prefHeight="500.0" prefWidth="600.0">
-         <content>
-            <Accordion fx:id="userDropBox" prefHeight="458.0" prefWidth="600.0" styleClass="userSectionAcordian">
+      </Button>
+      <StackPane alignment="TOP_CENTER" layoutX="500.0" layoutY="14.0" prefHeight="30.0" prefWidth="200.0">
+         <children>
+            <Label alignment="TOP_CENTER" contentDisplay="CENTER" style="-fx-background-color: #81C049;;" styleClass="page-title" text="Garden Manager" textAlignment="CENTER">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </StackPane>
+      <StackPane layoutX="101.0" layoutY="72.0" prefHeight="344.0" prefWidth="1000.0">
+         <children>
+            <Accordion fx:id="userDropBox" prefHeight="500.0" prefWidth="1000.0" styleClass="userSectionAcordian">
               <panes>
-                <TitledPane alignment="CENTER" animated="false" styleClass="user_sections" text="untitled 1">
+                <TitledPane alignment="CENTER" animated="false" styleClass="user_sections" text="untitled 1" textAlignment="RIGHT">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="dropdowns">
                            <opaqueInsets>
@@ -37,9 +46,9 @@
                      </padding>
                      <opaqueInsets>
                         <Insets bottom="15.0" />
-                     </opaqueInsets>
+                       </opaqueInsets>
                 </TitledPane>
-                <TitledPane animated="false" styleClass="user_sections" text="untitled 2">
+                <TitledPane animated="false" styleClass="user_sections" text="untitled 2" textAlignment="CENTER">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                   </content>
@@ -57,8 +66,8 @@
                 </TitledPane>
               </panes>
             </Accordion>
-         </content>
-      </ScrollPane>
+         </children>
+      </StackPane>
    </children>
    <opaqueInsets>
       <Insets />

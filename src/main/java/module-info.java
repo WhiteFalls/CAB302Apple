@@ -13,6 +13,7 @@ module com.example.gardenplanner {
     opens com.example.gardenplanner.controller to javafx.fxml;
     exports People;
     opens People to javafx.fxml;
+    exports Tasks;
     exports Database;
     opens Database to javafx.fxml;
 }

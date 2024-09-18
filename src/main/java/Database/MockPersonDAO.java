@@ -18,7 +18,7 @@ public class MockPersonDAO implements IPersonDAO {
     private static ITaskDAO taskDAO;
 
     public MockPersonDAO() {
-        this.taskDAO = taskDAO;
+        //this.taskDAO = taskDAO;
         // Add some initial contacts to the mock database
         addPerson(new MockPerson("John", "Doe", "johndoe@example.com", "0000"));
         addPerson(new MockPerson("Jane", "Doe", "janedoe@example.com", "0001"));
