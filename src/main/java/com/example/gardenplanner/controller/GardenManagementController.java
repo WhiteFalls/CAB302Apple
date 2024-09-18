@@ -1,22 +1,29 @@
 package com.example.gardenplanner.controller;
 
-import People.IMockPerson;
+import Database.PersonDAO;
 import Tasks.ITaskDAO;
-import Tasks.MockTaskDAO;
 import Tasks.Task;
+import Tasks.TaskDAO;
 import Tasks.taskCategory;
 import Database.IPersonDAO;
-import Database.MockPersonDAO;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+im
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 
 public class GardenManagementController {
     // Fields
@@ -33,8 +40,9 @@ public class GardenManagementController {
      */
     public GardenManagementController()
     {
-        taskDAO = new MockTaskDAO();
-        personDAO = new MockPersonDAO();
+
+        taskDAO = new TaskDAO();
+        personDAO = new PersonDAO(Connection con);
     }
 
     // Methods
