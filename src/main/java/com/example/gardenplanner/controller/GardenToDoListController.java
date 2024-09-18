@@ -45,7 +45,7 @@ public class GardenToDoListController {
     public GardenToDoListController() {
         taskDAO = new TaskDAO();  // Use real TaskDAO
         personDAO = new PersonDAO(connection);  // Use real PersonDAO
-        person = personDAO.getPerson(1);  // Load person from the database, person with id 1
+        person = personDAO.getPerson(2);  // Load person from the database, person with id 1
         addTask(person, "Plant Beans", taskCategory.WEEKLY);
     }
 
@@ -139,7 +139,7 @@ public class GardenToDoListController {
                         customListView.getItems().add(task);
                         break;
                 }
-                System.out.println("Task list items: " + task.getTaskDetails());
+//                System.out.println("Task list items: " + task.getTaskDetails());
             }
         }
 
