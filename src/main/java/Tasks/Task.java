@@ -58,5 +58,13 @@ public class Task implements ITask {
     public taskCategory getCategory() {
         return category;
     }
+
+    public void updateTask(Task newTask)
+    {
+        this.taskDetails = newTask.taskDetails;
+        this.assignedDate = newTask.assignedDate;
+        this.dueDate = newTask.dueDate;
+        this.category = newTask.category;
+    }
 }
 

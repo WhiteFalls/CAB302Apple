@@ -236,6 +236,7 @@ public class GardenManagementController {
     {
         if (newTask != null) {
             newTask.setId(oldTask.getId());
+            oldTask.updateTask(newTask);
             taskDAO.update(oldTask, newTask);
         }
     }
