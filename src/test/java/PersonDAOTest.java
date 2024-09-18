@@ -1,5 +1,3 @@
-package Database;
-
 import Database.PersonDAO;
 import People.Person;
 import org.junit.jupiter.api.*;

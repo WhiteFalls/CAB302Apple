@@ -3,10 +3,19 @@ package com.example.gardenplanner.controller;
 import Database.IPersonDAO;
 import Database.PersonDAO;
 import People.Person;
+import com.example.gardenplanner.HelloApplication;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import javafx.event.ActionEvent;
+import javafx.scene.Node;
+
+import java.io.IOException;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -98,8 +107,26 @@ public class RegisterController {
         confirmPasswordField.clear();
     }
 
+//    @FXML
+//    public void initialize() {
+//        System.out.println("RegisterController initialized.");
+//    }
+
+    // Navigate to login page
     @FXML
-    public void initialize() {
-        System.out.println("RegisterController initialized.");
+    public void goToLogin(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("login.fxml"));
+            Parent loginPage = loader.load();
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(loginPage, 1200, 600);
+            stage.setScene(scene);
+            stage.setTitle("Login");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "Unable to load login page.");
+        }
     }
 }
