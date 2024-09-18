@@ -46,7 +46,7 @@ public class RegisterController {
     public void registerUser() {
         // Validate user input before proceeding
         if (!validateInput()) {
-            return;  // If validation fails, do not proceed
+            return;
         }
 
         // Create a new Person object with the user input
