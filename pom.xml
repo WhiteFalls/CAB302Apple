@@ -14,11 +14,13 @@
 <junit.version>5.10.0</junit.version>  </properties>
 
   <dependencies>
+
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-controls</artifactId>
       <version>21</version>
     </dependency>
+
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-fxml</artifactId>
@@ -31,34 +33,49 @@
       <version>3.46.1.0</version>
     </dependency>
 
-
+    <!-- JUnit 5 API for writing tests? -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
-      <version>${junit.version}</version>
+      <version>5.8.2</version>
+    </dependency>
+
+    <!-- JUnit 5 Engine for running the tests? -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>5.8.2</version>
       <scope>test</scope>
+    </dependency>
+
+<!--    <dependency>-->
+<!--      <groupId>org.junit.platform</groupId>-->
+<!--      <artifactId>junit-platform-commons</artifactId>-->
+<!--      <version>1.8.2</version>-->
+<!--      <scope>test</scope>-->
+<!--    </dependency>-->
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>RELEASE</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <version>RELEASE</version>
+      <scope>compile</scope>
     </dependency>
 
     <dependency>
       <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-engine</artifactId>
-      <version>${junit.version}</version>
-      <scope>test</scope>
+      <artifactId>junit-jupiter</artifactId>
+      <version>RELEASE</version>
+      <scope>compile</scope>
     </dependency>
 
-      <dependency>
-          <groupId>junit</groupId>
-          <artifactId>junit</artifactId>
-          <version>RELEASE</version>
-          <scope>compile</scope>
-      </dependency>
-
-      <dependency>
-          <groupId>org.testng</groupId>
-          <artifactId>testng</artifactId>
-          <version>RELEASE</version>
-          <scope>compile</scope>
-      </dependency>
   </dependencies>
 
   <build>
