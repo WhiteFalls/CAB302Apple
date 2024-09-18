@@ -46,4 +46,10 @@ public interface ITask {
      */
     taskCategory getCategory();
 
+    /**
+     * Updates the currents tasks parameters
+     * @param newTask A task object that holds all the new parameters for the current task object
+     */
+    void updateTask(Task newTask);
+
 }
