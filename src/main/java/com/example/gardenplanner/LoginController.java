@@ -12,72 +12,71 @@ import java.sql.SQLException;
 
 public class LoginController {
 
+    @FXML
+    private TextField emailField;
+    @FXML
+    private PasswordField passwordField;
 
-    public class Login {
+    private static final String DB_URL = "jdbc:sqlite:gardenplanner.db";
 
-        @FXML
-        private TextField emailField;
-        @FXML
-        private PasswordField passwordField;
+    @FXML
+    public void loginUser() {
+        String email = emailField.getText();
+        String password = passwordField.getText();
 
-        private static final String DB_URL = "jdbc:sqlite:gardenplanner.db";
+        if (validateInput(email, password)) {
+            try (Connection conn = DriverManager.getConnection(DB_URL)) {
+                String sql = "SELECT * FROM Users WHERE email = ? AND password = ?";
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setString(1, email);
+                pstmt.setString(2, password);
 
-        @FXML
-        private void loginUser() {
-            String email = emailField.getText();
-            String password = passwordField.getText();
+                ResultSet rs = pstmt.executeQuery();
 
-            if(validateInput(email, password)) {
-                try (Connection conn = DriverManager.getConnection(DB_URL)){
-                    String sql = "SELECT * FROM Users WHERE email = ? AND password = ?";
-                    PreparedStatement pstmt = conn.prepareStatement(sql);
-                    pstmt.setString(1, email);
-                    pstmt.setString(2, password);
-
-                    ResultSet rs = pstmt.executeQuery();
-
-                    if(rs.next()) {
-                        showAlert("Login Successful!", "Welcome back,");
-                        clearFields();
-                    } else {
-                        showAlert("Login Failed,", "Incorrect Email or Password.");
-                    }
-
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    showAlert("Database Error", "Failed to login user.");
+                if (rs.next()) {
+                    showAlert("Login Successful!", "Welcome back,");
+                    clearFields();
+                } else {
+                    showAlert("Login Failed,", "Incorrect Email or Password.");
                 }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                showAlert("Database Error", "Failed to login user.");
             }
         }
+    }
 
-        // Validate User input
-        private boolean validateInput(String email, String password) {
-            if (email.isEmpty() || password.isEmpty()) {
-                showAlert("Validation Error", "Email and password are required.");
-                return false;
-            }
-
-            return true;
-
+    // Validate User input
+    private boolean validateInput(String email, String password) {
+        if (email.isEmpty() || password.isEmpty()) {
+            showAlert("Validation Error", "Email and password are required.");
+            return false;
         }
+
+        return true;
+
+    }
 
 // alert message
 
-        private void showAlert(String title, String message) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle(title);
-            alert.setHeaderText(null);
-            alert.setContentText(message);
-            alert.showAndWait();
-        }
-
-
-        // Clear after login
-        private void clearFields() {
-            emailField.clear();
-            passwordField.clear();
-
-
-        }
-        }
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
+
+
+    // Clear after login
+    private void clearFields() {
+        emailField.clear();
+        passwordField.clear();
+
+
+    }
+
+    //need to add register hyperlink page
+}
+
