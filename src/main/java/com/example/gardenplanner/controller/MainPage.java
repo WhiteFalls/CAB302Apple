@@ -1,6 +1,7 @@
 package com.example.gardenplanner.controller;
 
-import com.example.gardenplanner.GardenManagementController;
+import com.example.gardenplanner.HelloApplication;
+import com.example.gardenplanner.controller.GardenManagementController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
@@ -17,7 +18,7 @@ public class MainPage {
     @FXML
     protected void onUpdatesButtonClick() throws IOException {
         Stage stage = (Stage) UpdatesButton.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(GardenManagementController.class.getResource("garden-management.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("usertodoList.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1200, 600);
         stage.setScene(scene);
     }

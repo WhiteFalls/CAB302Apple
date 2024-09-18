@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="page" prefHeight="600.0" prefWidth="1200.0" styleClass="page" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gardenplanner.controller.GardenManagementController">
+<AnchorPane id="page" prefHeight="600.0" prefWidth="1200.0" styleClass="page"  stylesheets="@styles.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gardenplanner.controller.GardenManagementController">
    <children>
       <Button alignment="TOP_LEFT" layoutX="14.0" layoutY="27.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="18.0" style="-fx-background-color: null; -fx-text-fill: black;" styleClass="exit-button" text="X">
          <font>
