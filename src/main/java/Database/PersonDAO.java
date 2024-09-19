@@ -85,7 +85,25 @@ public class PersonDAO implements IPersonDAO {
 
     @Override
     public ArrayList<IPerson> getAllPeople() {
-        return new ArrayList<>();
+        String query = "SELECT * FROM Users";
+        ArrayList<IPerson> people = new ArrayList<>();
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            //stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Person person = new Person(rs.getInt("user_id"), rs.getString("fname"), rs.getString("lname"), rs.getString("email"), rs.getString("password"));
+                if (person.getUserId() == 0)
+                {
+                    break;
+                }
+                people.add(person);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return people;
     }
 
 

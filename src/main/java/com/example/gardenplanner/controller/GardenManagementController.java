@@ -67,22 +67,23 @@ public class GardenManagementController {
         ArrayList<IPerson> people = personDAO.getAllPeople();
         boolean hasPeople = !people.isEmpty();
 
+        // Create dropdown for adding users
+        TitledPane addUsers = getAddUsersSection();
+        userDropBox.getPanes().add(addUsers);
+
+        // Create dropdown for each user
+        for (IPerson person : personDAO.getAllPeople()){
+            TitledPane user = createUserSection(person);
+            user.getStyleClass().add("userSectionTitlePane");
+            //userSections.add(user);
+            userDropBox.getPanes().add(user);
+        }
 
         if (hasPeople) {
-            // Create dropdown for adding users
-            TitledPane addUsers = getAddUsersSection();
-            userDropBox.getPanes().add(addUsers);
 
-            // Create dropdown for each user
-            for (IPerson person : personDAO.getAllPeople()){
-                TitledPane user = createUserSection(person);
-                user.getStyleClass().add("userSectionTitlePane");
-                //userSections.add(user);
-                userDropBox.getPanes().add(user);
-            }
         }
         // Show / hide based on whether there are people
-        userDropBox.setVisible(hasPeople);
+        //userDropBox.setVisible(hasPeople);
     }
 
     private TitledPane getAddUsersSection() {
@@ -283,7 +284,7 @@ public class GardenManagementController {
     private void addUser(int id)
     {
         IPerson newPerson = personDAO.getPerson(id);
-        if (newPerson == null)
+        if (newPerson.getUserId() == 0)
         {
             displayPopup("No user with that ID exists");
         }

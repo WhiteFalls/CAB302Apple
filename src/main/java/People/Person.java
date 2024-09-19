@@ -36,6 +36,12 @@ public class Person implements IPerson {
     }
 
     public Person(int userId, String fname, String lname, String email, String password) {
+        this.userId = userId;
+        this.firstName = fname;
+        this.lastName = lname;
+        this.email = email;
+        this.password = password;
+        this.tasks = new ArrayList<>();
     }
 
     @Override
