@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -29,7 +30,7 @@ public class LoginController {
     private static final String DB_URL = "jdbc:sqlite:GardenPlanner.sqlite";  // Updated database location
 
     @FXML
-    public void loginUser() {
+    public void loginUser(ActionEvent event) {
         String email = emailField.getText();
         String password = passwordField.getText();
 
@@ -45,6 +46,7 @@ public class LoginController {
                 if (rs.next()) {
                     showAlert("Login Successful!", "Welcome back, " + rs.getString("fname"));
                     clearFields();
+                    goToMainPage(event);
                 } else {
                     showAlert("Login Failed", "Incorrect Email or Password.");
                 }
@@ -79,6 +81,29 @@ public class LoginController {
     private void clearFields() {
         emailField.clear();
         passwordField.clear();
+    }
+
+
+    // Handle registration link click to go to the registration page
+    @FXML
+    public void goToMainPage(ActionEvent event) {
+        try {
+            // Load the registration page
+            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("main-page.fxml"));
+            Parent registrationPage = loader.load();
+
+            // Get the current stage (window)
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // Set the new scene to the current stage
+            Scene scene = new Scene(registrationPage, 1200, 600);
+            stage.setScene(scene);
+            stage.setTitle("Main Page");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "Unable to load main page.");
+        }
     }
 
     // Handle registration link click to go to the registration page
