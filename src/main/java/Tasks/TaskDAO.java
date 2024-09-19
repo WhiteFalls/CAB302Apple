@@ -1,10 +1,10 @@
 package Tasks;
 
 import Database.DatabaseConnection;
+import People.IPerson;
 import People.Person;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +14,21 @@ public class TaskDAO implements ITaskDAO {
 
     public TaskDAO() {
         connection = DatabaseConnection.getConnection();  // Get the connection from your utility
+    }
+
+    @Override
+    public ArrayList<Task> getUserTasks(IPerson person) {
+        return null;
+    }
+
+    @Override
+    public void delete(Task task) {
+
+    }
+
+    @Override
+    public void update(Task oldTask, Task newTask) {
+
     }
 
     @Override
@@ -33,6 +48,11 @@ public class TaskDAO implements ITaskDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public ArrayList<Task> getCategorisedTasks(IPerson person, taskCategory category) {
+        return null;
     }
 
     @Override

@@ -27,6 +27,16 @@ public class MockPersonDAO implements IPersonDAO {
     }
 
     @Override
+    public void addPerson(Person person) {
+
+    }
+
+    @Override
+    public Person getPersonByEmail(String email) {
+        return null;
+    }
+
+    @Override
     public void addPerson(IPerson person) {
         //person.setUserId(autoIncrementedId);
         person.setUserId(autoIncrementedId);
@@ -67,6 +77,11 @@ public class MockPersonDAO implements IPersonDAO {
     @Override
     public ArrayList<IPerson> getAllPeople() {
         return new ArrayList<>(people);
+    }
+
+    @Override
+    public void deletePerson(Person person) {
+
     }
 }
 

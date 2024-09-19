@@ -1,8 +1,10 @@
 package Tasks;
 
 import People.IPerson;
+import People.Person;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface ITaskDAO {
     ArrayList<Task> getUserTasks(IPerson person);
@@ -33,4 +35,16 @@ public interface ITaskDAO {
      * @return
      */
     public ArrayList<Task> getCategorisedTasks(IPerson person, taskCategory category);
+
+    Task get(int id);
+
+    List<Task> getAllTasks();
+
+    void update(Task task);
+
+    void delete(int id);
+
+    Object getUserTasks(Person person);
+
+    List<Task> getCategorisedTasks(Person person, taskCategory taskCategory);
 }

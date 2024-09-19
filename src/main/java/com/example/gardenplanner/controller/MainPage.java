@@ -1,6 +1,7 @@
 package com.example.gardenplanner.controller;
 
 import com.example.gardenplanner.HelloApplication;
+import com.example.gardenplanner.UserSession;
 import com.example.gardenplanner.controller.GardenManagementController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,11 +10,22 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 
 public class MainPage {
     @FXML
     private Button UpdatesButton;
+
+    public void initialize() {
+        // Get the current user session
+        UserSession session = UserSession.getInstance();
+        String firstName = session.getFirstName();
+        String lastName = session.getLastName();
+        String email = session.getEmail();
+    }
 
     @FXML
     protected void onUpdatesButtonClick() throws IOException {

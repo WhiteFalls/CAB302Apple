@@ -1,8 +1,10 @@
 package Database;
 
+import People.IPerson;
 import People.Person;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PersonDAO implements IPersonDAO {
@@ -49,6 +51,21 @@ public class PersonDAO implements IPersonDAO {
     }
 
     @Override
+    public void addPerson(IPerson person) {
+
+    }
+
+    @Override
+    public void updatePerson(IPerson person) {
+
+    }
+
+    @Override
+    public void deletePerson(IPerson person) {
+
+    }
+
+    @Override
     public Person getPerson(int id) {
         String query = "SELECT * FROM Users WHERE user_id = ?";
         Person person = null;
@@ -67,9 +84,10 @@ public class PersonDAO implements IPersonDAO {
     }
 
     @Override
-    public List<Person> getAllPeople() {
-        return List.of();
+    public ArrayList<IPerson> getAllPeople() {
+        return new ArrayList<>();
     }
+
 
     @Override
     public void deletePerson(Person person) {

@@ -1,5 +1,6 @@
 package Database;
 import People.IPerson;
+import People.Person;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,10 @@ import java.util.List;
  * the CRUD operations for the Contact class with the database.
  */
 public interface IPersonDAO {
+    void addPerson(Person person);
+
+    Person getPersonByEmail(String email);
+
     /**
      * Adds a new contact to the database.
      * @param person The contact to add.
@@ -35,4 +40,6 @@ public interface IPersonDAO {
      * @return A list of all contacts in the database.
      */
     public ArrayList<IPerson> getAllPeople();
+
+    void deletePerson(Person person);
 }

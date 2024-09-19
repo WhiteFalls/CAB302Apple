@@ -10,11 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Person implements IPerson {
-    private static final Logger LOGGER = Logger.getLogger(Person.class.getName());
 
     private int userId;  // User ID should be an integer not a string XD
     private String firstName;
@@ -22,6 +19,7 @@ public class Person implements IPerson {
     private String password;
     private String email;
     private List<Task> tasks = new ArrayList<>();
+    private Connection connection;
 
     // Constructor for loading from database
     public Person(int userId, Connection connection) {
@@ -48,7 +46,7 @@ public class Person implements IPerson {
     @Override
     public void setFirstName(String firstName) {
         this.firstName = firstName;
-        updatePersonInDatabase("fname", firstName);
+        updatePersonInDatabase("fname", firstName, connection);
     }
 
     @Override
@@ -59,7 +57,7 @@ public class Person implements IPerson {
     @Override
     public void setLastName(String lastName) {
         this.lastName = lastName;
-        updatePersonInDatabase("lname", lastName);
+        updatePersonInDatabase("lname", lastName, connection);
     }
 
     @Override
@@ -75,16 +73,6 @@ public class Person implements IPerson {
     @Override
     public void setTasks(Object userTasks) {
 
-    }
-
-    @Override
-    public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
-    }
-
-    @Override
-    public void addTask(Task task) {
-        tasks.add(task);
     }
 
     @Override
@@ -118,19 +106,6 @@ public class Person implements IPerson {
     @Override
     public void addTask(Task task) {
         tasks.add(task);
-    }
-
-    @Override
-    public void editTask(Task newTask, Task oldTask) {
-        int index = tasks.indexOf(oldTask);
-        if (index >= 0) {
-            tasks.set(index, newTask);
-        }
-    }
-
-    @Override
-    public void removeTask(int id) {
-        tasks.removeIf(task -> task.getId() == id);
     }
 
     @Override

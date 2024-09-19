@@ -1,6 +1,5 @@
 import Tasks.Task;
 import Tasks.taskCategory;
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.time.LocalDate;
@@ -12,7 +11,7 @@ public class TaskTest {
 
     @BeforeEach
     public void setUp() {
-        task = new Task("task", LocalDate.now(), LocalDate.now(), taskCategory.DAILY);
+        task = new Task(rs.getInt("task_id"), "task", LocalDate.now(), LocalDate.now(), taskCategory.DAILY);
     }
 
     @org.junit.jupiter.api.Test

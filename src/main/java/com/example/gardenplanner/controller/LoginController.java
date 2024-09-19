@@ -1,6 +1,7 @@
 package com.example.gardenplanner.controller;
 
 import com.example.gardenplanner.HelloApplication;
+import com.example.gardenplanner.UserSession;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -44,6 +45,12 @@ public class LoginController {
                 ResultSet rs = pstmt.executeQuery();
 
                 if (rs.next()) {
+                    UserSession session = UserSession.getInstance();
+                    session.setPersonId(rs.getInt("user_id"));
+                    session.setEmail(email);
+                    session.setFirstName(rs.getString("fname"));
+                    session.setLastName(rs.getString("lname"));
+
                     showAlert("Login Successful!", "Welcome back, " + rs.getString("fname"));
                     clearFields();
                     goToMainPage(event);
@@ -96,7 +103,7 @@ public class LoginController {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
             // Set the new scene to the current stage
-            Scene scene = new Scene(registrationPage, 1200, 600);
+            Scene scene = new Scene(registrationPage, 1600, 800);
             stage.setScene(scene);
             stage.setTitle("Main Page");
             stage.show();

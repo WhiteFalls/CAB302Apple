@@ -7,25 +7,19 @@ import Tasks.Task;
 import Tasks.TaskDAO;
 import Tasks.taskCategory;
 import Database.IPersonDAO;
-import Database.PersonDAO;
 import Database.GardenDAO;
-import People.Person;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Popup;
-import javafx.stage.PopupWindow;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
-import java.util.List;
+import java.util.ArrayList;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.util.Optional;
 
 
 public class GardenManagementController {
@@ -181,7 +175,7 @@ public class GardenManagementController {
                                 LocalDate newAssignedDate = assignedDate.getValue();
                                 LocalDate newDueDate = dueDate.getValue();
                                 taskCategory newCategory = taskCategoryDrop.getValue();
-                                Task newTask = new Task(newTaskDetails, newAssignedDate, newDueDate, newCategory);
+                                Task newTask = new Task(1, newTaskDetails, newAssignedDate, newDueDate, newCategory);
                                 updateTask(task, newTask);
                             }
                             catch (Exception e)
@@ -265,7 +259,7 @@ public class GardenManagementController {
      */
     private void addTask(IPerson person)
     {
-        Task task = new Task("New Task", LocalDate.now(), LocalDate.now(), taskCategory.DAILY);
+        Task task = new Task(1, "New Task", LocalDate.now(), LocalDate.now(), taskCategory.DAILY);
         taskDAO.add(task);
         person.addTask(task);
     }
