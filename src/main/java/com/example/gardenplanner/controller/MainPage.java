@@ -35,13 +35,13 @@ public class MainPage {
         stage.setScene(scene);
     }
 
-//    @FXML
-//    protected void OnNextButtonClick("Garden") throws IOException {
-//        Stage stage = (Stage) nextbutton.getScene().getWindow();
-//        FXMLLoader fxmlLoader = new FXMLLoader(. class.getResource("usertodoList.fxml"));
-//        Scene scene = new Scene(fxmlLoader.load(),.WIDTH, .HEIGHT);
-//        stage.setScene(scene);
-//    }
+    @FXML
+    protected void onGardenButtonClick() throws IOException {
+        Stage stage = (Stage) UpdatesButton.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("garden-management-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 1200, 600);
+        stage.setScene(scene);
+    }
 //
 //    @FXML
 //    protected void OnNextButtonClick("Settings") throws IOException {

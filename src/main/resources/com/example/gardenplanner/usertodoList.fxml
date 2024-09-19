@@ -40,5 +40,7 @@
                 </TitledPane>
             </panes>
         </Accordion>
+        <!-- New Back to Main button -->
+        <Button fx:id="backToMain" layoutX="29.0" layoutY="400.0" mnemonicParsing="false" onAction="#goBackToMainPage" text="Back to Main" />
     </children>
 </AnchorPane>
