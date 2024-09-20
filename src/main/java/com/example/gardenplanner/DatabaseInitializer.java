@@ -41,8 +41,8 @@ public class DatabaseInitializer {
                     task_id INTEGER PRIMARY KEY AUTOINCREMENT,
                     user_id INTEGER NOT NULL,
                     garden_id INTEGER NOT NULL,
-                    assigned_date TEXT NOT NULL,
-                    due_date TEXT NOT NULL,
+                    assigned_date DATE NOT NULL,
+                    due_date DATE NOT NULL,
                     task_details TEXT,
                     category TEXT NOT NULL,  -- Add category as a TEXT field but is an enum
                     FOREIGN KEY (user_id) REFERENCES Users(user_id),

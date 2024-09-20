@@ -25,8 +25,9 @@ public interface ITaskDAO {
     /**
      * Add a task to the database
      * @param task The task to be added
+     * @param person The person to add the task to
      */
-    public void add(Task task);
+    public void add(Task task, IPerson person);
 
     /**
      * Returns all the tasks of a person associated with a certain category

@@ -22,6 +22,7 @@ public class Task implements ITask {
      */
     public Task(int taskId, String taskDetails, LocalDate assignedDate, LocalDate dueDate, taskCategory category)
     {
+        this.taskId = taskId;
         this.taskDetails = taskDetails;
         this.assignedDate = assignedDate;
         this.dueDate = dueDate;

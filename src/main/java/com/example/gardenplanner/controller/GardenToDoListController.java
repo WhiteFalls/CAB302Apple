@@ -155,7 +155,7 @@ public class GardenToDoListController {
     private void addTask(IPerson person, String taskDescription, taskCategory category) {
         try {
             Task task = new Task(1, taskDescription, LocalDate.now(), LocalDate.now(), category);
-            taskDAO.add(task);
+            taskDAO.add(task,person);
             person.addTask(task);
         } catch (IllegalArgumentException e) {
             System.out.println("Invalid category: " + category);

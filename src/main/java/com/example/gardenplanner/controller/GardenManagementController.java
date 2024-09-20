@@ -64,7 +64,13 @@ public class GardenManagementController {
      */
     private void syncPeople() {
         userDropBox.getPanes().clear();
+
         ArrayList<IPerson> people = personDAO.getAllPeople();
+        for (IPerson person : people)
+        {
+            person.setTasks(taskDAO.getUserTasks(person));
+        }
+
         boolean hasPeople = !people.isEmpty();
 
         // Create dropdown for adding users
@@ -72,7 +78,7 @@ public class GardenManagementController {
         userDropBox.getPanes().add(addUsers);
 
         // Create dropdown for each user
-        for (IPerson person : personDAO.getAllPeople()){
+        for (IPerson person : people){
             TitledPane user = createUserSection(person);
             user.getStyleClass().add("userSectionTitlePane");
             //userSections.add(user);
@@ -135,6 +141,7 @@ public class GardenManagementController {
         VBox taskBox = new VBox(assignTasksButton, taskList);
 
         TitledPane userTasks = new TitledPane("Assigned Tasks", taskBox);
+        userTasks.setMinHeight(200);
         userTasks.getStyleClass().add("userSectionTitlePane");
 
 
@@ -267,7 +274,7 @@ public class GardenManagementController {
     private void addTask(IPerson person)
     {
         Task task = new Task(1, "New Task", LocalDate.now(), LocalDate.now(), taskCategory.DAILY);
-        taskDAO.add(task);
+        taskDAO.add(task,person);
         person.addTask(task);
     }
 
@@ -284,7 +291,7 @@ public class GardenManagementController {
     private void addUser(int id)
     {
         IPerson newPerson = personDAO.getPerson(id);
-        if (newPerson.getUserId() == 0)
+        if (newPerson == null)
         {
             displayPopup("No user with that ID exists");
         }

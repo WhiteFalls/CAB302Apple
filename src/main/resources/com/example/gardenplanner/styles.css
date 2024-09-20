@@ -4,6 +4,13 @@
     -fx-background-size: 25%;
 }
 
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+.scroll-pane > .viewport {
+   -fx-background-color: transparent;
+}
+
 .page-title {
     -fx-background-color: #81C049;
 }
@@ -40,6 +47,11 @@
 .list-view {
     -fx-background-color: #81C049;
 }
+
+ .list-view .list-cell {
+     -fx-padding: 2em 0 2em 0;
+}
+
 
 .list-view .list-cell:even {
     -fx-background-color: #81C049;
