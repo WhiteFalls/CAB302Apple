@@ -62,7 +62,13 @@ public class PersonDAO implements IPersonDAO {
 
     @Override
     public void deletePerson(IPerson person) {
-
+        String query = "DELETE FROM Users WHERE user_id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, person.getUserId());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
