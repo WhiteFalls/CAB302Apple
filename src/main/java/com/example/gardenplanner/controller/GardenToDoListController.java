@@ -25,6 +25,11 @@ import java.util.List;
 
 import java.sql.Connection;
 
+// I need to implement a button that allows users to switch between their gardens, or if they are in alot of gardens
+// somehow make a slider or something
+// keep track of what garden each user is in through the garden_users db, and have a method of switching through the
+// gardens and letting the controller know which garden the user is on
+// each user also has a specific task in the garden, so you will also need to update that
 public class GardenToDoListController {
 
     @FXML

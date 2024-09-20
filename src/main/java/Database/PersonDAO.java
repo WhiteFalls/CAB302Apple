@@ -5,7 +5,6 @@ import People.Person;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class PersonDAO implements IPersonDAO {
 
@@ -29,7 +28,7 @@ public class PersonDAO implements IPersonDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        }
+    }
 
 
     @Override
@@ -61,7 +60,22 @@ public class PersonDAO implements IPersonDAO {
     }
 
     @Override
-    public void deletePerson(IPerson person) {
+    public void deletePerson(IPerson person){
+
+    }
+    @Override
+    public void deletePersonFromGarden(IPerson person, int garden_ID) throws IllegalArgumentException{
+        try (PreparedStatement stmt = connection.prepareStatement("DELETE FROM Garden_Users WHERE garden_id ? AND user_id = ?")) {
+            stmt.setInt(2, person.getUserId());
+            stmt.setInt(1, garden_ID);
+            int rows_deleted = stmt.executeUpdate();
+
+            if (rows_deleted == 0) {
+                throw new IllegalArgumentException("User ID does not exist in the current garden");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 

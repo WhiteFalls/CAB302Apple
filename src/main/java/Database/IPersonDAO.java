@@ -29,6 +29,9 @@ public interface IPersonDAO {
      * @param person The contact to delete.
      */
     public void deletePerson(IPerson person);
+
+    public void deletePersonFromGarden(IPerson person, int garden_ID) throws IllegalArgumentException;
+
     /**
      * Retrieves a contact from the database.
      * @param id The id of the contact to retrieve.

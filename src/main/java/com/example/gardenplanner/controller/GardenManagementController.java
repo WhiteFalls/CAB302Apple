@@ -27,6 +27,13 @@ import java.util.ArrayList;
 import java.sql.Connection;
 import java.util.Optional;
 
+// currerntly, there is no seperation of gardens and garden id
+// we havnt included garden DAO's methods, etc add garden
+// what we need to do is a button that does the add a garden, auto increments the garden id and somehow save the garden
+// id so we know which garden the user is on
+// also, initialise a garden_users database (probbably from the garden db), where everytime you add a user to your
+// garden youre referencing the garden id and user id and adding the user id to the table
+//
 
 public class GardenManagementController {
     // Fields
@@ -155,6 +162,12 @@ public class GardenManagementController {
         return userSection;
     }
 
+    /**
+     * Renders a customized cell for the garden manager with all the users in the garden and their tasks with the ability to
+     * change or remove tasks
+     * @param taskList The list of tasks for each user
+     * @return A ListCell containing each users tasks
+     */
     private ListCell<Task> renderCell(ListView<Task> taskList) {
         return new ListCell<Task>(){
             @Override
@@ -231,8 +244,8 @@ public class GardenManagementController {
         removeUserButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                removeUser(person);
-            }
+                removeUser(person, 1);
+            } ///----> haev to have a button to set current garden id
         });
 
         VBox userOptionsList = new VBox(removeUserButton);
@@ -282,9 +295,9 @@ public class GardenManagementController {
      * Removes a user from the garden
      * @param person The person to be removed
      */
-    private void removeUser(IPerson person)
+    private void removeUser(IPerson person, int garden_ID)
     {
-        personDAO.deletePerson(person);
+        personDAO.deletePersonFromGarden(person,garden_ID);
         syncPeople();
     }
 
