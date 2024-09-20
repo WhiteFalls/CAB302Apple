@@ -72,6 +72,7 @@ public class GardenToDoListController {
         syncPerson(person);
     }
 
+    // loop through tasks for each garden
     private void syncPerson(IPerson person) {
         dailyListView.getItems().clear();
         weeklyListView.getItems().clear();
@@ -111,6 +112,18 @@ public class GardenToDoListController {
             }
         };
     }
+
+    // have a fid for the garden accordian
+    // for each garden,
+    // create a titlepane (getgardenbyuserid -- logged in user) and assign it a title
+    // create a secondary accordian for of the daily weekly custom tasks
+    // create a list<tasks> of logged in user tasks based on the garden id (maybe like getusertasksFromGarden)
+    //      > query task db based on userid and garden id and add them to a list
+    // sort tasks into daily ,weekly, custom and do the render cell
+    // add panes to task category accordian (getpanes.addall
+    // set the content of the secondary accordian to the titlepane created above
+    // add the titlepane to the garden accordian by getpanes.addall
+    // end for loop
 
     @FXML
     public void initialize() {

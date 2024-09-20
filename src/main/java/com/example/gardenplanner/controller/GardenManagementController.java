@@ -244,8 +244,8 @@ public class GardenManagementController {
         removeUserButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                removeUser(person, 1);
-            } ///----> haev to have a button to set current garden id
+                removeUser(person);
+            }
         });
 
         VBox userOptionsList = new VBox(removeUserButton);
@@ -295,9 +295,9 @@ public class GardenManagementController {
      * Removes a user from the garden
      * @param person The person to be removed
      */
-    private void removeUser(IPerson person, int garden_ID)
+    private void removeUser(IPerson person)
     {
-        personDAO.deletePersonFromGarden(person,garden_ID);
+        personDAO.deletePerson(person);
         syncPeople();
     }
 
