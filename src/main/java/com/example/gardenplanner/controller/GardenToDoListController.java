@@ -49,24 +49,14 @@ public class GardenToDoListController {
 
     // Initialize the controller with the necessary objects
     public GardenToDoListController() {
+        personDAO = new PersonDAO(connection);
+        taskDAO = new TaskDAO();
 
         // Retrieve user details from UserSession
         int personId = UserSession.getInstance().getPersonId();
         this.person = personDAO.getPerson(personId);
 
-        // Sync tasks with the person
-        syncPerson(this.person);
-    }
 
-    // Initialize the controller with the necessary objects
-    public void initializeController(Connection connection, ITaskDAO taskDAO, IPersonDAO personDAO) {
-        this.connection = connection;
-        this.taskDAO = taskDAO;
-        this.personDAO = personDAO;
-
-        // Retrieve user details from UserSession
-        int personId = UserSession.getInstance().getPersonId();
-        this.person = personDAO.getPerson(personId);
 
         // Sync tasks with the person
         syncPerson(this.person);
@@ -74,10 +64,6 @@ public class GardenToDoListController {
 
     @FXML
     private void testAddTask() {
-        addTask(person, "Harvest Beans", taskCategory.DAILY);
-        addTask(person, "Wash Beans", taskCategory.WEEKLY);
-        addTask(person, "Boil Beans", taskCategory.WEEKLY);
-        addTask(person, "DESTROY Beans", taskCategory.CUSTOM);
         syncPerson(person);
     }
 
@@ -130,22 +116,22 @@ public class GardenToDoListController {
         }
 
         dropboxTasks.getPanes().clear();
-        List<Task> taskList = taskDAO.getUserTasks(person);
-        if (taskList != null && !taskList.isEmpty()) {
-            for (Task task : taskList) {
-                switch (task.getCategory()) {
-                    case DAILY:
-                        dailyListView.getItems().add(task);
-                        break;
-                    case WEEKLY:
-                        weeklyListView.getItems().add(task);
-                        break;
-                    case CUSTOM:
-                        customListView.getItems().add(task);
-                        break;
-                }
-            }
-        }
+//        List<Task> taskList = taskDAO.getUserTasks(person);
+//        if (taskList != null && !taskList.isEmpty()) {
+//            for (Task task : taskList) {
+//                switch (task.getCategory()) {
+//                    case DAILY:
+//                        dailyListView.getItems().add(task);
+//                        break;
+//                    case WEEKLY:
+//                        weeklyListView.getItems().add(task);
+//                        break;
+//                    case CUSTOM:
+//                        customListView.getItems().add(task);
+//                        break;
+//                }
+//            }
+//        }
 
         // Render cells for daily, weekly, and custom tasks
         dailyListView.setCellFactory(this::renderCell);
