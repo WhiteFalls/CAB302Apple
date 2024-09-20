@@ -360,7 +360,7 @@ public class GardenManagementController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/gardenplanner/main-page.fxml"));
             Parent mainPageParent = loader.load();
-            Scene mainPageScene = new Scene(mainPageParent, 1600, 800);
+            Scene mainPageScene = new Scene(mainPageParent, 1200, 600);
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setScene(mainPageScene);
             window.show();

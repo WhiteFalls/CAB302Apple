@@ -52,7 +52,7 @@ public class Person implements IPerson {
     @Override
     public void setFirstName(String firstName) {
         this.firstName = firstName;
-        updatePersonInDatabase("fname", firstName, connection);
+        //updatePersonInDatabase("fname", firstName, connection);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class Person implements IPerson {
     @Override
     public void setLastName(String lastName) {
         this.lastName = lastName;
-        updatePersonInDatabase("lname", lastName, connection);
+        //updatePersonInDatabase("lname", lastName, connection);
     }
 
     @Override
