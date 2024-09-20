@@ -92,8 +92,8 @@ public class GardenToDoListController {
                     setGraphic(null);
                 } else {
                     Text taskDescription = new Text(task.getTaskDetails());
-                    Text assignedDateText = new Text(" Assigned: " + task.getAssignedDate().toString());
-                    Text dueDateText = new Text("Due: " + task.getDueDate().toString());
+                    Text assignedDateText = new Text(": Assigned: " + task.getAssignedDate().toString());
+                    Text dueDateText = new Text(" Due: " + task.getDueDate().toString());
 
                     Button completeButton = new Button("Complete");
                     completeButton.setOnAction(event -> {
