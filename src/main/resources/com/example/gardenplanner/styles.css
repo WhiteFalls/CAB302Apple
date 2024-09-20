@@ -48,11 +48,6 @@
     -fx-background-color: #81C049;
 }
 
- .list-view .list-cell {
-     -fx-padding: 2em 0 2em 0;
-}
-
-
 .list-view .list-cell:even {
     -fx-background-color: #81C049;
 }
@@ -72,6 +67,7 @@
 .hbox {
     -fx-spacing: 1em;
     -fx-background-color: transparent;
+    -fx-padding: 2em 0 2em 0;
 }
 
 .button {
