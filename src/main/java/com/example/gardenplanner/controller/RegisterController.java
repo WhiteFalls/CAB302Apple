@@ -42,6 +42,9 @@ public class RegisterController {
         personDAO = new PersonDAO(connection);
     }
 
+    /**
+     * Register's the user into the database
+     */
     @FXML
     public void registerUser() {
         // Validate user input before proceeding
@@ -71,6 +74,10 @@ public class RegisterController {
 //        clearFields();
     }
 
+    /**
+     * Validates whether the user's input was in the correct format
+     * @return True if the user's inputs are valid, else false
+     */
     private boolean validateInput() {
         String firstName = firstNameField.getText();
         String lastName = lastNameField.getText();
@@ -91,6 +98,11 @@ public class RegisterController {
         return true;  // If all validations pass, return true
     }
 
+    /**
+     * Displays an alert pop-up message
+     * @param title The title of the alert message
+     * @param message The message contained in the pop-up
+     */
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
@@ -99,6 +111,9 @@ public class RegisterController {
         alert.showAndWait();
     }
 
+    /**
+     * Clears all the fields on the page
+     */
     private void clearFields() {
         firstNameField.clear();
         lastNameField.clear();
@@ -112,7 +127,10 @@ public class RegisterController {
 //        System.out.println("RegisterController initialized.");
 //    }
 
-    // Navigate to login page
+    /**
+     * Sets scene to the login page of the application
+     * @param event The event that triggers the page change
+     */
     @FXML
     public void goToLogin(ActionEvent event) {
         try {

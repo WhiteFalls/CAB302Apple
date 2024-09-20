@@ -19,6 +19,9 @@ public class MainPage {
     @FXML
     private Button UpdatesButton;
 
+    /**
+     * Initialises the main page by getting the current user session
+     */
     public void initialize() {
         // Get the current user session
         UserSession session = UserSession.getInstance();
@@ -27,6 +30,9 @@ public class MainPage {
         String email = session.getEmail();
     }
 
+    /**
+     * Sets scene to the user to-do-list page of the application
+     */
     @FXML
     protected void onUpdatesButtonClick() throws IOException {
         Stage stage = (Stage) UpdatesButton.getScene().getWindow();
@@ -35,6 +41,9 @@ public class MainPage {
         stage.setScene(scene);
     }
 
+    /**
+     * Sets scene to the garden management page of the application
+     */
     @FXML
     protected void onGardenButtonClick() throws IOException {
         Stage stage = (Stage) UpdatesButton.getScene().getWindow();

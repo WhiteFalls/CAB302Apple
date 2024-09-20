@@ -18,8 +18,8 @@ public interface ITask {
     LocalDate getDueDate();
 
     /**
-     * Returns the unique id of the task
-     * @return An integer of the task's id
+     * Returns the unique ID of the task
+     * @return An integer of the task's ID
      */
     int getId();
 
@@ -34,6 +34,13 @@ public interface ITask {
      * @return A taskCategory enum of the task's repetition category
      */
     taskCategory getCategory();
+
+    /**
+     * Sets the category of the task
+     * @param category The category of the task
+     */
+    public void setCategory(taskCategory category);
+
 
     /**
      * Updates the currents tasks parameters

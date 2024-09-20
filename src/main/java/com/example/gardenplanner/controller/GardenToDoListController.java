@@ -47,7 +47,9 @@ public class GardenToDoListController {
     private ListView<Task> customListView = new ListView<>();
 
 
-    // Initialize the controller with the necessary objects
+    /**
+     * Intialises the GardenToDoListController
+     */
     public GardenToDoListController() {
         personDAO = new PersonDAO(connection);
         taskDAO = new TaskDAO();
@@ -62,11 +64,18 @@ public class GardenToDoListController {
         syncPerson(this.person);
     }
 
+    /**
+     * Button call that re-syncs the task data
+     */
     @FXML
     private void testAddTask() {
         syncPerson(person);
     }
 
+    /**
+     * Resets the page and adds back all the task data organised in terms of task category
+     * @param person The person whom the tasks belong to
+     */
     private void syncPerson(IPerson person) {
         dailyListView.getItems().clear();
         weeklyListView.getItems().clear();
@@ -81,6 +90,11 @@ public class GardenToDoListController {
         customListView.getItems().addAll(customTasks);
     }
 
+    /**
+     * Custom function that structures what each cell in a ListVeiw of Tasks should look like
+     * @param taskList The task list that the cell is being added to
+     * @return The cell that is being added to the task list
+     */
     private ListCell<Task> renderCell(ListView<Task> taskList) {
         return new ListCell<Task>() {
             @Override
@@ -156,6 +170,10 @@ public class GardenToDoListController {
         }
     }
 
+    /**
+     * Sets scene back to the main page of the application
+     * @param event The event that triggers the page change
+     */
     @FXML
     private void goBackToMainPage(ActionEvent event) {
         try {

@@ -15,7 +15,7 @@ public class PersonTest {
     @BeforeEach
     public void setUp() {
         person = new Person("John", "Doe", "john.doe@example.com", "1234567890");
-        task = new Task(rs.getInt("task_id"), "task", LocalDate.now(), LocalDate.now(), taskCategory.DAILY);
+        task = new Task(1, "task", LocalDate.now(), LocalDate.now(), taskCategory.DAILY);
     }
 
     @org.junit.jupiter.api.Test
@@ -83,7 +83,7 @@ public class PersonTest {
     public void testEditTask() {
         person.addTask(task);
 
-        Task new_task = new Task(rs.getInt("task_id"), "new_task", LocalDate.now(), LocalDate.now(), taskCategory.DAILY);
+        Task new_task = new Task(2, "new_task", LocalDate.now(), LocalDate.now(), taskCategory.DAILY);
         person.editTask(new_task, task);
         assertEquals(new_task, person.getTasks()[0]);
     }

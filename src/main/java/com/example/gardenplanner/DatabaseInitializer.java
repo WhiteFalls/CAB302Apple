@@ -6,6 +6,9 @@ public class DatabaseInitializer {
 
     private static final String DB_URL = "jdbc:sqlite:GardenPlanner.sqlite";
 
+    /**
+     * Initialises the database if it hasn't been created already
+     */
     public static void checkAndCreateDatabase() {
         try (Connection connection = DriverManager.getConnection(DB_URL);
              Statement statement = connection.createStatement()) {
@@ -73,6 +76,10 @@ public class DatabaseInitializer {
         }
     }
 
+    /**
+     * Inserts test users into the database
+     * @param connection The connection to the SQL lite database
+     */
     private static void checkAndInsertDefaultUsersAndGarden(Connection connection) {
         try {
             // Check if the users already exist
@@ -123,6 +130,13 @@ public class DatabaseInitializer {
         }
     }
 
+    /**
+     * Gets the user's id using their first name
+     * @param connection The connection to the SQL lite database
+     * @param firstName The first name of the user
+     * @return The user's id
+     * @throws SQLException Thrown if no user with that name is found
+     */
     private static int getUserIdByName(Connection connection, String firstName) throws SQLException {
         String query = "SELECT user_id FROM Users WHERE fname = ?";
         try (PreparedStatement prep = connection.prepareStatement(query)) {

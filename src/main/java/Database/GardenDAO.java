@@ -10,6 +10,9 @@ public class GardenDAO implements IGardenDAO {
 
     private Connection connection;
 
+    /**
+     * Constructs a new GardenDAO and initializes the connection to the database
+     */
     public GardenDAO() {
         connection = DatabaseConnection.getConnection();  // Get a connection from your utility
     }

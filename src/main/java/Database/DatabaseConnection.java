@@ -8,6 +8,10 @@ public class DatabaseConnection {
 
     private static final String DB_URL = "jdbc:sqlite:GardenPlanner.sqlite";
 
+    /**
+     * Establishes a connection to the database
+     * @return The SQL lite connection to the database
+     */
     public static Connection getConnection() {
         Connection connection = null;
         try {
