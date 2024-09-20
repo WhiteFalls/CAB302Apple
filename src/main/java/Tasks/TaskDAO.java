@@ -26,11 +26,8 @@ public class TaskDAO implements ITaskDAO {
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, person.getUserId());
-            //ResultSet rs = stmt.executeQuery();
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                DateTimeFormatter dtf;
-                dtf = DateTimeFormatter.ofPattern("yyyy-MMM-dd");
                 Task task = new Task(
                         rs.getInt("task_id"),
                         rs.getString("task_details"),
@@ -95,7 +92,27 @@ public class TaskDAO implements ITaskDAO {
 
     @Override
     public ArrayList<Task> getCategorisedTasks(IPerson person, taskCategory category) {
-        return null;
+        String query = "SELECT * FROM Tasks WHERE user_id = ? AND category = ?";
+        ArrayList<Task> tasks = new ArrayList<>();
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, person.getUserId());
+            stmt.setString(2, category.toString());
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Task task = new Task(
+                        rs.getInt("task_id"),
+                        rs.getString("task_details"),
+                        rs.getDate("assigned_date").toLocalDate(),
+                        rs.getDate("due_date").toLocalDate(),
+                        taskCategory.valueOf(rs.getString("category"))  // Convert text to enum
+                );
+                tasks.add(task);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tasks;
     }
 
     @Override
