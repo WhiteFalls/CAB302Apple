@@ -77,6 +77,12 @@
       <scope>compile</scope>
     </dependency>
 
+    <dependency>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-javadoc-plugin</artifactId>
+      <version>3.0.1</version>
+    </dependency>
+
   </dependencies>
 
   <build>
@@ -88,6 +94,15 @@
         <configuration>
           <source>21</source>
           <target>21</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.4.0</version>
+        <configuration>
+          <destDir>javadoc</destDir>
+          <reportOutputDirectory>${project.build.directory}/docs</reportOutputDirectory>
         </configuration>
       </plugin>
       <plugin>
