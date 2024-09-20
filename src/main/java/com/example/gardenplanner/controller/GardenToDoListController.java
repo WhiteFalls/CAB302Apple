@@ -25,11 +25,6 @@ import java.util.List;
 
 import java.sql.Connection;
 
-// I need to implement a button that allows users to switch between their gardens, or if they are in alot of gardens
-// somehow make a slider or something
-// keep track of what garden each user is in through the garden_users db, and have a method of switching through the
-// gardens and letting the controller know which garden the user is on
-// each user also has a specific task in the garden, so you will also need to update that
 public class GardenToDoListController {
 
     @FXML
@@ -52,7 +47,9 @@ public class GardenToDoListController {
     private ListView<Task> customListView = new ListView<>();
 
 
-    // Initialize the controller with the necessary objects
+    /**
+     * Intialises the GardenToDoListController
+     */
     public GardenToDoListController() {
         personDAO = new PersonDAO(connection);
         taskDAO = new TaskDAO();
@@ -67,12 +64,18 @@ public class GardenToDoListController {
         syncPerson(this.person);
     }
 
+    /**
+     * Button call that re-syncs the task data
+     */
     @FXML
     private void testAddTask() {
         syncPerson(person);
     }
 
-    // loop through tasks for each garden
+    /**
+     * Resets the page and adds back all the task data organised in terms of task category
+     * @param person The person whom the tasks belong to
+     */
     private void syncPerson(IPerson person) {
         dailyListView.getItems().clear();
         weeklyListView.getItems().clear();
@@ -87,6 +90,11 @@ public class GardenToDoListController {
         customListView.getItems().addAll(customTasks);
     }
 
+    /**
+     * Custom function that structures what each cell in a ListVeiw of Tasks should look like
+     * @param taskList The task list that the cell is being added to
+     * @return The cell that is being added to the task list
+     */
     private ListCell<Task> renderCell(ListView<Task> taskList) {
         return new ListCell<Task>() {
             @Override
@@ -112,18 +120,6 @@ public class GardenToDoListController {
             }
         };
     }
-
-    // have a fid for the garden accordian
-    // for each garden,
-    // create a titlepane (getgardenbyuserid -- logged in user) and assign it a title
-    // create a secondary accordian for of the daily weekly custom tasks
-    // create a list<tasks> of logged in user tasks based on the garden id (maybe like getusertasksFromGarden)
-    //      > query task db based on userid and garden id and add them to a list
-    // sort tasks into daily ,weekly, custom and do the render cell
-    // add panes to task category accordian (getpanes.addall
-    // set the content of the secondary accordian to the titlepane created above
-    // add the titlepane to the garden accordian by getpanes.addall
-    // end for loop
 
     @FXML
     public void initialize() {
@@ -174,12 +170,16 @@ public class GardenToDoListController {
         }
     }
 
+    /**
+     * Sets scene back to the main page of the application
+     * @param event The event that triggers the page change
+     */
     @FXML
     private void goBackToMainPage(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/gardenplanner/main-page.fxml"));
             Parent mainPageParent = loader.load();
-            Scene mainPageScene = new Scene(mainPageParent, 1600, 800);
+            Scene mainPageScene = new Scene(mainPageParent, 1200, 600);
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setScene(mainPageScene);
             window.show();

@@ -10,6 +10,10 @@ import java.util.List;
  * the CRUD operations for the Contact class with the database.
  */
 public interface IPersonDAO {
+    /**
+     * Adds a person to the database
+     * @param person The person to be added
+     */
     void addPerson(Person person);
 
     Person getPersonByEmail(String email);

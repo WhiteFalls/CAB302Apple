@@ -27,14 +27,9 @@ import java.util.ArrayList;
 import java.sql.Connection;
 import java.util.Optional;
 
-// currerntly, there is no seperation of gardens and garden id
-// we havnt included garden DAO's methods, etc add garden
-// what we need to do is a button that does the add a garden, auto increments the garden id and somehow save the garden
-// id so we know which garden the user is on
-// also, initialise a garden_users database (probbably from the garden db), where everytime you add a user to your
-// garden youre referencing the garden id and user id and adding the user id to the table
-//
-
+/**
+ * Controller for the garden management page
+ */
 public class GardenManagementController {
     // Fields
     @FXML
@@ -46,6 +41,10 @@ public class GardenManagementController {
     private ITaskDAO taskDAO;
 
     // Constructor
+
+    /**
+     * Constructs a new GardenManagementController and initialises the task, person and garden DAOs.
+     */
     public GardenManagementController() {
         taskDAO = new TaskDAO();
         personDAO = new PersonDAO(connection);
@@ -99,6 +98,10 @@ public class GardenManagementController {
         //userDropBox.setVisible(hasPeople);
     }
 
+    /**
+     * Create the section to allow the manager to add users to their garden.
+     * @return A title pane containing the add user option section
+     */
     private TitledPane getAddUsersSection() {
         Label addUsersLabel = new Label("Type in the user ID: ");
         TextField addUserText = new TextField();
@@ -163,10 +166,9 @@ public class GardenManagementController {
     }
 
     /**
-     * Renders a customized cell for the garden manager with all the users in the garden and their tasks with the ability to
-     * change or remove tasks
-     * @param taskList The list of tasks for each user
-     * @return A ListCell containing each users tasks
+     * Custom function that structures what each cell in a ListVeiw of Tasks should look like
+     * @param taskList The task list that the cell is being added to
+     * @return The cell that is being added to the task list
      */
     private ListCell<Task> renderCell(ListView<Task> taskList) {
         return new ListCell<Task>(){
@@ -301,6 +303,10 @@ public class GardenManagementController {
         syncPeople();
     }
 
+    /**
+     * Adds a user to the garden
+     * @param id The user id of the user to be added
+     */
     private void addUser(int id)
     {
         IPerson newPerson = personDAO.getPerson(id);
@@ -326,6 +332,11 @@ public class GardenManagementController {
         alert.showAndWait();
     }
 
+    /**
+     * Displays a confirmation popup on the screen
+     * @param message The message to be shown in the popup
+     * @return A boolean value based on the user's decision to confirm or deny the action
+     */
     private boolean displayConfirmPopup(String message)
     {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -341,11 +352,15 @@ public class GardenManagementController {
         return false;
     }
 
+    /**
+     * Sets scene back to the main page of the application
+     * @param event The event that triggers the page change
+     */
     public void goBackToMainPage(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/gardenplanner/main-page.fxml"));
             Parent mainPageParent = loader.load();
-            Scene mainPageScene = new Scene(mainPageParent, 1600, 800);
+            Scene mainPageScene = new Scene(mainPageParent, 1200, 600);
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setScene(mainPageScene);
             window.show();

@@ -1,5 +1,7 @@
 package com.example.gardenplanner;
 
+import People.IPerson;
+
 public class UserSession {
     private static UserSession instance;
     private int personId;

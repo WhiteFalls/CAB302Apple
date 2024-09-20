@@ -76,17 +76,46 @@ public interface IPerson {
         return getFirstName() + " " + getLastName();
     }
 
+    /**
+     * Gets all the tasks assigned to the user
+     * @return An array of all the user's tasks
+     */
     Task[] getTasks();
 
+    /**
+     * Gets the newest task of the user
+     * @return The most recent task assigned to the user
+     */
     Task getNewestTask();
 
+    /**
+     * Sets the tasks assigned to the user
+     * @param userTasks The tasks to be assigned to the user
+     */
     void setTasks(Object userTasks);
 
+    /**
+     * Sets the tasks assigned to the user
+     * @param tasks The tasks to be assigned to the user
+     */
     void setTasks(List<Task> tasks);
 
+    /**
+     * Adds a task to the user
+     * @param task The task to be added
+     */
     void addTask(Task task);
 
+    /**
+     * Updates a task currently assigned to the user
+     * @param newTask The task to replace the old task
+     * @param oldTask The task to be replaced
+     */
     void editTask(Task newTask, Task oldTask);
 
+    /**
+     * Removes a task from the user
+     * @param id The ID of the task to be removed
+     */
     void removeTask(int id);
 }
