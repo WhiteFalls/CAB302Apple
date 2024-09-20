@@ -46,8 +46,16 @@ public class GardenToDoListController {
     private ListView<Task> weeklyListView = new ListView<>();
     private ListView<Task> customListView = new ListView<>();
 
+
+    // Initialize the controller with the necessary objects
     public GardenToDoListController() {
-        // Empty constructor for FXML loading
+
+        // Retrieve user details from UserSession
+        int personId = UserSession.getInstance().getPersonId();
+        this.person = personDAO.getPerson(personId);
+
+        // Sync tasks with the person
+        syncPerson(this.person);
     }
 
     // Initialize the controller with the necessary objects
