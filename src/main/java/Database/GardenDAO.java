@@ -30,7 +30,7 @@ public class GardenDAO implements IGardenDAO {
             System.out.println("Garden added successfully.");
 
             ResultSet rs = stmt.getGeneratedKeys(); // get auto incremented keys
-            addToGardenUsers(rs.getInt(1));
+            addToGardenUsers(rs.getInt(1)); // update garden users table
         } catch (SQLException e) {
             e.printStackTrace();
         }
