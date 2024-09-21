@@ -1,5 +1,7 @@
 package com.example.gardenplanner.controller;
 
+import Database.GardenDAO;
+import People.Garden;
 import com.example.gardenplanner.HelloApplication;
 import com.example.gardenplanner.UserSession;
 import com.example.gardenplanner.controller.GardenManagementController;
@@ -19,6 +21,8 @@ public class MainPage {
     @FXML
     private Button UpdatesButton;
 
+    private UserSession currentUser = UserSession.getInstance();  // can be used to refactor initialize
+    private GardenDAO gardenDAO;
     /**
      * Initialises the main page by getting the current user session
      */
@@ -28,6 +32,8 @@ public class MainPage {
         String firstName = session.getFirstName();
         String lastName = session.getLastName();
         String email = session.getEmail();
+
+        gardenDAO = new GardenDAO(); // gardens can be created on main page
     }
 
     /**
@@ -51,6 +57,28 @@ public class MainPage {
         Scene scene = new Scene(fxmlLoader.load(), 1200, 600);
         stage.setScene(scene);
     }
+
+
+    @FXML
+    protected void addGarden() throws IOException{
+        // this code wil be needed in the future to swap to the actual garden plot
+//        Stage stage = (Stage) UpdatesButton.getScene().getWindow();
+//        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("garden-plot.fxml"));
+//        Scene scene = new Scene(fxmlLoader.load(), 1200, 600);
+//        stage.setScene(scene);
+
+        // for now, we just create a new garden in the database
+        Garden garden = new Garden(currentUser.getPersonId(),currentUser.getFirstName()); // currently, garden name will be users name
+        gardenDAO.addGarden(garden);
+    }
+
+
+
+
+
+
+
+
 //
 //    @FXML
 //    protected void OnNextButtonClick("Settings") throws IOException {
