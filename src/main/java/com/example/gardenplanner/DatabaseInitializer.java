@@ -112,9 +112,9 @@ public class DatabaseInitializer {
 
                 // Insert tasks for Liam and John, associate with garden 1
                 String insertTasksQuery = """
-                    INSERT INTO Tasks (user_id, garden_id, assigned_date, due_date, task_details) VALUES
-                    (?, 1, '2024-09-01', '2024-09-15', 'Water the plants'),
-                    (?, 1, '2024-09-01', '2024-09-10', 'Prune the shrubs');
+                    INSERT INTO Tasks (user_id, garden_id, assigned_date, due_date, task_details, category) VALUES
+                    (?, 1, '2024-09-01', '2024-09-15', 'Water the plants', 'Daily'),
+                    (?, 1, '2024-09-01', '2024-09-10', 'Prune the shrubs', 'Weekly');
                 """;
                 PreparedStatement taskStmt = connection.prepareStatement(insertTasksQuery);
                 taskStmt.setInt(1, liamId);
