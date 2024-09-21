@@ -34,7 +34,7 @@ public class PersonDAO implements IPersonDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        }
+    }
 
 
     @Override
@@ -74,6 +74,11 @@ public class PersonDAO implements IPersonDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void deletePersonFromGarden(IPerson person, int garden_ID) throws IllegalArgumentException {
+
     }
 
     @Override
