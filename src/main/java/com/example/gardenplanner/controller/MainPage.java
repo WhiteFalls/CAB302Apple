@@ -61,10 +61,18 @@ public class MainPage {
      */
     @FXML
     protected void onGardenButtonClick() throws IOException {
-        Stage stage = (Stage) UpdatesButton.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("garden-management-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1200, 600);
-        stage.setScene(scene);
+        int gardensOwned = findNumGardensOwned();
+        if (gardensOwned == 1) {
+            Stage stage = (Stage) UpdatesButton.getScene().getWindow();
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("garden-management-view.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 1200, 600);
+            stage.setScene(scene);
+        } else if (gardensOwned == 0) {
+            displayErrorPopup("You must create a garden first!");
+        }
+        else{
+            displayUnknownError();
+        }
     }
 
 
@@ -76,28 +84,50 @@ public class MainPage {
 //        Scene scene = new Scene(fxmlLoader.load(), 1200, 600);
 //        stage.setScene(scene);
 
-        String query = "SELECT COUNT(*) FROM Gardens WHERE garden_owner = ?";
-        try(PreparedStatement stmt = connection.prepareStatement(query)){
-            stmt.setInt(1, loggedInUser.getUserId());
-            ResultSet rs = stmt.executeQuery();
-            int gardensOwned = rs.getInt(1);
-            if (gardensOwned == 1){
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText(null);
-                alert.setContentText("You are only allowed to own one garden!");
-                alert.showAndWait();
+            int gardensOwned = findNumGardensOwned();
+            if (gardensOwned >= 1){
+                displayErrorPopup("You are only allowed to own one garden!");
             }
-            else{
+            else if (gardensOwned == 0){
                 // for now, we just create a new garden in the database
                 Garden garden = new Garden(currentUser.getPersonId(),currentUser.getFirstName()); // currently, garden name will be users name
                 gardenDAO.addGarden(garden);
             }
-        }catch(SQLException e ){
-            e.printStackTrace();
-        }
+            else{
+                System.out.println("Error: Unable to retrieve the number of gardens owned.");
+                displayUnknownError();
+            }
     }
 
+    private int findNumGardensOwned(){
+        String query = "SELECT COUNT(*) FROM Gardens WHERE garden_owner = ?";
+        try(PreparedStatement stmt = connection.prepareStatement(query)){
+            stmt.setInt(1, loggedInUser.getUserId());
+            ResultSet rs = stmt.executeQuery();
+            return rs.getInt(1);
+        }catch(SQLException e ) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    // could be public, made into an error class maybe
+    private void displayUnknownError(){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText("AN ERROR OCCURRED IN THE APPLICATION");
+        alert.showAndWait();
+    }
+
+    private void displayErrorPopup(String message)
+    {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 
 
 

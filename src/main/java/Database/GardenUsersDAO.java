@@ -86,7 +86,6 @@ public class GardenUsersDAO implements IGardenUsersDAO {
             while (rs.next()) {
                 Garden garden = new Garden(rs.getInt("garden_id"), rs.getInt("garden_owner"), rs.getString("garden_name"));
                 usergardenList.add(garden);
-                System.out.println(rs.getString("garden_name"));
             }
         } catch (SQLException e) {
             e.printStackTrace();

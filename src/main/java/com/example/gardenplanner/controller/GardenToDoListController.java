@@ -163,8 +163,6 @@ public class GardenToDoListController {
                     weeklyListView2.add(new ListView<>());
                     customListView2.add(new ListView<>());
                 }
-                // debug
-                List<Task> taskss = taskDAO.getCategorisedTasksFromGarden(person,taskCategory.DAILY,personalGardens.get(1));
                 // add categorised tasks to list of listviews
                 dailyListView2.get(i).getItems().addAll( taskDAO.getCategorisedTasksFromGarden(person,taskCategory.DAILY,personalGardens.get(i)));
                 weeklyListView2.get(i).getItems().addAll(taskDAO.getCategorisedTasksFromGarden(person,taskCategory.WEEKLY,personalGardens.get(i)));
