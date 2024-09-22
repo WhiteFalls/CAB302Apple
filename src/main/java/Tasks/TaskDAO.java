@@ -1,13 +1,11 @@
 package Tasks;
 
 import Database.DatabaseConnection;
+import People.Garden;
 import People.IPerson;
 import People.Person;
-import javafx.util.converter.LocalDateStringConverter;
 
 import java.sql.*;
-import java.time.*;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -116,6 +114,32 @@ public class TaskDAO implements ITaskDAO {
     }
 
     @Override
+    public ArrayList<Task> getCategorisedTasksFromGarden(IPerson person, taskCategory category, Garden garden) {
+        String query = "SELECT * FROM Tasks WHERE user_id = ? AND category = ? AND garden_id = ?";
+        ArrayList<Task> tasks = new ArrayList<>();
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, person.getUserId());
+            stmt.setString(2, category.toString());
+            stmt.setInt(3, garden.getGardenId());
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Task task = new Task(
+                        rs.getInt("task_id"),
+                        rs.getString("task_details"),
+                        rs.getDate("assigned_date").toLocalDate(),
+                        rs.getDate("due_date").toLocalDate(),
+                        taskCategory.valueOf(rs.getString("category"))  // Convert text to enum
+                );
+                tasks.add(task);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tasks;
+    }
+
+    @Override
     public Task get(int id) {
         String query = "SELECT * FROM Tasks WHERE task_id = ?";
         Task task = null;
@@ -190,8 +214,5 @@ public class TaskDAO implements ITaskDAO {
         return null;
     }
 
-    @Override
-    public List<Task> getCategorisedTasks(Person person, taskCategory taskCategory) {
-        return List.of();
-    }
+
 }

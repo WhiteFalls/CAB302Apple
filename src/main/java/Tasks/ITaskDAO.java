@@ -1,7 +1,9 @@
 package Tasks;
 
+import People.Garden;
 import People.IPerson;
 import People.Person;
+import org.apache.commons.compress.archivers.ar.ArArchiveEntry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +37,9 @@ public interface ITaskDAO {
      * @param category
      * @return
      */
-    public ArrayList<Task> getCategorisedTasks(IPerson person, taskCategory category);
+    ArrayList<Task> getCategorisedTasks(IPerson person, taskCategory category);
+
+    ArrayList<Task> getCategorisedTasksFromGarden(IPerson person, taskCategory category, Garden garden);
 
     Task get(int id);
 
@@ -47,5 +51,4 @@ public interface ITaskDAO {
 
     Object getUserTasks(Person person);
 
-    List<Task> getCategorisedTasks(Person person, taskCategory taskCategory);
 }

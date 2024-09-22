@@ -3,6 +3,7 @@ package com.example.gardenplanner.controller;
 import Database.*;
 import People.Garden;
 import People.IPerson;
+import People.Person;
 import Tasks.ITaskDAO;
 import Tasks.Task;
 import Tasks.TaskDAO;
@@ -26,6 +27,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -57,8 +59,6 @@ public class GardenToDoListController {
     private ListView<Task> dailyListView = new ListView<>();
     private ListView<Task> weeklyListView = new ListView<>();
     private ListView<Task> customListView = new ListView<>();
-    private ListView<Task> taskListView = new ListView<>();
-
 
     /**
      * Intialises the GardenToDoListController
@@ -93,17 +93,19 @@ public class GardenToDoListController {
      * @param person The person whom the tasks belong to
      */
     private void syncPerson(IPerson person) {
-        dailyListView.getItems().clear();
-        weeklyListView.getItems().clear();
-        customListView.getItems().clear();
+      //  for (Garden garden : personalGardens) {
+            dailyListView.getItems().clear();
+            weeklyListView.getItems().clear();
+            customListView.getItems().clear();
 
-        List<Task> dailyTasks = taskDAO.getCategorisedTasks(person, taskCategory.DAILY);
-        List<Task> weeklyTasks = taskDAO.getCategorisedTasks(person, taskCategory.WEEKLY);
-        List<Task> customTasks = taskDAO.getCategorisedTasks(person, taskCategory.CUSTOM);
+            List<Task> dailyTasks = taskDAO.getCategorisedTasks(person, taskCategory.DAILY);//FromGarden((Person) person, taskCategory.DAILY,garden);
+            List<Task> weeklyTasks = taskDAO.getCategorisedTasks(person, taskCategory.WEEKLY);
+            List<Task> customTasks = taskDAO.getCategorisedTasks(person, taskCategory.CUSTOM);
 
-        dailyListView.getItems().addAll(dailyTasks);
-        weeklyListView.getItems().addAll(weeklyTasks);
-        customListView.getItems().addAll(customTasks);
+            dailyListView.getItems().addAll(dailyTasks);
+            weeklyListView.getItems().addAll(weeklyTasks);
+            customListView.getItems().addAll(customTasks);
+        //}
     }
 
     /**
@@ -163,10 +165,15 @@ public class GardenToDoListController {
 
                 // create inner accordian for task categories
                 Accordion taskCategories = new Accordion();
-                ListView<Task> dailyLists = findTasksFromUserInGarden(garden,person);
+               // taskListView.add(findTasksFromUserInGarden(garden,person));
+                ListView<Task> dailyLists =  new ListView<>();
                 ListView<Task> weeklyLists = new ListView<>();
                 ListView<Task> customLists = new ListView<>();
 
+                // add categorised tasks to listviews
+                dailyLists.getItems().addAll( taskDAO.getCategorisedTasksFromGarden(person,taskCategory.DAILY,garden));
+                weeklyLists.getItems().addAll(taskDAO.getCategorisedTasksFromGarden(person,taskCategory.WEEKLY,garden));
+                customLists.getItems().addAll(taskDAO.getCategorisedTasksFromGarden(person,taskCategory.CUSTOM,garden));
                 // generate list of tasks (might not need to be seperated since sync does it for us..?)
                 dailyLists.setCellFactory(this::renderCell);
                 weeklyLists.setCellFactory(this::renderCell);
