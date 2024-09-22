@@ -44,11 +44,13 @@ public class GardenUsersDAO implements IGardenUsersDAO {
 
     @Override
     public void addPersonToGarden(IPerson person, Garden garden) {
-        String query = "INSERT INTO Garden_Users (garden_id, user_id) VALUES (?, ?)";
+        String query = "INSERT INTO Garden_Users (garden_id, user_id, access_level) VALUES (?, ?, ?)";
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, garden.getGardenId());
             stmt.setInt(2, person.getUserId());
+            stmt.setString(3, "User");
+
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -57,7 +59,7 @@ public class GardenUsersDAO implements IGardenUsersDAO {
 
     @Override
     public void removePersonFromGarden(IPerson person, Garden garden) {
-        String query = "DELETE FROM Garden_Users WHERE user_id = ? AND garden_id = ? VALUES (?, ?)";
+        String query = "DELETE FROM Garden_Users WHERE user_id = ? AND garden_id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, person.getUserId());
             stmt.setInt(2, garden.getGardenId());

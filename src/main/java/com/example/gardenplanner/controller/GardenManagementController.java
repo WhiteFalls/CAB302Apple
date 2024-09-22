@@ -44,6 +44,8 @@ public class GardenManagementController {
     private GardenUsersDAO gardenUsersDAO;
     private ITaskDAO taskDAO;
 
+    private Garden garden;
+
     // Constructor
     public GardenManagementController() {
         taskDAO = new TaskDAO();
@@ -59,6 +61,11 @@ public class GardenManagementController {
      * Allocates each task to their respective user and loads the user section
      */
     public void initialize() {
+        // Retrieve user details from UserSession
+        int personId = UserSession.getInstance().getPersonId();
+        IPerson gardenOwner = personDAO.getPerson(personId);
+
+        garden = gardenDAO.getGardenByUserId(personId);
         syncPeople();
     }
 
@@ -68,11 +75,6 @@ public class GardenManagementController {
     private void syncPeople() {
         userDropBox.getPanes().clear();
 
-        // Retrieve user details from UserSession
-        int personId = UserSession.getInstance().getPersonId();
-        IPerson gardenOwner = personDAO.getPerson(personId);
-
-        Garden garden = gardenDAO.getGardenByUserId(personId);
         List<Integer> peopleIds = gardenUsersDAO.getPeopleIdsInGarden(garden);
         ArrayList<IPerson> people = new ArrayList<>();
 
@@ -299,7 +301,7 @@ public class GardenManagementController {
      */
     private void removeUser(IPerson person)
     {
-        personDAO.deletePerson(person);
+        gardenUsersDAO.removePersonFromGarden(person, garden);
         syncPeople();
     }
 
@@ -311,6 +313,7 @@ public class GardenManagementController {
             displayPopup("No user with that ID exists");
         }
         else {
+            gardenUsersDAO.addPersonToGarden(newPerson, garden);
             syncPeople();
         }
     }
