@@ -1,13 +1,17 @@
 package com.example.gardenplanner.controller;
 
+import Database.GardenUsersDAO;
 import Database.PersonDAO;
+import People.Garden;
 import People.IPerson;
+import People.Person;
 import Tasks.ITaskDAO;
 import Tasks.Task;
 import Tasks.TaskDAO;
 import Tasks.taskCategory;
 import Database.IPersonDAO;
 import Database.GardenDAO;
+import com.example.gardenplanner.UserSession;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -25,6 +29,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import java.sql.Connection;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -36,6 +41,7 @@ public class GardenManagementController {
 
     private IPersonDAO personDAO;
     private GardenDAO gardenDAO;
+    private GardenUsersDAO gardenUsersDAO;
     private ITaskDAO taskDAO;
 
     // Constructor
@@ -43,6 +49,7 @@ public class GardenManagementController {
         taskDAO = new TaskDAO();
         personDAO = new PersonDAO(connection);
         gardenDAO = new GardenDAO();
+        gardenUsersDAO = new GardenUsersDAO(connection);
     }
 
     // Methods
@@ -52,10 +59,6 @@ public class GardenManagementController {
      * Allocates each task to their respective user and loads the user section
      */
     public void initialize() {
-        for (IPerson person : personDAO.getAllPeople())
-        {
-            person.setTasks(taskDAO.getUserTasks(person));
-        }
         syncPeople();
     }
 
@@ -65,7 +68,19 @@ public class GardenManagementController {
     private void syncPeople() {
         userDropBox.getPanes().clear();
 
-        ArrayList<IPerson> people = personDAO.getAllPeople();
+        // Retrieve user details from UserSession
+        int personId = UserSession.getInstance().getPersonId();
+        IPerson gardenOwner = personDAO.getPerson(personId);
+
+        Garden garden = gardenDAO.getGardenByUserId(personId);
+        List<Integer> peopleIds = gardenUsersDAO.getPeopleIdsInGarden(garden);
+        ArrayList<IPerson> people = new ArrayList<>();
+
+        for (int id : peopleIds)
+        {
+            people.add(personDAO.getPerson(id));
+        }
+
         for (IPerson person : people)
         {
             person.setTasks(taskDAO.getUserTasks(person));

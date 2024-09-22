@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"m":"com.example.gardenplanner","l":"com.example.gardenplanner"},{"m":"com.example.gardenplanner","l":"com.example.gardenplanner.controller"},{"m":"com.example.gardenplanner","l":"Database"},{"m":"com.example.gardenplanner","l":"People"},{"m":"com.example.gardenplanner","l":"Tasks"}];updateSearchResults();
