@@ -24,6 +24,7 @@ public interface IGardenDAO {
      * @return The gardens with the specified user ID
      */
     List<Garden> getGardensByUserId(int userId);
+    Garden getGardenByUserId(int userId);
 
     /**
      * Updates the garden's details

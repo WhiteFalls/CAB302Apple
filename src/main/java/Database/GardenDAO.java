@@ -74,6 +74,24 @@ public class GardenDAO implements IGardenDAO {
     }
 
     @Override
+    public Garden getGardenByUserId(int userId) {
+        String query = "SELECT * FROM Gardens WHERE garden_owner = ?";
+        Garden garden = null;
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                garden = new Garden(rs.getInt("garden_id"), rs.getInt("garden_owner"), rs.getString("garden_name"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return garden;
+    }
+
+    @Override
     public void updateGarden(Garden garden) {
         String query = "UPDATE Gardens SET garden_name = ? WHERE garden_id = ?";
 

@@ -48,5 +48,6 @@ public interface IPersonDAO {
      */
     public ArrayList<IPerson> getAllPeople();
 
+
     void deletePerson(Person person);
 }
