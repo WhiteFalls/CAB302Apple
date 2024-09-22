@@ -36,15 +36,6 @@ import java.sql.Connection;
 public class GardenToDoListController {
 
     @FXML
-    private Accordion dropboxTasks;
-    @FXML
-    private TitledPane weeklyTasks;
-    @FXML
-    private TitledPane dailyTasks;
-    @FXML
-    private TitledPane customTasks;
-
-    @FXML
     private Accordion testGarden;
 
     private ITaskDAO taskDAO;
@@ -56,10 +47,6 @@ public class GardenToDoListController {
     private List<List<Task>> taskListForGardens = new ArrayList<>();
 
     private Connection connection;
-
-    private ListView<Task> dailyListView = new ListView<>();
-    private ListView<Task> weeklyListView = new ListView<>();
-    private ListView<Task> customListView = new ListView<>();
 
     private List<ListView<Task>> dailyListView2 = new ArrayList<>();
     private List<ListView<Task>> weeklyListView2 = new ArrayList<>();
@@ -79,6 +66,7 @@ public class GardenToDoListController {
         // Retrieve user details from UserSession
         int personId = UserSession.getInstance().getPersonId();
         this.person = personDAO.getPerson(personId);
+        personalGardens = gardenUsersDAO.getAllGardenByUserId(person.getUserId());
 
 
 
@@ -112,6 +100,7 @@ public class GardenToDoListController {
             List<Task> weeklyLists = taskDAO.getCategorisedTasksFromGarden(person,taskCategory.WEEKLY,personalGardens.get(i));
             List<Task> customLists = taskDAO.getCategorisedTasksFromGarden(person,taskCategory.CUSTOM,personalGardens.get(i));
 
+            // each list is a task from a separate garden
             dailyListView2.get(i).getItems().addAll(dailyLists);
             weeklyListView2.get(i).getItems().addAll(weeklyLists);
             customListView2.get(i).getItems().addAll(customLists);
@@ -157,33 +146,36 @@ public class GardenToDoListController {
             System.out.println("taskDAO is not initialized!");
             return;
         }
-        personalGardens = gardenDAO.getGardensByUserId(person.getUserId());
-        dropboxTasks.getPanes().clear();
+      //  personalGardens = gardenDAO.getGardensByUserId(person.getUserId());
+        testGarden.getPanes().clear();
+
+        dailyListView2.clear();
+        weeklyListView2.clear();
+        customListView2.clear();
 
         if (personalGardens != null && !personalGardens.isEmpty()) {
-            // Loop through each garden for the user ID (getgardensbyuserID)
-            // create a new title pane for the garden -> set text to garden name
-            // create inner accordian for each task category
-            // create titlepane for each task cateogory, and loading them by setcellfactory and setting them by setting content
-            // add title panes to task category accordian by getpanes.addall(task category)
-            // set the contents of the garden panes with the title panes above
-            // set the contents of the testgarden accordian via getpanes.addall(gardenpanes)
             for (int i = 0; i < personalGardens.size(); i++){
-                System.out.println("Going through garden: "+personalGardens.get(i).getGardenName());
+                System.out.println("Going through gardens: "+personalGardens.get(i).getGardenName() +" As " + person.getUserId() + " Num: " + personalGardens.size());
                 TitledPane gardenPane = new TitledPane();
                 gardenPane.setText("Garden: " + personalGardens.get(i).getGardenName()); // will be users name for now (see main page)
+
                 // create inner accordian for task categories
                 Accordion taskCategories = new Accordion();
 
-                dailyListView2.add(new ListView<>());
-                weeklyListView2.add(new ListView<>());
-                customListView2.add(new ListView<>());
-
-
+                // check for out of bounds
+                if (i >= dailyListView2.size()) {
+                    dailyListView2.add(new ListView<>());
+                    weeklyListView2.add(new ListView<>());
+                    customListView2.add(new ListView<>());
+                }
+                // debug
+                List<Task> taskss = taskDAO.getCategorisedTasksFromGarden(person,taskCategory.DAILY,personalGardens.get(1));
                 // add categorised tasks to list of listviews
                 dailyListView2.get(i).getItems().addAll( taskDAO.getCategorisedTasksFromGarden(person,taskCategory.DAILY,personalGardens.get(i)));
                 weeklyListView2.get(i).getItems().addAll(taskDAO.getCategorisedTasksFromGarden(person,taskCategory.WEEKLY,personalGardens.get(i)));
                 customListView2.get(i).getItems().addAll(taskDAO.getCategorisedTasksFromGarden(person,taskCategory.CUSTOM,personalGardens.get(i)));
+                System.out.println("Gardens: " + personalGardens.get(i).getGardenId());
+
                 // generate list of tasks (might not need to be seperated since sync does it for us..?)
                 dailyListView2.get(i).setCellFactory(this::renderCell);
                 weeklyListView2.get(i).setCellFactory(this::renderCell);
@@ -198,61 +190,15 @@ public class GardenToDoListController {
                 ScrollPane scrollPane = new ScrollPane((taskCategories));
                 gardenPane.setContent(scrollPane); // add task accordian to each garden pane
                 testGarden.getPanes().add(gardenPane); // set outer accordian
+                for (Task task : taskss){
+                    System.out.println("Tasks in garden 2 " + task.getTaskDetails() + " Num tasks: " +taskss.size());
+                }
             }
             testGarden.getStyleClass().add("outer-accordion"); // make it look cooler i guess
 
         }
-        // Render cells for daily, weekly, and custom tasks
-        dailyListView.setCellFactory(this::renderCell);     // how is this working if the tasks are no longer categorized lol
-        weeklyListView.setCellFactory(this::renderCell);
-        customListView.setCellFactory(this::renderCell);
-
-        // Update TitledPanes
-        dailyTasks.setContent(dailyListView);
-        weeklyTasks.setContent(weeklyListView);
-        customTasks.setContent(customListView);
-
-        dropboxTasks.getPanes().addAll(dailyTasks, weeklyTasks, customTasks);
     }
 
-
-
-        private void addTask(IPerson person, String taskDescription, taskCategory category) {
-        try {
-            Task task = new Task(1, taskDescription, LocalDate.now(), LocalDate.now(), category);
-            taskDAO.add(task,person);
-            person.addTask(task);
-        } catch (IllegalArgumentException e) {
-            System.out.println("Invalid category: " + category);
-        }
-    }
-
-    private ListView<Task> findTasksFromUserInGarden(Garden garden, IPerson person) throws SQLException {
-        ObservableList<Task> taskItems = FXCollections.observableArrayList();
-        ListView<Task> taskListView = new ListView<>(taskItems);
-        String query = "SELECT * FROM Tasks WHERE garden_id = ? AND  user_id = ?";
-        try(PreparedStatement stmt = connection.prepareStatement(query)){
-            stmt.setInt(1,garden.getGardenId());
-            stmt.setInt(2,person.getUserId());
-
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()){
-                Integer taskID = rs.getInt("task_id");
-                String taskDetails = rs.getString("task_details");
-                String category = rs.getString("category");
-                LocalDate assignedDate = rs.getDate("assigned_date").toLocalDate();
-                LocalDate dueDate = rs.getDate("due_date").toLocalDate();
-                Task task = new Task(taskID,taskDetails,assignedDate,dueDate,taskCategory.valueOf(category));
-                taskItems.add(task);
-                System.out.println("Tasks: " + task.getTaskDetails());
-            }
-            taskListView.setItems(taskItems);
-        }
-        catch (SQLException e){
-            e.printStackTrace();
-        }
-        return  taskListView;
-    }
 
     /**
      * Sets scene back to the main page of the application

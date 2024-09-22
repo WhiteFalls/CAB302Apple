@@ -12,4 +12,6 @@ public interface IGardenUsersDAO {
     void addPersonToGarden(IPerson person, Garden garden);
 
     void removePersonFromGarden(IPerson person, Garden garden);
+
+    List<Garden> getAllGardenByUserId(int userId);
 }

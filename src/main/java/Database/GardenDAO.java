@@ -3,7 +3,6 @@ package Database;
 import People.Garden;
 import com.example.gardenplanner.UserSession;
 
-import javax.xml.transform.Result;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +72,7 @@ public class GardenDAO implements IGardenDAO {
         return gardens;
     }
 
+
     @Override
     public Garden getGardenByUserId(int userId) {
         String query = "SELECT * FROM Gardens WHERE garden_owner = ?";
@@ -118,7 +118,7 @@ public class GardenDAO implements IGardenDAO {
         }
     }
 
-    public void addToGardenUsers(int gardenID, String role){
+    public void addToGardenUsers(int gardenID, String role) {
         String queryGardenUsers = "INSERT INTO Garden_Users (garden_id, user_id, access_level) VALUES (?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(queryGardenUsers)) {
             stmt.setInt(1, gardenID);
@@ -129,4 +129,5 @@ public class GardenDAO implements IGardenDAO {
             e.printStackTrace();
         }
     }
+
 }

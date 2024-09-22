@@ -37,4 +37,6 @@ public interface IGardenDAO {
      * @param gardenId The ID of the garden to be deleted
      */
     void deleteGarden(int gardenId);
+
+    //List<Garden> getAllGardenByUserId(int userId);
 }

@@ -306,7 +306,7 @@ public class GardenManagementController {
     private void addTask(IPerson person)
     {
         Task task = new Task(1, "New Task", LocalDate.now(), LocalDate.now(), taskCategory.DAILY);
-        taskDAO.add(task,person);
+        taskDAO.add(task,person,garden);
         person.addTask(task);
     }
 

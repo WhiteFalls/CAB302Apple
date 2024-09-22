@@ -31,6 +31,10 @@
     -fx-background-color: transparent;
 }
 
+.accordion {
+    -fx-pref-width: 900px;
+    -fx-pref-height: 300px;
+}
 
 
 

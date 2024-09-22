@@ -29,7 +29,7 @@ public interface ITaskDAO {
      * @param task The task to be added
      * @param person The person to add the task to
      */
-    public void add(Task task, IPerson person);
+    public void add(Task task, IPerson person, Garden garden);
 
     /**
      * Returns all the tasks of a person associated with a certain category

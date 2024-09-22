@@ -68,11 +68,11 @@ public class TaskDAO implements ITaskDAO {
     }
 
     @Override
-    public void add(Task task, IPerson person) {
+    public void add(Task task, IPerson person,Garden garden) {
         String query = "INSERT INTO Tasks (user_id, garden_id, task_details, assigned_date, due_date, category) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1, person.getUserId());
-            stmt.setInt(2, 1);
+            stmt.setInt(2, garden.getGardenId()); // was hardcoded to be 1
             stmt.setString(3, task.getTaskDetails());
             stmt.setDate(4, Date.valueOf(task.getAssignedDate()));
             stmt.setDate(5, Date.valueOf(task.getDueDate()));

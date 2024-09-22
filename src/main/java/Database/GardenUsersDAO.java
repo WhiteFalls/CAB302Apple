@@ -2,7 +2,6 @@ package Database;
 
 import People.Garden;
 import People.IPerson;
-import People.Person;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -50,7 +49,6 @@ public class GardenUsersDAO implements IGardenUsersDAO {
             stmt.setInt(1, garden.getGardenId());
             stmt.setInt(2, person.getUserId());
             stmt.setString(3, "User");
-
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -68,6 +66,32 @@ public class GardenUsersDAO implements IGardenUsersDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<Garden> getAllGardenByUserId(int userId) {
+
+        // find where garden ids matches for users and garden table
+        String query = "SELECT Gardens.garden_id, Gardens.garden_owner, Gardens.garden_name, " +
+                "Garden_Users.user_id, Garden_Users.garden_id " +
+                "FROM Gardens " +
+                "INNER JOIN Garden_Users ON Gardens.garden_id = Garden_Users.garden_id " +
+                "WHERE Garden_Users.user_id = ?";
+        List<Garden> usergardenList = new ArrayList<>();
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Garden garden = new Garden(rs.getInt("garden_id"), rs.getInt("garden_owner"), rs.getString("garden_name"));
+                usergardenList.add(garden);
+                System.out.println(rs.getString("garden_name"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return usergardenList;
     }
 }
 
