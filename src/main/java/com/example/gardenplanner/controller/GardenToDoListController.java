@@ -36,6 +36,8 @@ public class GardenToDoListController {
     @FXML
     private TitledPane customTasks;
 
+    @FXML Accordion testGarden;
+
     private ITaskDAO taskDAO;
     private IPersonDAO personDAO;
     private IPerson person;
@@ -130,25 +132,17 @@ public class GardenToDoListController {
         }
 
         dropboxTasks.getPanes().clear();
-//        List<Task> taskList = taskDAO.getUserTasks(person);
-//        if (taskList != null && !taskList.isEmpty()) {
-//            for (Task task : taskList) {
-//                switch (task.getCategory()) {
-//                    case DAILY:
-//                        dailyListView.getItems().add(task);
-//                        break;
-//                    case WEEKLY:
-//                        weeklyListView.getItems().add(task);
-//                        break;
-//                    case CUSTOM:
-//                        customListView.getItems().add(task);
-//                        break;
-//                }
-//            }
-//        }
+        // Loop through each garden for the user ID (getgardensbyuserID)
+        // create a new title pane for the garden -> set text to garden name
+        // create inner accordian for each task category
+        // create titlepane for each task cateogory, and loading them by setcellfactory and setting them by setting content
+        // add title panes to task category accordian by getpanes.addall(task category)
+        // set the contents of the garden panes with the title panes above
+        // set the contents of the testgarden accordian via getpanes.addall(gardenpanes)
+
 
         // Render cells for daily, weekly, and custom tasks
-        dailyListView.setCellFactory(this::renderCell);
+        dailyListView.setCellFactory(this::renderCell);     // how is this working if the tasks are no longer categorized lol
         weeklyListView.setCellFactory(this::renderCell);
         customListView.setCellFactory(this::renderCell);
 
