@@ -30,7 +30,7 @@ public class GardenDAO implements IGardenDAO {
             System.out.println("Garden added successfully.");
 
             ResultSet rs = stmt.getGeneratedKeys(); // get auto incremented keys
-            addToGardenUsers(rs.getInt(1)); // update garden users table
+            addToGardenUsers(rs.getInt(1), "Manager"); // adds user to garden users (whoever presses add garden is manager)
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -118,12 +118,12 @@ public class GardenDAO implements IGardenDAO {
         }
     }
 
-    public void addToGardenUsers(int gardenID){
+    public void addToGardenUsers(int gardenID, String role){
         String queryGardenUsers = "INSERT INTO Garden_Users (garden_id, user_id, access_level) VALUES (?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(queryGardenUsers)) {
             stmt.setInt(1, gardenID);
             stmt.setInt(2, UserSession.getInstance().getPersonId()); // current user session
-            stmt.setString(3, "MANAGER");  // Users adding a garden are automatically set to Manager
+            stmt.setString(3, role);  // Users adding a garden are automatically set to Manager
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
