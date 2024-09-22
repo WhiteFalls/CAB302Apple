@@ -3,14 +3,13 @@ package com.example.gardenplanner.controller;
 import Database.*;
 import People.Garden;
 import People.IPerson;
-import People.Person;
+
 import Tasks.ITaskDAO;
 import Tasks.Task;
 import Tasks.TaskDAO;
 import Tasks.taskCategory;
 import com.example.gardenplanner.UserSession;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,12 +22,10 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+
 import java.sql.SQLException;
-import java.time.LocalDate;
+
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import java.sql.Connection;
@@ -146,7 +143,6 @@ public class GardenToDoListController {
             System.out.println("taskDAO is not initialized!");
             return;
         }
-      //  personalGardens = gardenDAO.getGardensByUserId(person.getUserId());
         testGarden.getPanes().clear();
 
         dailyListView2.clear();
@@ -155,7 +151,6 @@ public class GardenToDoListController {
 
         if (personalGardens != null && !personalGardens.isEmpty()) {
             for (int i = 0; i < personalGardens.size(); i++){
-                System.out.println("Going through gardens: "+personalGardens.get(i).getGardenName() +" As " + person.getUserId() + " Num: " + personalGardens.size());
                 TitledPane gardenPane = new TitledPane();
                 gardenPane.setText("Garden: " + personalGardens.get(i).getGardenName()); // will be users name for now (see main page)
 
@@ -174,7 +169,6 @@ public class GardenToDoListController {
                 dailyListView2.get(i).getItems().addAll( taskDAO.getCategorisedTasksFromGarden(person,taskCategory.DAILY,personalGardens.get(i)));
                 weeklyListView2.get(i).getItems().addAll(taskDAO.getCategorisedTasksFromGarden(person,taskCategory.WEEKLY,personalGardens.get(i)));
                 customListView2.get(i).getItems().addAll(taskDAO.getCategorisedTasksFromGarden(person,taskCategory.CUSTOM,personalGardens.get(i)));
-                System.out.println("Gardens: " + personalGardens.get(i).getGardenId());
 
                 // generate list of tasks (might not need to be seperated since sync does it for us..?)
                 dailyListView2.get(i).setCellFactory(this::renderCell);
@@ -190,9 +184,6 @@ public class GardenToDoListController {
                 ScrollPane scrollPane = new ScrollPane((taskCategories));
                 gardenPane.setContent(scrollPane); // add task accordian to each garden pane
                 testGarden.getPanes().add(gardenPane); // set outer accordian
-                for (Task task : taskss){
-                    System.out.println("Tasks in garden 2 " + task.getTaskDetails() + " Num tasks: " +taskss.size());
-                }
             }
             testGarden.getStyleClass().add("outer-accordion"); // make it look cooler i guess
 
