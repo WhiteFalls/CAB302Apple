@@ -16,6 +16,7 @@ import javafx.scene.control.*;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.Optional;
 
 
 public class MainPage {
@@ -90,8 +91,16 @@ public class MainPage {
             }
             else if (gardensOwned == 0){
                 // for now, we just create a new garden in the database
-                Garden garden = new Garden(currentUser.getPersonId(),currentUser.getFirstName()); // currently, garden name will be users name
-                gardenDAO.addGarden(garden);
+                TextInputDialog dialog = new TextInputDialog("");
+                dialog.setTitle("Create a Garden");
+                dialog.setHeaderText("Set Garden Name");
+                dialog.setContentText("Please enter your garden name:");
+
+                Optional<String> result = dialog.showAndWait();
+                if (result.isPresent()) {
+                    Garden garden = new Garden(currentUser.getPersonId(),result.get()); // currently, garden name will be users name
+                    gardenDAO.addGarden(garden);
+                }
             }
             else{
                 System.out.println("Error: Unable to retrieve the number of gardens owned.");
