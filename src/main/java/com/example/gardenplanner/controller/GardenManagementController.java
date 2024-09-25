@@ -332,7 +332,7 @@ public class GardenManagementController {
             displayPopup("No user with that ID exists");
         }
         else {
-            gardenUsersDAO.addPersonToGarden(newPerson, garden);
+            gardenUsersDAO.addPersonToGarden(newPerson, garden, "User");
             syncPeople();
         }
     }

@@ -1,7 +1,6 @@
 package Database;
 
 import People.Garden;
-import com.example.gardenplanner.UserSession;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -22,14 +21,11 @@ public class GardenDAO implements IGardenDAO {
     public void addGarden(Garden garden) {
         String query = "INSERT INTO Gardens (garden_owner, garden_name) VALUES (?, ?)";
 
-        try (PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, garden.getOwnerId());
             stmt.setString(2, garden.getGardenName());
             stmt.executeUpdate();
             System.out.println("Garden added successfully.");
-
-            ResultSet rs = stmt.getGeneratedKeys(); // get auto incremented keys
-            addToGardenUsers(rs.getInt(1), "Manager"); // adds user to garden users (whoever presses add garden is manager)
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -113,18 +109,6 @@ public class GardenDAO implements IGardenDAO {
             stmt.setInt(1, gardenId);
             stmt.executeUpdate();
             System.out.println("Garden deleted successfully.");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void addToGardenUsers(int gardenID, String role) {
-        String queryGardenUsers = "INSERT INTO Garden_Users (garden_id, user_id, access_level) VALUES (?, ?, ?)";
-        try (PreparedStatement stmt = connection.prepareStatement(queryGardenUsers)) {
-            stmt.setInt(1, gardenID);
-            stmt.setInt(2, UserSession.getInstance().getPersonId()); // current user session
-            stmt.setString(3, role);  // Users adding a garden are automatically set to Manager
-            stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }

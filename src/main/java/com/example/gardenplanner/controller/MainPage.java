@@ -1,8 +1,6 @@
 package com.example.gardenplanner.controller;
 
-import Database.DatabaseConnection;
-import Database.GardenDAO;
-import Database.PersonDAO;
+import Database.*;
 import People.Garden;
 import People.IPerson;
 import com.example.gardenplanner.HelloApplication;
@@ -33,6 +31,7 @@ public class MainPage {
     private Connection connection;
     private IPerson loggedInUser;
     private PersonDAO personDAO;
+    private IGardenUsersDAO gardenUsersDAO;
     /**
      * Initialises the main page by getting the current user session
      */
@@ -49,6 +48,7 @@ public class MainPage {
         this.loggedInUser = personDAO.getPerson(personId);
 
         gardenDAO = new GardenDAO(); // gardens can be created on main page
+        gardenUsersDAO = new GardenUsersDAO(connection);
         int gardensOwned = findNumGardensOwned();
         if (gardensOwned == 1){
             setButtonToRemove();
@@ -112,6 +112,7 @@ public class MainPage {
                 if (result.isPresent() && !result.get().isEmpty() && result.get().trim().length() > 1) { // holy salad
                     Garden garden = new Garden(currentUser.getPersonId(),result.get());
                     gardenDAO.addGarden(garden);
+                    gardenUsersDAO.addPersonToGarden(loggedInUser, garden, "Manager"); // adds user to garden users (whoever presses add garden is
                     setButtonToRemove();
                 }
                 else{

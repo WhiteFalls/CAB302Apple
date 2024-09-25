@@ -42,13 +42,13 @@ public class GardenUsersDAO implements IGardenUsersDAO {
     }
 
     @Override
-    public void addPersonToGarden(IPerson person, Garden garden) {
+    public void addPersonToGarden(IPerson person, Garden garden, String Role) {
         String query = "INSERT INTO Garden_Users (garden_id, user_id, access_level) VALUES (?, ?, ?)";
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, garden.getGardenId());
             stmt.setInt(2, person.getUserId());
-            stmt.setString(3, "User");
+            stmt.setString(3, Role);
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
