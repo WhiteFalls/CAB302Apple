@@ -91,7 +91,7 @@ public class GardenManagementController {
 
         for (IPerson person : people)
         {
-            person.setTasks(taskDAO.getUserTasks(person));
+            person.setTasks(taskDAO.getUserTasksFromGarden(person, garden));
         }
 
         boolean hasPeople = !people.isEmpty();
