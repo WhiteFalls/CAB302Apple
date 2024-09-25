@@ -112,7 +112,8 @@ public class MainPage {
                 if (result.isPresent() && !result.get().isEmpty() && result.get().trim().length() > 1) { // holy salad
                     Garden garden = new Garden(currentUser.getPersonId(),result.get());
                     gardenDAO.addGarden(garden);
-                    gardenUsersDAO.addPersonToGarden(loggedInUser, garden, "Manager"); // adds user to garden users (whoever presses add garden is
+                    Garden newGarden = gardenDAO.getGardenByUserId(loggedInUser.getUserId());
+                    gardenUsersDAO.addPersonToGarden(loggedInUser, newGarden, "Manager"); // adds user to garden users (whoever presses add garden is
                     setButtonToRemove();
                 }
                 else{
@@ -141,8 +142,10 @@ public class MainPage {
         addGarden.setOnAction(e -> handleRemoveGardenButton(gardenDAO.getGardenByUserId(loggedInUser.getUserId())));
     }
 
-    private void handleRemoveGardenButton(Garden garden){
+    private void handleRemoveGardenButton(Garden garden) {
+    if (displayConfirmPopup("Are you sure you want to delete your garden: " +garden.getGardenName() + "?")){
         gardenDAO.deleteGarden(garden.getGardenId());
+    }
         int numGardens = findNumGardensOwned(); // check if garden is removed from database
         System.out.println(numGardens) ;
         if (numGardens == 0) // only allowed to own one garden
