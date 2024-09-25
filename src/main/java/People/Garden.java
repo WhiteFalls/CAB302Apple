@@ -42,6 +42,11 @@ public class Garden {
         return gardenId;
     }
 
+    public void setGardenId(int gardenId)
+    {
+        this.gardenId = gardenId;
+    }
+
     /**
      * Gets the ID of the garden's owner
      * @return An integer of the garden's owner's ID

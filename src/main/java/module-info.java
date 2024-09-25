@@ -6,6 +6,7 @@ module com.example.gardenplanner {
     requires java.desktop;
     requires java.sql;
     requires org.apache.commons.compress;
+    requires commons.lang;
 
 
     opens com.example.gardenplanner to javafx.fxml;

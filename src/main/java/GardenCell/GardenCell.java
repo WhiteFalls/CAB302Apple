@@ -1,21 +1,24 @@
 package GardenCell;
 
+import javafx.scene.paint.Color;
 import java.time.LocalDate;
 
 public class GardenCell {
     private int X;
     private int Y;
+    private Color colour;
     private String plant;
     private LocalDate plantedDate;
     private LocalDate harvestDate;
 
-    public GardenCell(String plant, int x, int y, LocalDate plantedDate, LocalDate harvestDate)
+    public GardenCell(String plant, int x, int y, LocalDate plantedDate, LocalDate harvestDate, Color colour)
     {
         this.plant = plant;
         this.X = x;
         this.Y = y;
         this.plantedDate = plantedDate;
         this.harvestDate = harvestDate;
+        this.colour = colour;
     }
 
     public String getPlant() {
@@ -56,5 +59,15 @@ public class GardenCell {
 
     public void setHarvestDate(LocalDate date) {
         this.harvestDate = date;
+    }
+
+    public Color getColour()
+    {
+        return this.colour;
+    }
+
+    public void setColour(Color colour)
+    {
+        this.colour = colour;
     }
 }

@@ -2,6 +2,7 @@ package com.example.gardenplanner.controller;
 
 import Database.DatabaseConnection;
 import Database.GardenDAO;
+import Database.GardenMapDAO;
 import Database.PersonDAO;
 import People.Garden;
 import People.IPerson;
@@ -27,6 +28,7 @@ public class MainPage {
     private Connection connection;
     private IPerson loggedInUser;
     private PersonDAO personDAO;
+    private GardenMapDAO gardenMapDAO;
     /**
      * Initialises the main page by getting the current user session
      */
@@ -43,6 +45,7 @@ public class MainPage {
         this.loggedInUser = personDAO.getPerson(personId);
 
         gardenDAO = new GardenDAO(); // gardens can be created on main page
+        gardenMapDAO = new GardenMapDAO();
     }
 
     /**
@@ -64,7 +67,7 @@ public class MainPage {
         int gardensOwned = findNumGardensOwned();
         if (gardensOwned == 1) {
             Stage stage = (Stage) UpdatesButton.getScene().getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("garden-management-view.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("garden-view.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 1200, 600);
             stage.setScene(scene);
         } else if (gardensOwned == 0) {
@@ -95,6 +98,8 @@ public class MainPage {
                         2,
                         2);
                 gardenDAO.addGarden(garden);
+                gardenMapDAO.createDefaultMap(garden);
+
             }
             else{
                 System.out.println("Error: Unable to retrieve the number of gardens owned.");

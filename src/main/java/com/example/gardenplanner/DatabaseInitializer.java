@@ -59,6 +59,9 @@ public class DatabaseInitializer {
                     x INTEGER NOT NULL,
                     y INTEGER NOT NULL,
                     plant_name TEXT NOT NULL,
+                    planted_date DATE NOT NULL,
+                    harvest_date DATE,
+                    colour INTEGER NOT NULL,
                     PRIMARY KEY (garden_id, x, y),
                     FOREIGN KEY (garden_id) REFERENCES Gardens(garden_id)
                 );
