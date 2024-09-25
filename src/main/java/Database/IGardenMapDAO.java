@@ -8,5 +8,7 @@ public interface IGardenMapDAO {
 
     public GardenCell[][] getGardenCells(Garden garden);
 
+    public void updateCell(GardenCell cell);
+
     public void resizeMap(Garden garden);
 }

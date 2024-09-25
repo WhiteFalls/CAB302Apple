@@ -33,7 +33,7 @@ public class GardenMapDAO implements IGardenMapDAO{
                     stmt.setString(4, "Empty");
                     stmt.setDate(5, Date.valueOf(LocalDate.now()));
                     stmt.setDate(6, null);
-                    stmt.setInt(7, 0x4f1707);
+                    stmt.setString(7, Color.PERU.toString());
                     stmt.executeUpdate();
                     System.out.println("Garden added successfully.");
 
@@ -74,14 +74,36 @@ public class GardenMapDAO implements IGardenMapDAO{
                         rs.getInt("y"),
                         rs.getDate("planted_date").toLocalDate(),
                         harvestDate,
-                        Color.web(Integer.toHexString(rs.getInt("colour"))));
+                        Color.web(rs.getString("colour")));
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return plot;
+    }
+
+    @Override
+    public void updateCell(GardenCell cell) {
+        String query = "UPDATE Garden_Map SET plant_name = ?, planted_date = ?, harvest_date = ?, colour = ? WHERE x = ? AND y = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, cell.getPlant());
+            stmt.setDate(2, Date.valueOf(cell.getPlantedDate()));
+            if (cell.getHarvestDate() == null)
+            {
+                stmt.setDate(3, null);
+            }
+            else {
+                stmt.setDate(3, Date.valueOf(cell.getHarvestDate()));
+            }
+            stmt.setString(4, cell.getColour().toString());  // Update category as text
+            stmt.setInt(5, cell.getX());
+            stmt.setInt(6, cell.getY());
+
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
