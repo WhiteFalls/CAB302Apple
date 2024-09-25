@@ -10,8 +10,11 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 
 import java.sql.Connection;
+
+import static java.lang.Integer.MAX_VALUE;
 
 public class GardenController {
     @FXML
@@ -72,7 +75,7 @@ public class GardenController {
             {
                 GardenCell cell = cells[x][y];
                 Button plotButton = new Button(cell.getPlant());
-                plotButton.setTextFill(cell.getColour());
+                plotButton.setStyle("-fx-background-color:" + cell.getColour());
                 plotButton.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
@@ -101,8 +104,15 @@ public class GardenController {
     private void displayCell(GardenCell cell)
     {
         plantTextField.setText(cell.getPlant());
+        plantTextField.setDisable(false);
+
         plantedDatePicker.setValue(cell.getPlantedDate());
+        plantedDatePicker.setDisable(false);
+
         harvestDatePicker.setValue(cell.getHarvestDate());
+        harvestDatePicker.setDisable(false);
+
         colourDropDown.setValue(cell.getColour());
+        colourDropDown.setDisable(false);
     }
 }
