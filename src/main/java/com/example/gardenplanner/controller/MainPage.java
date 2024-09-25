@@ -90,7 +90,10 @@ public class MainPage {
             }
             else if (gardensOwned == 0){
                 // for now, we just create a new garden in the database
-                Garden garden = new Garden(currentUser.getPersonId(),currentUser.getFirstName()); // currently, garden name will be users name
+                Garden garden = new Garden("Garden",
+                        currentUser.getPersonId(),
+                        2,
+                        2);
                 gardenDAO.addGarden(garden);
             }
             else{

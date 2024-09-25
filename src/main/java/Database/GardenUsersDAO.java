@@ -72,8 +72,7 @@ public class GardenUsersDAO implements IGardenUsersDAO {
     public List<Garden> getAllGardenByUserId(int userId) {
 
         // find where garden ids matches for users and garden table
-        String query = "SELECT Gardens.garden_id, Gardens.garden_owner, Gardens.garden_name, " +
-                "Garden_Users.user_id, Garden_Users.garden_id " +
+        String query = "SELECT Gardens.*, Garden_Users.user_id, Garden_Users.garden_id " +
                 "FROM Gardens " +
                 "INNER JOIN Garden_Users ON Gardens.garden_id = Garden_Users.garden_id " +
                 "WHERE Garden_Users.user_id = ?";
@@ -84,7 +83,11 @@ public class GardenUsersDAO implements IGardenUsersDAO {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                Garden garden = new Garden(rs.getInt("garden_id"), rs.getInt("garden_owner"), rs.getString("garden_name"));
+                Garden garden = new Garden(rs.getInt("garden_id"),
+                        rs.getString("garden_name"),
+                        rs.getInt("garden_owner"),
+                        rs.getInt("width"),
+                        rs.getInt("height"));
                 usergardenList.add(garden);
             }
         } catch (SQLException e) {

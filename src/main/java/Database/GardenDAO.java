@@ -48,10 +48,10 @@ public class GardenDAO implements IGardenDAO {
 
             if (rs.next()) {
                 garden = new Garden(rs.getInt("garden_id"),
+                        rs.getString("garden_name"),
                         rs.getInt("garden_owner"),
                         rs.getInt("width"),
-                        rs.getInt("height"),
-                        rs.getString("garden_name"));
+                        rs.getInt("height"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -70,10 +70,10 @@ public class GardenDAO implements IGardenDAO {
 
             while (rs.next()) {
                 Garden garden = new Garden(rs.getInt("garden_id"),
+                        rs.getString("garden_name"),
                         rs.getInt("garden_owner"),
                         rs.getInt("width"),
-                        rs.getInt("height"),
-                        rs.getString("garden_name"));
+                        rs.getInt("height"));
                 gardens.add(garden);
             }
         } catch (SQLException e) {
@@ -94,10 +94,10 @@ public class GardenDAO implements IGardenDAO {
 
             while (rs.next()) {
                 garden = new Garden(rs.getInt("garden_id"),
+                        rs.getString("garden_name"),
                         rs.getInt("garden_owner"),
                         rs.getInt("width"),
-                        rs.getInt("height"),
-                        rs.getString("garden_name"));
+                        rs.getInt("height"));
             }
         } catch (SQLException e) {
             e.printStackTrace();

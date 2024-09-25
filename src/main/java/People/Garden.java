@@ -9,26 +9,22 @@ public class Garden {
 
     // Constructor for new garden creation
 
+
+    // Constructor when loading from database
+
     /**
      * Constructs a new garden object
      * @param ownerId The user ID of the owner/manager of the garden
      * @param gardenName The name of the garden
      */
-    public Garden(int ownerId, String gardenName) {
+    public Garden(String gardenName, int ownerId, int width, int height) {
         this.ownerId = ownerId;
+        this.width = width;
+        this.height = height;
         this.gardenName = gardenName;
     }
 
-    // Constructor when loading from database
-    public Garden(int gardenId, int ownerId, int width, int height, String gardenName) {
-
-    /**
-     * Constructs a new garden object
-     * @param gardenId The unique ID of the garden
-     * @param ownerId The user ID of the owner/manager of the garden
-     * @param gardenName The name of the garden
-     */
-    public Garden(int gardenId, int ownerId, String gardenName) {
+    public Garden(int gardenId, String gardenName, int ownerId, int width, int height) {
         this.gardenId = gardenId;
         this.ownerId = ownerId;
         this.width = width;
