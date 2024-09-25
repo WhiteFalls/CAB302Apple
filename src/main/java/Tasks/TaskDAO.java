@@ -214,5 +214,29 @@ public class TaskDAO implements ITaskDAO {
         return null;
     }
 
+    @Override
+    public ArrayList<Task> getUserTasksFromGarden(IPerson person, Garden garden) {
+        String query = "SELECT * FROM Tasks WHERE user_id = ? AND garden_id = ?";
+        ArrayList<Task> tasks = new ArrayList<>();
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, person.getUserId());
+            stmt.setInt(2, garden.getGardenId());
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Task task = new Task(
+                        rs.getInt("task_id"),
+                        rs.getString("task_details"),
+                        rs.getDate("assigned_date").toLocalDate(),
+                        rs.getDate("due_date").toLocalDate(),
+                        taskCategory.valueOf(rs.getString("category"))  // Convert text to enum
+                );
+                tasks.add(task);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tasks;
+    }
 
 }

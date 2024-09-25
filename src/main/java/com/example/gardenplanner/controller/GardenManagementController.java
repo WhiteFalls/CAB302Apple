@@ -91,7 +91,7 @@ public class GardenManagementController {
 
         for (IPerson person : people)
         {
-            person.setTasks(taskDAO.getUserTasks(person));
+            person.setTasks(taskDAO.getUserTasksFromGarden(person, garden));
         }
 
         boolean hasPeople = !people.isEmpty();
@@ -332,7 +332,7 @@ public class GardenManagementController {
             displayPopup("No user with that ID exists");
         }
         else {
-            gardenUsersDAO.addPersonToGarden(newPerson, garden);
+            gardenUsersDAO.addPersonToGarden(newPerson, garden, "User");
             syncPeople();
         }
     }

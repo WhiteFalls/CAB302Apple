@@ -39,7 +39,7 @@
             <Image url="@../../../Images/garden-clip-art.jpg" />
          </image>
       </ImageView>
-      <Button fx:id="addGarden" layoutX="830.0" layoutY="121.0" mnemonicParsing="false" onAction="#addGarden" prefHeight="57.0" prefWidth="129.0" text="Add Garden">
+      <Button fx:id="addGarden" layoutX="830.0" layoutY="121.0" mnemonicParsing="false" onAction="#addGarden" prefHeight="57.0" prefWidth="175.0" text="Add Garden">
          <font>
             <Font size="20.0" />
          </font>

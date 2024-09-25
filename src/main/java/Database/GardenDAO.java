@@ -133,16 +133,4 @@ public class GardenDAO implements IGardenDAO {
         }
     }
 
-    public void addToGardenUsers(int gardenID, String role) {
-        String queryGardenUsers = "INSERT INTO Garden_Users (garden_id, user_id, access_level) VALUES (?, ?, ?)";
-        try (PreparedStatement stmt = connection.prepareStatement(queryGardenUsers)) {
-            stmt.setInt(1, gardenID);
-            stmt.setInt(2, UserSession.getInstance().getPersonId()); // current user session
-            stmt.setString(3, role);  // Users adding a garden are automatically set to Manager
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
 }

@@ -51,4 +51,5 @@ public interface ITaskDAO {
 
     Object getUserTasks(Person person);
 
+    ArrayList<Task> getUserTasksFromGarden(IPerson person, Garden garden);
 }
