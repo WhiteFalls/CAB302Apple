@@ -27,9 +27,13 @@
     -fx-background-color: transparent;
     -fx-border-color: transparent;
 }
-.outer-accordion .titled-pane > .title {
-    -fx-background-color: transparent; /* Make outer titles transparent */
-    -fx-text-fill: red;              /* Text color for outer titles */
+.outer-accordion .titled-pane {
+    -fx-background-color: transparent;
+}
+
+.accordion {
+    -fx-pref-width: 900px;
+    -fx-pref-height: 300px;
 }
 
 

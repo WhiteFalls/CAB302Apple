@@ -30,6 +30,10 @@ public class LoginController {
 
     private static final String DB_URL = "jdbc:sqlite:GardenPlanner.sqlite";  // Updated database location
 
+    /**
+     * Attempts to grab the user's typed details and log them in
+     * @param event The even that triggers the method
+     */
     @FXML
     public void loginUser(ActionEvent event) {
         String email = emailField.getText();
@@ -65,7 +69,12 @@ public class LoginController {
         }
     }
 
-    // Validate User input
+    /**
+     * Validates whether the user's input is a valid format
+     * @param email The user's email
+     * @param password The user's password
+     * @return True if the format is valid, else false
+     */
     private boolean validateInput(String email, String password) {
         if (email.isEmpty() || password.isEmpty()) {
             showAlert("Validation Error", "Email and password are required.");
@@ -75,7 +84,11 @@ public class LoginController {
         return true;
     }
 
-    // alert message
+    /**
+     * Displays an alert pop-up message
+     * @param title The title of the alert message
+     * @param message The message contained in the pop-up
+     */
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
@@ -84,14 +97,19 @@ public class LoginController {
         alert.showAndWait();
     }
 
-    // Clear after login
+    /**
+     * Clears the login fields
+     */
     private void clearFields() {
         emailField.clear();
         passwordField.clear();
     }
 
 
-    // Handle registration link click to go to the registration page
+    /**
+     * Sets scene back to the main page of the application
+     * @param event The event that triggers the page change
+     */
     @FXML
     public void goToMainPage(ActionEvent event) {
         try {
@@ -113,8 +131,10 @@ public class LoginController {
         }
     }
 
-    // Handle registration link click to go to the registration page
-    @FXML
+    /**
+     * Sets scene to the registration page of the application
+     * @param event The event that triggers the page change
+     */    @FXML
     public void goToRegistration(ActionEvent event) {
         try {
             // Load the registration page

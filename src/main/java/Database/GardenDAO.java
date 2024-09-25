@@ -1,6 +1,7 @@
 package Database;
 
 import People.Garden;
+import com.example.gardenplanner.UserSession;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -10,6 +11,9 @@ public class GardenDAO implements IGardenDAO {
 
     private Connection connection;
 
+    /**
+     * Constructs a new GardenDAO and initializes the connection to the database
+     */
     public GardenDAO() {
         connection = DatabaseConnection.getConnection();  // Get a connection from your utility
     }
@@ -18,13 +22,16 @@ public class GardenDAO implements IGardenDAO {
     public void addGarden(Garden garden) {
         String query = "INSERT INTO Gardens (garden_owner, garden_name, width, height) VALUES (?, ?, ?, ?)";
 
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1, garden.getOwnerId());
             stmt.setString(2, garden.getGardenName());
             stmt.setInt(3, garden.getWidth());
             stmt.setInt(4, garden.getHeight());
             stmt.executeUpdate();
             System.out.println("Garden added successfully.");
+
+            ResultSet rs = stmt.getGeneratedKeys(); // get auto incremented keys
+            addToGardenUsers(rs.getInt(1), "Manager"); // adds user to garden users (whoever presses add garden is manager)
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -75,6 +82,7 @@ public class GardenDAO implements IGardenDAO {
         return gardens;
     }
 
+
     @Override
     public Garden getGardenByUserId(int userId) {
         String query = "SELECT * FROM Gardens WHERE garden_owner = ?";
@@ -123,4 +131,17 @@ public class GardenDAO implements IGardenDAO {
             e.printStackTrace();
         }
     }
+
+    public void addToGardenUsers(int gardenID, String role) {
+        String queryGardenUsers = "INSERT INTO Garden_Users (garden_id, user_id, access_level) VALUES (?, ?, ?)";
+        try (PreparedStatement stmt = connection.prepareStatement(queryGardenUsers)) {
+            stmt.setInt(1, gardenID);
+            stmt.setInt(2, UserSession.getInstance().getPersonId()); // current user session
+            stmt.setString(3, role);  // Users adding a garden are automatically set to Manager
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

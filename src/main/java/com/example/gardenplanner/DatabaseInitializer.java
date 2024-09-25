@@ -6,6 +6,9 @@ public class DatabaseInitializer {
 
     private static final String DB_URL = "jdbc:sqlite:GardenPlanner.sqlite";
 
+    /**
+     * Initialises the database if it hasn't been created already
+     */
     public static void checkAndCreateDatabase() {
         try (Connection connection = DriverManager.getConnection(DB_URL);
              Statement statement = connection.createStatement()) {
@@ -75,6 +78,10 @@ public class DatabaseInitializer {
         }
     }
 
+    /**
+     * Inserts test users into the database
+     * @param connection The connection to the SQL lite database
+     */
     private static void checkAndInsertDefaultUsersAndGarden(Connection connection) {
         try {
             // Check if the users already exist
@@ -107,9 +114,9 @@ public class DatabaseInitializer {
 
                 // Insert tasks for Liam and John, associate with garden 1
                 String insertTasksQuery = """
-                    INSERT INTO Tasks (user_id, garden_id, assigned_date, due_date, task_details) VALUES
-                    (?, 1, '2024-09-01', '2024-09-15', 'Water the plants'),
-                    (?, 1, '2024-09-01', '2024-09-10', 'Prune the shrubs');
+                    INSERT INTO Tasks (user_id, garden_id, assigned_date, due_date, task_details, category) VALUES
+                    (?, 1, '2024-09-01', '2024-09-15', 'Water the plants', 'Daily'),
+                    (?, 1, '2024-09-01', '2024-09-10', 'Prune the shrubs', 'Weekly');
                 """;
                 PreparedStatement taskStmt = connection.prepareStatement(insertTasksQuery);
                 taskStmt.setInt(1, liamId);
@@ -125,6 +132,13 @@ public class DatabaseInitializer {
         }
     }
 
+    /**
+     * Gets the user's id using their first name
+     * @param connection The connection to the SQL lite database
+     * @param firstName The first name of the user
+     * @return The user's id
+     * @throws SQLException Thrown if no user with that name is found
+     */
     private static int getUserIdByName(Connection connection, String firstName) throws SQLException {
         String query = "SELECT user_id FROM Users WHERE fname = ?";
         try (PreparedStatement prep = connection.prepareStatement(query)) {

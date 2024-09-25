@@ -5,7 +5,7 @@ module com.example.gardenplanner {
     requires org.testng;
     requires java.desktop;
     requires java.sql;
-    requires org.junit.jupiter.api;
+    requires org.apache.commons.compress;
 
 
     opens com.example.gardenplanner to javafx.fxml;
@@ -15,6 +15,7 @@ module com.example.gardenplanner {
     exports People;
     opens People to javafx.fxml;
     exports Tasks;
+    opens Tasks to javafx.fxml;
     exports Database;
     opens Database to javafx.fxml;
 }

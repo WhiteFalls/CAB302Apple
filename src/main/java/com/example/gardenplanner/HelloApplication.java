@@ -11,6 +11,11 @@ import java.io.IOException;
 import static com.example.gardenplanner.DatabaseInitializer.checkAndCreateDatabase;
 
 public class HelloApplication extends Application {
+    /**
+     * Starts the application
+     * @param stage The stage that the application will run on
+     * @throws IOException Thrown if problem arises with setting the stage
+     */
     @Override
     public void start(Stage stage) throws IOException {
 

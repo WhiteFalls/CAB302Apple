@@ -1,13 +1,11 @@
 package Tasks;
 
 import Database.DatabaseConnection;
+import People.Garden;
 import People.IPerson;
 import People.Person;
-import javafx.util.converter.LocalDateStringConverter;
 
 import java.sql.*;
-import java.time.*;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,11 +68,11 @@ public class TaskDAO implements ITaskDAO {
     }
 
     @Override
-    public void add(Task task, IPerson person) {
+    public void add(Task task, IPerson person,Garden garden) {
         String query = "INSERT INTO Tasks (user_id, garden_id, task_details, assigned_date, due_date, category) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1, person.getUserId());
-            stmt.setInt(2, 1);
+            stmt.setInt(2, garden.getGardenId()); // was hardcoded to be 1
             stmt.setString(3, task.getTaskDetails());
             stmt.setDate(4, Date.valueOf(task.getAssignedDate()));
             stmt.setDate(5, Date.valueOf(task.getDueDate()));
@@ -98,6 +96,32 @@ public class TaskDAO implements ITaskDAO {
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, person.getUserId());
             stmt.setString(2, category.toString());
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Task task = new Task(
+                        rs.getInt("task_id"),
+                        rs.getString("task_details"),
+                        rs.getDate("assigned_date").toLocalDate(),
+                        rs.getDate("due_date").toLocalDate(),
+                        taskCategory.valueOf(rs.getString("category"))  // Convert text to enum
+                );
+                tasks.add(task);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tasks;
+    }
+
+    @Override
+    public ArrayList<Task> getCategorisedTasksFromGarden(IPerson person, taskCategory category, Garden garden) {
+        String query = "SELECT * FROM Tasks WHERE user_id = ? AND category = ? AND garden_id = ?";
+        ArrayList<Task> tasks = new ArrayList<>();
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, person.getUserId());
+            stmt.setString(2, category.toString());
+            stmt.setInt(3, garden.getGardenId());
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 Task task = new Task(
@@ -190,8 +214,5 @@ public class TaskDAO implements ITaskDAO {
         return null;
     }
 
-    @Override
-    public List<Task> getCategorisedTasks(Person person, taskCategory taskCategory) {
-        return List.of();
-    }
+
 }

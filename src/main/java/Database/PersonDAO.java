@@ -12,6 +12,11 @@ public class PersonDAO implements IPersonDAO {
     private final Connection connection;
 
     // Constructor to initialize the database connection
+
+    /**
+     * Constructs a new GardenDAO and initializes the connection to the database
+     * @param connection The connection to the database
+     */
     public PersonDAO(Connection connection) {
         this.connection = DatabaseConnection.getConnection();
     }
@@ -29,7 +34,7 @@ public class PersonDAO implements IPersonDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        }
+    }
 
 
     @Override
@@ -62,6 +67,17 @@ public class PersonDAO implements IPersonDAO {
 
     @Override
     public void deletePerson(IPerson person) {
+        String query = "DELETE FROM Users WHERE user_id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, person.getUserId());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deletePersonFromGarden(IPerson person, int garden_ID) throws IllegalArgumentException {
 
     }
 

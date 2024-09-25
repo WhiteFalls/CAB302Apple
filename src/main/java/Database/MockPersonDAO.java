@@ -65,6 +65,11 @@ public class MockPersonDAO implements IPersonDAO {
     }
 
     @Override
+    public void deletePersonFromGarden(IPerson person, int garden_ID) throws IllegalArgumentException {
+
+    }
+
+    @Override
     public IPerson getPerson(int id) {
         for (IPerson contact : people) {
             if (contact.getUserId() == id) {

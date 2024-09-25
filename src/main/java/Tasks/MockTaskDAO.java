@@ -1,5 +1,6 @@
 package Tasks;
 
+import People.Garden;
 import People.IPerson;
 import People.Person;
 
@@ -37,6 +38,11 @@ public class MockTaskDAO implements ITaskDAO{
     }
 
     @Override
+    public void add(Task task, IPerson person, Garden garden) {
+
+    }
+
+    //@Override
     public void add(Task task, IPerson person) {
         task.setId(autoIncrementedIdTask);
         autoIncrementedIdTask++;
@@ -51,6 +57,11 @@ public class MockTaskDAO implements ITaskDAO{
             }
         }
         return categorisedTasks;
+    }
+
+    @Override
+    public ArrayList<Task> getCategorisedTasksFromGarden(IPerson person, taskCategory category, Garden garden) {
+        return null;
     }
 
     @Override
@@ -78,9 +89,5 @@ public class MockTaskDAO implements ITaskDAO{
         return null;
     }
 
-    @Override
-    public List<Task> getCategorisedTasks(Person person, taskCategory taskCategory) {
-        return List.of();
-    }
 
 }
