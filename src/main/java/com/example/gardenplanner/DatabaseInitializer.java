@@ -107,10 +107,12 @@ public class DatabaseInitializer {
                 int johnId = getUserIdByName(connection, "John");
 
                 // Insert a garden for Liam (assuming garden_id is 1)
-                String insertGardenQuery = "INSERT INTO Gardens (garden_owner, garden_name) VALUES (?, ?)";
+                String insertGardenQuery = "INSERT INTO Gardens (garden_owner, garden_name, width, height) VALUES (?, ?, ?, ?)";
                 PreparedStatement gardenStmt = connection.prepareStatement(insertGardenQuery);
                 gardenStmt.setInt(1, liamId);
                 gardenStmt.setString(2, "Liam's Garden");
+                gardenStmt.setInt(3,2); // preset
+                gardenStmt.setInt(4,2);
                 gardenStmt.executeUpdate();
 
                 System.out.println("Garden for Liam created successfully.");

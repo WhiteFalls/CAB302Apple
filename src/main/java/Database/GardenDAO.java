@@ -31,7 +31,6 @@ public class GardenDAO implements IGardenDAO {
             System.out.println("Garden added successfully.");
 
             ResultSet rs = stmt.getGeneratedKeys(); // get auto incremented keys
-            addToGardenUsers(rs.getInt(1), "Manager"); // adds user to garden users (whoever presses add garden is manager)
             garden.setGardenId(rs.getInt(1));
         } catch (SQLException e) {
             e.printStackTrace();

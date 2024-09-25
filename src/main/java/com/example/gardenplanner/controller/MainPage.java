@@ -52,6 +52,7 @@ public class MainPage {
         gardenMapDAO = new GardenMapDAO();
         gardenUsersDAO = new GardenUsersDAO(connection);
         int gardensOwned = findNumGardensOwned();
+        System.out.println("num gardens owned: " + gardensOwned);
         if (gardensOwned == 1){
             setButtonToRemove();
         }
@@ -104,12 +105,6 @@ public class MainPage {
             }
             else if (gardensOwned == 0){
                 // for now, we just create a new garden in the database
-                Garden garden = new Garden("Garden",
-                        currentUser.getPersonId(),
-                        2,
-                        2);
-                gardenDAO.addGarden(garden);
-                gardenMapDAO.createDefaultMap(garden);
 
                 TextInputDialog dialog = new TextInputDialog("");
                 dialog.setTitle("Create a Garden");
@@ -119,10 +114,11 @@ public class MainPage {
                 Optional<String> result = dialog.showAndWait();
                 // the result.get.trim is needed as putting a name with a space actually destroys the database :(
                 if (result.isPresent() && !result.get().isEmpty() && result.get().trim().length() > 1) { // holy salad
-                    Garden garden = new Garden(currentUser.getPersonId(),result.get());
+                    Garden garden = new Garden(result.get(),currentUser.getPersonId(),2,2);
+                    System.out.println("garden name: " + garden.getGardenName());
                     gardenDAO.addGarden(garden);
-                    Garden newGarden = gardenDAO.getGardenByUserId(loggedInUser.getUserId());
-                    gardenUsersDAO.addPersonToGarden(loggedInUser, newGarden, "Manager"); // adds user to garden users (whoever presses add garden is
+                    gardenUsersDAO.addPersonToGarden(loggedInUser, garden, "Manager"); // adds user to garden users (whoever presses add garden is
+                    gardenMapDAO.createDefaultMap(garden);
                     setButtonToRemove();
                 }
                 else{
@@ -190,7 +186,7 @@ public class MainPage {
         }catch(SQLException e ) {
             e.printStackTrace();
         }
-        return -1;
+        return -1; // handle this case
     }
 
     // could be public, made into an error class maybe
