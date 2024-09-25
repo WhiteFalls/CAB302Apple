@@ -25,6 +25,8 @@ public class DatabaseInitializer {
                     garden_id INTEGER PRIMARY KEY AUTOINCREMENT,
                     garden_owner INTEGER NOT NULL,
                     garden_name TEXT NOT NULL,
+                    width INTEGER NOT NULL,
+                    height INTEGER NOT NULL,
                     FOREIGN KEY (garden_owner) REFERENCES Users(user_id)
                 );
 

@@ -3,6 +3,8 @@ package People;
 public class Garden {
     private int gardenId;
     private int ownerId;
+    private int width;
+    private int height;
     private String gardenName;
 
     // Constructor for new garden creation
@@ -12,9 +14,11 @@ public class Garden {
     }
 
     // Constructor when loading from database
-    public Garden(int gardenId, int ownerId, String gardenName) {
+    public Garden(int gardenId, int ownerId, int width, int height, String gardenName) {
         this.gardenId = gardenId;
         this.ownerId = ownerId;
+        this.width = width;
+        this.height = height;
         this.gardenName = gardenName;
     }
 
@@ -29,6 +33,26 @@ public class Garden {
 
     public String getGardenName() {
         return gardenName;
+    }
+
+    public int getWidth()
+    {
+        return this.width;
+    }
+
+    public void setWidth(int width)
+    {
+        this.width = width;
+    }
+
+    public int getHeight()
+    {
+        return this.height;
+    }
+
+    public void setHeight(int width)
+    {
+        this.height = height;
     }
 
     public void setGardenName(String gardenName) {

@@ -16,11 +16,13 @@ public class GardenDAO implements IGardenDAO {
 
     @Override
     public void addGarden(Garden garden) {
-        String query = "INSERT INTO Gardens (garden_owner, garden_name) VALUES (?, ?)";
+        String query = "INSERT INTO Gardens (garden_owner, garden_name, width, height) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, garden.getOwnerId());
             stmt.setString(2, garden.getGardenName());
+            stmt.setInt(3, garden.getWidth());
+            stmt.setInt(4, garden.getHeight());
             stmt.executeUpdate();
             System.out.println("Garden added successfully.");
         } catch (SQLException e) {
@@ -38,7 +40,11 @@ public class GardenDAO implements IGardenDAO {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                garden = new Garden(rs.getInt("garden_id"), rs.getInt("garden_owner"), rs.getString("garden_name"));
+                garden = new Garden(rs.getInt("garden_id"),
+                        rs.getInt("garden_owner"),
+                        rs.getInt("width"),
+                        rs.getInt("height"),
+                        rs.getString("garden_name"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -56,7 +62,11 @@ public class GardenDAO implements IGardenDAO {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                Garden garden = new Garden(rs.getInt("garden_id"), rs.getInt("garden_owner"), rs.getString("garden_name"));
+                Garden garden = new Garden(rs.getInt("garden_id"),
+                        rs.getInt("garden_owner"),
+                        rs.getInt("width"),
+                        rs.getInt("height"),
+                        rs.getString("garden_name"));
                 gardens.add(garden);
             }
         } catch (SQLException e) {
@@ -75,7 +85,11 @@ public class GardenDAO implements IGardenDAO {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                garden = new Garden(rs.getInt("garden_id"), rs.getInt("garden_owner"), rs.getString("garden_name"));
+                garden = new Garden(rs.getInt("garden_id"),
+                        rs.getInt("garden_owner"),
+                        rs.getInt("width"),
+                        rs.getInt("height"),
+                        rs.getString("garden_name"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
