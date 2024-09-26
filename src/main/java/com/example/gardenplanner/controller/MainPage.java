@@ -67,7 +67,7 @@ public class MainPage {
         int gardensOwned = findNumGardensOwned();
         if (gardensOwned == 1) {
             Stage stage = (Stage) UpdatesButton.getScene().getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("garden-management-view.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("garden-view.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 1200, 600);
             stage.setScene(scene);
         } else if (gardensOwned == 0) {
