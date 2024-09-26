@@ -12,14 +12,14 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
-
-import javax.swing.*;
+import javax.crypto.SecretKey;
+import java.util.Base64;
+import Util.ConfigKeyLoader;
+import Util.BouncyCastleAESUtil;
+import Database.PersonDAO;
+import People.Person;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
 
 public class LoginController {
 
@@ -28,7 +28,17 @@ public class LoginController {
     @FXML
     private PasswordField passwordField;
 
+    private SecretKey aesKey;
+
     private static final String DB_URL = "jdbc:sqlite:GardenPlanner.sqlite";  // Updated database location
+
+    public LoginController() {
+        try {
+            aesKey = ConfigKeyLoader.getSecretKeyFromConfig();  // Very awesome.
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Attempts to grab the user's typed details and log them in
@@ -39,33 +49,39 @@ public class LoginController {
         String email = emailField.getText();
         String password = passwordField.getText();
 
-        if (validateInput(email, password)) {
-            try (Connection conn = DriverManager.getConnection(DB_URL)) {
-                String sql = "SELECT * FROM Users WHERE email = ? AND password = ?";
-                PreparedStatement pstmt = conn.prepareStatement(sql);
-                pstmt.setString(1, email);
-                pstmt.setString(2, password);
+        try {
+            // Retrieve the person(s) from the database (I'm working on it)
+            Person person = new PersonDAO().getPersonByEmail(email);
 
-                ResultSet rs = pstmt.executeQuery();
+            if (person != null && validateInput(email, password)) {
+                String encryptedPassword = person.getPassword();
+                String ivBase64 = person.getIvBase64();
 
-                if (rs.next()) {
+                // Decode the IV from Base64
+                byte[] iv = Base64.getDecoder().decode(ivBase64);
+
+                // Decrypt the stored password
+                String decryptedPassword = BouncyCastleAESUtil.decrypt(encryptedPassword, aesKey, iv);
+
+                // Compare the decrypted password
+                if (decryptedPassword.equals(password)) {
                     UserSession session = UserSession.getInstance();
-                    session.setPersonId(rs.getInt("user_id"));
+                    session.setPersonId(person.getUserId());
                     session.setEmail(email);
-                    session.setFirstName(rs.getString("fname"));
-                    session.setLastName(rs.getString("lname"));
+                    session.setFirstName(person.getFirstName());
+                    session.setLastName(person.getLastName());
 
-                    showAlert("Login Successful!", "Welcome back, " + rs.getString("fname"));
+                    showAlert("Login Successful!", "Welcome back, " + person.getFirstName() + " " + person.getLastName());
                     clearFields();
                     goToMainPage(event);
-                } else {
-                    showAlert("Login Failed", "Incorrect Email or Password.");
                 }
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-                showAlert("Database Error", "Failed to login user.");
             }
+            else {
+                showAlert("Login Failed", "Incorrect Email or Password.");
+                clearFields();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

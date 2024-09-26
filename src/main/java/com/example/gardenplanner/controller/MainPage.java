@@ -5,9 +5,6 @@ import People.Garden;
 import People.IPerson;
 import com.example.gardenplanner.HelloApplication;
 import com.example.gardenplanner.UserSession;
-import com.example.gardenplanner.controller.GardenManagementController;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
@@ -44,7 +41,7 @@ public class MainPage {
         String email = session.getEmail();
 
         connection = DatabaseConnection.getConnection();
-        personDAO = new PersonDAO(connection);
+        personDAO = new PersonDAO();
         int personId = UserSession.getInstance().getPersonId();
         this.loggedInUser = personDAO.getPerson(personId);
 

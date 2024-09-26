@@ -20,10 +20,10 @@ public class MockPersonDAO implements IPersonDAO {
     public MockPersonDAO() {
         //this.taskDAO = taskDAO;
         // Add some initial contacts to the mock database
-        addPerson(new Person("John", "Doe", "johndoe@example.com", "0000"));
-        addPerson(new Person("Jane", "Doe", "janedoe@example.com", "0001"));
-        addPerson(new Person("Jay", "Doe", "jaydoe@example.com", "0002"));
-        addPerson(new Person("Jerry", "Doe", "jerrydoe@example.com", "0003"));
+        addPerson(new Person("John", "Doe", "johndoe@example.com", "0000",""));
+        addPerson(new Person("Jane", "Doe", "janedoe@example.com", "0001",""));
+        addPerson(new Person("Jay", "Doe", "jaydoe@example.com", "0002",""));
+        addPerson(new Person("Jerry", "Doe", "jerrydoe@example.com", "0003",""));
     }
 
     @Override

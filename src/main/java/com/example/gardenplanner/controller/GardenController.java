@@ -10,11 +10,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 
 import java.sql.Connection;
-
-import static java.lang.Integer.MAX_VALUE;
 
 public class GardenController {
     @FXML
@@ -48,7 +45,7 @@ public class GardenController {
 
     public GardenController()
     {
-        personDAO = new PersonDAO(connection);
+        personDAO = new PersonDAO();
         gardenDAO = new GardenDAO();
         gardenUsersDAO = new GardenUsersDAO(connection);
         gardenMapDAO = new GardenMapDAO();

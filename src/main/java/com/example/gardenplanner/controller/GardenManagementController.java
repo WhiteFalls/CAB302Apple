@@ -4,7 +4,6 @@ import Database.GardenUsersDAO;
 import Database.PersonDAO;
 import People.Garden;
 import People.IPerson;
-import People.Person;
 import Tasks.ITaskDAO;
 import Tasks.Task;
 import Tasks.TaskDAO;
@@ -55,7 +54,7 @@ public class GardenManagementController {
      */
     public GardenManagementController() {
         taskDAO = new TaskDAO();
-        personDAO = new PersonDAO(connection);
+        personDAO = new PersonDAO();
         gardenDAO = new GardenDAO();
         gardenUsersDAO = new GardenUsersDAO(connection);
     }

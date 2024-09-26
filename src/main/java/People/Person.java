@@ -20,6 +20,7 @@ public class Person implements IPerson {
     private String email;
     private List<Task> tasks = new ArrayList<>();
     private Connection connection;
+    private String ivBase64;
 
     // Constructor for loading from database
     public Person(int userId, Connection connection) {
@@ -28,21 +29,24 @@ public class Person implements IPerson {
     }
 
     // Constructor for new Person object to be inserted
-    public Person(String firstName, String lastName, String email, String password) {
+    public Person(String firstName, String lastName, String email, String password, String ivBase64) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.ivBase64 = ivBase64;
     }
 
-    public Person(int userId, String fname, String lname, String email, String password) {
+    public Person(int userId, String fname, String lname, String email, String password, String ivBase64) {
         this.userId = userId;
         this.firstName = fname;
         this.lastName = lname;
         this.email = email;
         this.password = password;
         this.tasks = new ArrayList<>();
+        this.ivBase64 = ivBase64;
     }
+
 
     @Override
     public String getFirstName() {
@@ -142,6 +146,14 @@ public class Person implements IPerson {
     @Override
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setIvBase64(String ivBase64) {
+        this.ivBase64 = ivBase64;
+    }
+
+    public String getIvBase64() {
+        return ivBase64;
     }
 
     private void loadPersonFromDatabase(Connection connection) {

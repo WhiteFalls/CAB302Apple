@@ -37,7 +37,7 @@ public class PersonDAOTest {
     @BeforeEach
     public void setUp() {
         // Initialize DAO before each test
-        personDAO = new PersonDAO(connection);
+        personDAO = new PersonDAO();
     }
 
     @AfterEach

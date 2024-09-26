@@ -55,7 +55,7 @@ public class GardenToDoListController {
      */
     public GardenToDoListController() {
         connection = DatabaseConnection.getConnection();
-        personDAO = new PersonDAO(connection);
+        personDAO = new PersonDAO();
         taskDAO = new TaskDAO();
         gardenDAO = new GardenDAO();
         gardenUsersDAO = new GardenUsersDAO(connection);

@@ -21,7 +21,8 @@ public class DatabaseInitializer {
                     fname TEXT NOT NULL,
                     lname TEXT NOT NULL,
                     email TEXT NOT NULL,
-                    password TEXT NOT NULL
+                    password TEXT NOT NULL,
+                    iv_base64 TEXT
                 );
             
                 CREATE TABLE IF NOT EXISTS Gardens (
@@ -159,3 +160,4 @@ public class DatabaseInitializer {
 
 //Debug SQL
 //ALTER TABLE Tasks ADD COLUMN category TEXT DEFAULT 'DAILY';
+//ALTER TABLE Users ADD COLUMN iv_base64 TEXT;

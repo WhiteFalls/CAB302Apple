@@ -5,7 +5,6 @@ import People.Person;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class PersonDAO implements IPersonDAO {
 
@@ -15,21 +14,21 @@ public class PersonDAO implements IPersonDAO {
 
     /**
      * Constructs a new GardenDAO and initializes the connection to the database
-     * @param connection The connection to the database
      */
-    public PersonDAO(Connection connection) {
+    public PersonDAO() {
         this.connection = DatabaseConnection.getConnection();
     }
 
     @Override
     public void addPerson(Person person) {
-        String query = "INSERT INTO Users (fname, lname, email, password) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO Users (fname, lname, email, password, iv_base64) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, person.getFirstName());
             stmt.setString(2, person.getLastName());
             stmt.setString(3, person.getEmail());
             stmt.setString(4, person.getPassword());
+            stmt.setString(5, person.getIvBase64());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -47,7 +46,7 @@ public class PersonDAO implements IPersonDAO {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                person = new Person(rs.getInt("user_id"), rs.getString("fname"), rs.getString("lname"), rs.getString("email"), rs.getString("password"));
+                person = new Person(rs.getInt("user_id"), rs.getString("fname"), rs.getString("lname"), rs.getString("email"), rs.getString("password"), rs.getString("iv_base64") );
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -91,7 +90,7 @@ public class PersonDAO implements IPersonDAO {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                person = new Person(rs.getInt("user_id"), rs.getString("fname"), rs.getString("lname"), rs.getString("email"), rs.getString("password"));
+                person = new Person(rs.getInt("user_id"), rs.getString("fname"), rs.getString("lname"), rs.getString("email"), rs.getString("password"), rs.getString("iv_base64"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -109,7 +108,7 @@ public class PersonDAO implements IPersonDAO {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                Person person = new Person(rs.getInt("user_id"), rs.getString("fname"), rs.getString("lname"), rs.getString("email"), rs.getString("password"));
+                Person person = new Person(rs.getInt("user_id"), rs.getString("fname"), rs.getString("lname"), rs.getString("email"), rs.getString("password"), rs.getString("iv_base64"));
                 if (person.getUserId() == 0)
                 {
                     break;

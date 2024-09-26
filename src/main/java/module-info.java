@@ -4,9 +4,10 @@ module com.example.gardenplanner {
     requires junit;
     requires org.testng;
     requires java.desktop;
-    requires java.sql;
     requires org.apache.commons.compress;
     requires commons.lang;
+    requires org.bouncycastle.provider;
+    requires java.sql;
 
 
     opens com.example.gardenplanner to javafx.fxml;

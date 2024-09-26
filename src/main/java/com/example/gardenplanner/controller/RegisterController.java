@@ -4,6 +4,8 @@ import Database.IPersonDAO;
 import Database.PersonDAO;
 import People.Person;
 import com.example.gardenplanner.HelloApplication;
+import Util.ConfigKeyLoader;
+import Util.BouncyCastleAESUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,12 +16,12 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
+import javax.crypto.SecretKey;
+import java.util.Base64;
 
 import java.io.IOException;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
 public class RegisterController {
 
@@ -38,40 +40,55 @@ public class RegisterController {
 
     private IPersonDAO personDAO;
 
+    private SecretKey aesKey;
+
     public RegisterController() {
-        personDAO = new PersonDAO(connection);
+        personDAO = new PersonDAO();
+
+        // Encryption good
+        try {
+            aesKey = ConfigKeyLoader.getSecretKeyFromConfig();  // Retrieve AES key from configuration
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * Register's the user into the database
      */
     @FXML
-    public void registerUser() {
+    public void registerUser() throws Exception {
         // Validate user input before proceeding
         if (!validateInput()) {
             return;
         }
+
+        String password = passwordField.getText();
+        byte[] iv = BouncyCastleAESUtil.generateIv();  // Generate a new IV for each password
+        String encryptedPassword = BouncyCastleAESUtil.encrypt(password, aesKey, iv);
+        String ivBase64 = Base64.getEncoder().encodeToString(iv);
 
         // Create a new Person object with the user input
         Person newPerson = new Person(
                 firstNameField.getText(),
                 lastNameField.getText(),
                 emailField.getText(),
-                passwordField.getText()
+                encryptedPassword,
+                ivBase64
         );
 
+        // Debugging
         System.out.println("First Name: " + newPerson.getFirstName());
         System.out.println("Last Name: " + newPerson.getLastName());
         System.out.println("Email: " + emailField.getText());
-        System.out.println("Password: " + newPerson.getPassword());
+        System.out.println("Password: " + encryptedPassword);
+        System.out.println("Base64: " + ivBase64);
+
 
 
         // Save the new user to the database
         personDAO.addPerson(newPerson);
         showAlert("Success", "User successfully registered!");
-
-        // Clear input fields after successful registration
-//        clearFields();
     }
 
     /**
