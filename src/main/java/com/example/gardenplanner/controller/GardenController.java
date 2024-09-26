@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
@@ -49,7 +50,7 @@ public class GardenController {
 
     public GardenController()
     {
-        connection = DatabaseConnection.getConnection();
+       // connection = DatabaseConnection.getConnection();
         personDAO = new PersonDAO(connection);
         gardenDAO = new GardenDAO();
         gardenUsersDAO = new GardenUsersDAO(connection);
@@ -76,10 +77,14 @@ public class GardenController {
             for (int y = 0; y < cells[0].length; y++)
             {
                 GardenCell cell = cells[x][y];
+                if (cell != null) { // added in cause it was telling me cells was null
+                    cell.setPlant("BEAN");
 
-                Button plotButton = createPlotButton(cell);
+                    Button plotButton = createPlotButton(cell);
 
-                gardenGrid.add(plotButton, x, y);
+                    gardenGrid.add(plotButton, x, y);
+                    System.out.println("This cell is not null: " + x + "," + y);
+                }
             }
         }
 
@@ -120,7 +125,29 @@ public class GardenController {
         colourDropDown.setDisable(true);
         confirmButton.setDisable(true);
     }
+    @FXML
+    private void changeGardenName(){
+        gardenNameText.setOnKeyPressed((event -> {
+            if (event.getCode() == KeyCode.ENTER){
+                confirmChangeGardenName();
+            }
+        }));
+    }
 
+    private void confirmChangeGardenName(){
+        String newName =  gardenNameText.getText();
+        if (newName.equals(garden.getGardenName())){
+            displayPopup("Please enter in a different name!");
+        }
+        else if (displayConfirmPopup("Are you sure you want to change your garden name to: " + newName + "?")){
+            garden.setGardenName(newName);
+            gardenDAO.updateGarden(garden);
+            syncGardenDetails();
+        }
+        else{
+            displayPopup("Garden name change has been cancelled.");
+        }
+    }
     private void displayCell(GardenCell cell)
     {
         plantTextField.setText(cell.getPlant());
