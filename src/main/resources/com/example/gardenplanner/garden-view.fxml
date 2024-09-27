@@ -82,5 +82,6 @@
             </VBox>
          </children>
       </AnchorPane>
+      <Button fx:id="goBackToMainPage" layoutX="21.0" layoutY="24.0" mnemonicParsing="false" onAction="#goBackToMainPage" prefHeight="26.0" prefWidth="151.0" text="Go Back To Main Page" />
    </children>
 </AnchorPane>

@@ -8,14 +8,20 @@ import com.example.gardenplanner.UserSession;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 
 import javafx.scene.layout.GridPane;
 
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.util.Optional;
 
@@ -258,4 +264,23 @@ public class GardenController {
         }
         return false;
     }
+
+    /**
+     * Sets scene back to the main page of the application
+     * @param event The event that triggers the page change
+     */
+    public void goBackToMainPage(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/gardenplanner/main-page.fxml"));
+            Parent mainPageParent = loader.load();
+            Scene mainPageScene = new Scene(mainPageParent, 1200, 600);
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(mainPageScene);
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
