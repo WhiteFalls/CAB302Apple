@@ -8,9 +8,12 @@ import com.example.gardenplanner.UserSession;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
+
 import javafx.scene.layout.GridPane;
+
 import javafx.scene.paint.Color;
 
 import java.sql.Connection;
@@ -71,12 +74,14 @@ public class GardenController {
 
     private void syncGarden()
     {
+        gardenGrid.getRowConstraints().clear(); //idk but it works
+        gardenGrid.getColumnConstraints().clear();
         gardenGrid.getChildren().clear();
         gardenTitle.setText(garden.getGardenName());
         syncGardenDetails();
 
         GardenCell[][] cells = gardenMapDAO.getGardenCells(garden);
-        System.out.println("Cell length: "  + cells.length + "," + cells[0].length);
+
         for (int x = 0; x < cells.length; x++)
         {
             for (int y = 0; y < cells[0].length; y++)
@@ -84,19 +89,15 @@ public class GardenController {
                 GardenCell cell = cells[x][y];
                 if (cell != null) { // added in cause it was telling me cells was null
                     cell.setPlant("BEAN");
-//                    if (cell.getX() == 1 && cell.getY() == 2){
-//                        System.out.println("Cell at 1,2");
-//                        cell.setPlant("HERE");
-//                    }
-                    System.out.println("Cell coords: "+ cell.getX() + "," + cell.getY());
 
                     Button plotButton = createPlotButton(cell);
+                    plotButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
-                    gardenGrid.add(plotButton, x, y);
+                    gardenGrid.add(plotButton, x, y); // it actually takes in y,x but it think we swapped the coords everywhere so it cancels out technically
+                    gardenGrid.setMargin(plotButton, new Insets(1));
                 }
             }
         }
-
     }
 
     private Button createPlotButton(GardenCell cell)
@@ -104,8 +105,6 @@ public class GardenController {
         Button plotButton = new Button(cell.getPlant());
         String colour_s = colorToString(cell.getColour());
         plotButton.setStyle("-fx-background-color:" + colour_s);
-        plotButton.maxWidth(100000000);
-        plotButton.maxHeight(100000000);
         plotButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
