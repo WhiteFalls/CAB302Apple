@@ -124,6 +124,7 @@ public class GardenMapDAO implements IGardenMapDAO{
                 if(newGrid[i][j] == null){
                 newGrid[i][j] = makeDefaultCell(i,j); // not really needed tbf
                 addDefaultCellsToGardenMap(garden,i,j);
+                System.out.println(i + "," + j + " Added");
                 }
             }
         }
@@ -141,8 +142,9 @@ public class GardenMapDAO implements IGardenMapDAO{
     private void removeOutOfBoundsCell(Garden garden, int newWidth, int newHeight){
         for (int i = 0; i < garden.getWidth(); i++) { // Cells to the right of the new width
             for (int j = 0; j < garden.getHeight(); j++) {
-                if( i >= newHeight || j >= newWidth) {
+                if( j >= newHeight || i >= newWidth) {
                     removeCellsFromGardenMap(garden, i, j);
+                    System.out.println(i + "," + j + " Removed");
                 }
             }
         }

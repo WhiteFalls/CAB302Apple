@@ -84,6 +84,11 @@ public class GardenController {
                 GardenCell cell = cells[x][y];
                 if (cell != null) { // added in cause it was telling me cells was null
                     cell.setPlant("BEAN");
+//                    if (cell.getX() == 1 && cell.getY() == 2){
+//                        System.out.println("Cell at 1,2");
+//                        cell.setPlant("HERE");
+//                    }
+                    System.out.println("Cell coords: "+ cell.getX() + "," + cell.getY());
 
                     Button plotButton = createPlotButton(cell);
 
