@@ -18,6 +18,9 @@ import java.util.Optional;
 
 import static java.lang.Integer.MAX_VALUE;
 
+// buttons not spaced out evenly for 4 plots
+// resizing to smaller creates errors (start at 40 2, resize down to 4,2)
+
 public class GardenController {
     @FXML
     private Label gardenTitle;
@@ -68,10 +71,12 @@ public class GardenController {
 
     private void syncGarden()
     {
+        gardenGrid.getChildren().clear();
         gardenTitle.setText(garden.getGardenName());
         syncGardenDetails();
 
         GardenCell[][] cells = gardenMapDAO.getGardenCells(garden);
+        System.out.println("Cell length: "  + cells.length + "," + cells[0].length);
         for (int x = 0; x < cells.length; x++)
         {
             for (int y = 0; y < cells[0].length; y++)
@@ -83,7 +88,6 @@ public class GardenController {
                     Button plotButton = createPlotButton(cell);
 
                     gardenGrid.add(plotButton, x, y);
-                    System.out.println("This cell is not null: " + x + "," + y);
                 }
             }
         }
