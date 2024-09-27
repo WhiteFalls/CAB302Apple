@@ -94,7 +94,7 @@ public class GardenController {
             {
                 GardenCell cell = cells[x][y];
                 if (cell != null) { // added in cause it was telling me cells was null
-                    cell.setPlant("BEAN");
+                    cell.setPlant("BEAN"); // for funsies
 
                     Button plotButton = createPlotButton(cell);
                     plotButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
