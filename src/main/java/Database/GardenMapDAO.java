@@ -107,7 +107,41 @@ public class GardenMapDAO implements IGardenMapDAO{
     }
 
     @Override
-    public void resizeMap(Garden garden) {
+    public void resizeMap(Garden garden, int newWidth, int newHeight) {
+        GardenCell[][] newGrid = new GardenCell[newWidth][newHeight];
+
+
+    }
+
+    private void addCellsToGardenMap(Garden garden,int x, int y) {
+        String query = "INSERT INTO Garden_Map (garden_id, x, y, plant_name, planted_date, harvest_date, colour) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, garden.getGardenId());
+            stmt.setInt(2, x);
+            stmt.setInt(3, y);
+            stmt.setString(4, "Empty");
+            stmt.setDate(5, Date.valueOf(LocalDate.now()));
+            stmt.setDate(6, null);
+            stmt.setString(7, Color.PERU.toString());
+            stmt.executeUpdate();
+            System.out.println("Coords added successfully.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    private void RemoveCellsToGardenMap(Garden garden,int x, int y) {
+        String query = "DELETE FROM Garden_Map WHERE garden_id = ? AND x = ? and y = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, garden.getGardenId());
+            stmt.setInt(2, x);
+            stmt.setInt(3, y);
+            stmt.executeUpdate();
+            System.out.println("Coords removed successfully.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 }

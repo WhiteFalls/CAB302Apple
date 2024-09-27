@@ -134,6 +134,39 @@ public class GardenController {
         }));
     }
 
+    @FXML
+    private void changeGardenSize(){
+        gardenWidth.setOnKeyPressed((event -> {
+            if (event.getCode() == KeyCode.ENTER){
+                confirmChangeGardenSize();
+            }
+        }));
+        gardenHeight.setOnKeyPressed((event -> {
+            if (event.getCode() == KeyCode.ENTER){
+                confirmChangeGardenSize();
+            }
+        }));
+
+    }
+
+    private void confirmChangeGardenSize() {
+        int newWidth = Integer.parseInt(gardenWidth.getText());
+        int newHeight = Integer.parseInt(gardenHeight.getText());
+        if (newHeight == garden.getHeight() && newWidth == garden.getWidth()){
+            displayPopup("Please enter in a different size!");
+        }
+        else if (newHeight <= 0 || newWidth <=0 ){
+            displayPopup("Invalid size!");
+        }
+        else if (displayConfirmPopup("Are you sure you want to resize the garden to: " + gardenWidth.getText() + "," + gardenHeight.getText())){
+            gardenMapDAO.resizeMap(garden,newWidth,newHeight);
+            syncGarden();
+        }
+        else{
+            displayPopup("Garden resizing cancelled");
+        }
+    }
+
     private void confirmChangeGardenName(){
         String newName =  gardenNameText.getText();
         if (newName.equals(garden.getGardenName())){
