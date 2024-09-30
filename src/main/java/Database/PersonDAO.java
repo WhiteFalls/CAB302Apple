@@ -121,8 +121,22 @@ public class PersonDAO implements IPersonDAO {
         return people;
     }
 
-
-
+    // Method to check if email is already registered
+    public boolean isEmailRegistered(String email) {
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            String sql = "SELECT COUNT(*) FROM Users WHERE email = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setString(1, email);
+                ResultSet rs = stmt.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;  // If the count is greater than 0, the email exists
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     @Override
     public void deletePerson(Person person) {
