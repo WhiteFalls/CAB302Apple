@@ -47,6 +47,9 @@ public class Person implements IPerson {
         this.ivBase64 = ivBase64;
     }
 
+    public Person(String john, String doe, String mail, String number) {
+    }
+
 
     @Override
     public String getFirstName() {

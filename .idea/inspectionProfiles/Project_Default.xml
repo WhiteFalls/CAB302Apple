@@ -2,5 +2,38 @@
   <profile version="1.0">
     <option name="myName" value="Project Default" />
     <inspection_tool class="ThrowablePrintStackTrace" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="VulnerableLibrariesLocal" enabled="false" level="WARNING" enabled_by_default="false">
+      <option name="isIgnoringEnabled" value="true" />
+      <option name="ignoredModules">
+        <list>
+          <option value="Garden-Planner" />
+          <option value="Garden-Planner" />
+          <option value="Garden-Planner" />
+          <option value="Garden-Planner" />
+          <option value="Garden-Planner" />
+          <option value="Garden-Planner" />
+        </list>
+      </option>
+      <option name="ignoredPackages">
+        <list>
+          <option value="commons-beanutils:commons-beanutils:1.7.0" />
+          <option value="org.bouncycastle:bcprov-jdk15on:1.70" />
+          <option value="commons-codec:commons-codec:1.6" />
+          <option value="commons-collections:commons-collections:3.2.1" />
+          <option value="commons-io:commons-io:2.5" />
+          <option value="dom4j:dom4j:1.1" />
+        </list>
+      </option>
+      <option name="ignoredReasons">
+        <list>
+          <option value="Not exploitable" />
+          <option value="In progress" />
+          <option value="In progress" />
+          <option value="In progress" />
+          <option value="In progress" />
+          <option value="In progress" />
+        </list>
+      </option>
+    </inspection_tool>
   </profile>
 </component>

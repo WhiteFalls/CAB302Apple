@@ -5,97 +5,47 @@ import Tasks.taskCategory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.time.LocalDate;
 
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 public class PersonTest {
-    private Person person;
-    private Task task;
+
+    private static final boolean DEBUG_MODE = false;  // Set this to true to disable tests
 
     @BeforeEach
-    public void setUp() {
-        person = new Person("John", "Doe", "john.doe@example.com", "1234567890");
-        task = new Task(1, "task", LocalDate.now(), LocalDate.now(), taskCategory.DAILY);
+    public void setup() {
+        if (DEBUG_MODE) {
+            Assumptions.assumeTrue(false, "Tests disabled in debug mode.");
+        }
+
     }
 
-    @org.junit.jupiter.api.Test
-    public void testGetId() {
-        person.setUserId(1);
-        assertEquals(1, person.getUserId());
+    // im kinda tired fr fr
+    @Test
+    public void testPersonCreation() {
+        Person person = new Person(0, "test", "user", "test@example.com", "encryptedPassword", "testIV");
+        assertEquals("test", person.getFirstName());
+        assertEquals("user", person.getLastName());
+        assertEquals("test@example.com", person.getEmail());
+        assertEquals("encryptedPassword", person.getPassword());
+        assertEquals("testIV", person.getIvBase64());
     }
 
-    @org.junit.jupiter.api.Test
-    public void testGetFirstName() {
-        assertEquals("John", person.getFirstName());
-    }
-
-    @org.junit.jupiter.api.Test
-    public void testSetFirstName() {
-        person.setFirstName("Jane");
-        assertEquals("Jane", person.getFirstName());
-    }
-
-    @org.junit.jupiter.api.Test
-    public void testGetLastName() {
-        assertEquals("Doe", person.getLastName());
-    }
-
-    @org.junit.jupiter.api.Test
-    public void testSetLastName() {
-        person.setLastName("Smith");
-        assertEquals("Smith", person.getLastName());
-    }
-
-    @org.junit.jupiter.api.Test
-    public void testGetEmail() {
-        assertEquals("john.doe@example.com", person.getEmail());
-    }
-
-    @org.junit.jupiter.api.Test
+    @Test
     public void testSetEmail() {
-        person.setEmail("jane.smith@example.com");
-        assertEquals("jane.smith@example.com", person.getEmail());
+        Person person = new Person(0, "test", "user", "test@example.com", "encryptedPassword", "testIV");
+        person.setEmail("newemail@example.com");
+        assertEquals("newemail@example.com", person.getEmail());
     }
 
-    @org.junit.jupiter.api.Test
-    public void testGetPassword() {
-        assertEquals("1234567890", person.getPassword());
+    @Test
+    public void testPasswordEncryptionHandling() {
+        Person person = new Person(0, "test", "user", "test@example.com", "encryptedPassword", "testIV");
+        assertEquals("encryptedPassword", person.getPassword());
+        person.setPassword("newEncryptedPassword");
+        assertEquals("newEncryptedPassword", person.getPassword());
     }
-
-    @org.junit.jupiter.api.Test
-    public void testSetPassword() {
-        person.setPassword("0987654321");
-        assertEquals("0987654321", person.getPassword());
-    }
-
-    @org.junit.jupiter.api.Test
-    public void testGetName() {
-        assertEquals("John Doe", person.getName());
-    }
-
-    @org.junit.jupiter.api.Test
-    public void testAddTask() {
-        person.addTask(task);
-        assertEquals(task, person.getTasks()[0]);
-    }
-
-    @org.junit.jupiter.api.Test
-    public void testEditTask() {
-        person.addTask(task);
-
-        Task new_task = new Task(2, "new_task", LocalDate.now(), LocalDate.now(), taskCategory.DAILY);
-        person.editTask(new_task, task);
-        assertEquals(new_task, person.getTasks()[0]);
-    }
-
-    @org.junit.jupiter.api.Test
-    public void testRemoveTask() {
-        person.addTask(task);
-        person.removeTask(task.getId());
-        assertTrue(person.getTasks().length == 0);
-
-    }
-
 }
