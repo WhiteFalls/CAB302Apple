@@ -50,4 +50,6 @@ public interface IPersonDAO {
 
 
     void deletePerson(Person person);
+
+    boolean isEmailRegistered(String email);
 }

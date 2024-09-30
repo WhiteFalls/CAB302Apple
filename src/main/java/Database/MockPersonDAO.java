@@ -88,5 +88,10 @@ public class MockPersonDAO implements IPersonDAO {
     public void deletePerson(Person person) {
 
     }
+
+    @Override
+    public boolean isEmailRegistered(String email) {
+        return false;
+    }
 }
 

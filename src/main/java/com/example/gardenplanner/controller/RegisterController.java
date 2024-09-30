@@ -3,6 +3,7 @@ package com.example.gardenplanner.controller;
 import Database.IPersonDAO;
 import Database.PersonDAO;
 import People.Person;
+import Util.EmailValidator;
 import com.example.gardenplanner.HelloApplication;
 import Util.ConfigKeyLoader;
 import Util.BouncyCastleAESUtil;
@@ -107,7 +108,18 @@ public class RegisterController {
             return false;
         }
 
+        // Check if the email is valid
+        if (!EmailValidator.isValidEmail(email)) {
+            showAlert("Validation Error", "Invalid Email Format");
+            return false;
+        }
+
         if (!password.equals(confirmPassword)) {
+            showAlert("Validation Error", "Passwords do not match.");
+            return false;
+        }
+
+        if (personDAO.isEmailRegistered(email)) {
             showAlert("Validation Error", "Passwords do not match.");
             return false;
         }
