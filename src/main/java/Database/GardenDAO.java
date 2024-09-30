@@ -107,11 +107,13 @@ public class GardenDAO implements IGardenDAO {
 
     @Override
     public void updateGarden(Garden garden) {
-        String query = "UPDATE Gardens SET garden_name = ? WHERE garden_id = ?";
+        String query = "UPDATE Gardens SET garden_name = ?, width = ?, height = ? WHERE garden_id = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, garden.getGardenName());
-            stmt.setInt(2, garden.getGardenId());
+            stmt.setInt(2, garden.getWidth());
+            stmt.setInt(3, garden.getHeight());
+            stmt.setInt(4, garden.getGardenId());
             stmt.executeUpdate();
             System.out.println("Garden updated successfully.");
         } catch (SQLException e) {
