@@ -386,4 +386,21 @@ public class GardenManagementController {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Sets scene back to the garden page of the application
+     * @param event The event that triggers the page change
+     */
+    public void goToGardenPage(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/gardenplanner/garden-view.fxml"));
+            Parent mainPageParent = loader.load();
+            Scene mainPageScene = new Scene(mainPageParent, 1200, 600);
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(mainPageScene);
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

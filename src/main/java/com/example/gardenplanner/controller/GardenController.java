@@ -8,14 +8,27 @@ import com.example.gardenplanner.UserSession;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
+import javafx.scene.input.KeyCode;
 
+import javafx.scene.layout.GridPane;
+
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 import java.sql.Connection;
 import java.util.Optional;
 
 import static java.lang.Integer.MAX_VALUE;
+
+// buttons not spaced out evenly for 4 plots
+// resizing to smaller creates errors (start at 40 2, resize down to 4,2)
 
 public class GardenController {
     @FXML
@@ -49,7 +62,7 @@ public class GardenController {
 
     public GardenController()
     {
-        connection = DatabaseConnection.getConnection();
+       // connection = DatabaseConnection.getConnection();
         personDAO = new PersonDAO(connection);
         gardenDAO = new GardenDAO();
         gardenUsersDAO = new GardenUsersDAO(connection);
@@ -67,22 +80,30 @@ public class GardenController {
 
     private void syncGarden()
     {
+        gardenGrid.getRowConstraints().clear(); //idk but it works
+        gardenGrid.getColumnConstraints().clear();
+        gardenGrid.getChildren().clear();
         gardenTitle.setText(garden.getGardenName());
         syncGardenDetails();
 
         GardenCell[][] cells = gardenMapDAO.getGardenCells(garden);
+
         for (int x = 0; x < cells.length; x++)
         {
             for (int y = 0; y < cells[0].length; y++)
             {
                 GardenCell cell = cells[x][y];
+                if (cell != null) { // added in cause it was telling me cells was null
+                    cell.setPlant("BEAN"); // for funsies
 
-                Button plotButton = createPlotButton(cell);
+                    Button plotButton = createPlotButton(cell);
+                    plotButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
-                gardenGrid.add(plotButton, x, y);
+                    gardenGrid.add(plotButton, x, y); // it actually takes in y,x but it think we swapped the coords everywhere so it cancels out technically
+                    gardenGrid.setMargin(plotButton, new Insets(1));
+                }
             }
         }
-
     }
 
     private Button createPlotButton(GardenCell cell)
@@ -90,8 +111,6 @@ public class GardenController {
         Button plotButton = new Button(cell.getPlant());
         String colour_s = colorToString(cell.getColour());
         plotButton.setStyle("-fx-background-color:" + colour_s);
-        plotButton.maxWidth(100000000);
-        plotButton.maxHeight(100000000);
         plotButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -120,7 +139,62 @@ public class GardenController {
         colourDropDown.setDisable(true);
         confirmButton.setDisable(true);
     }
+    @FXML
+    private void changeGardenName(){
+        gardenNameText.setOnKeyPressed((event -> {
+            if (event.getCode() == KeyCode.ENTER){
+                confirmChangeGardenName();
+            }
+        }));
+    }
 
+    @FXML
+    private void changeGardenSize(){
+        gardenWidth.setOnKeyPressed((event -> {
+            if (event.getCode() == KeyCode.ENTER){
+                confirmChangeGardenSize();
+            }
+        }));
+        gardenHeight.setOnKeyPressed((event -> {
+            if (event.getCode() == KeyCode.ENTER){
+                confirmChangeGardenSize();
+            }
+        }));
+
+    }
+
+    private void confirmChangeGardenSize() {
+        int newWidth = Integer.parseInt(gardenWidth.getText());
+        int newHeight = Integer.parseInt(gardenHeight.getText());
+        if (newHeight == garden.getHeight() && newWidth == garden.getWidth()){
+            displayPopup("Please enter in a different size!");
+        }
+        else if (newHeight <= 0 || newWidth <=0 ){
+            displayPopup("Invalid size!");
+        }
+        else if (displayConfirmPopup("Are you sure you want to resize the garden to: " + gardenWidth.getText() + "," + gardenHeight.getText())){
+            gardenMapDAO.resizeMap(garden,newWidth,newHeight);
+            syncGarden();
+        }
+        else{
+            displayPopup("Garden resizing cancelled");
+        }
+    }
+
+    private void confirmChangeGardenName(){
+        String newName =  gardenNameText.getText();
+        if (newName.equals(garden.getGardenName())){
+            displayPopup("Please enter in a different name!");
+        }
+        else if (displayConfirmPopup("Are you sure you want to change your garden name to: " + newName + "?")){
+            garden.setGardenName(newName);
+            gardenDAO.updateGarden(garden);
+            syncGardenDetails();
+        }
+        else{
+            displayPopup("Garden name change has been cancelled.");
+        }
+    }
     private void displayCell(GardenCell cell)
     {
         plantTextField.setText(cell.getPlant());
@@ -190,4 +264,23 @@ public class GardenController {
         }
         return false;
     }
+
+    /**
+     * Sets scene back to the main page of the application
+     * @param event The event that triggers the page change
+     */
+    public void goBackToMainPage(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/gardenplanner/main-page.fxml"));
+            Parent mainPageParent = loader.load();
+            Scene mainPageScene = new Scene(mainPageParent, 1200, 600);
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(mainPageScene);
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

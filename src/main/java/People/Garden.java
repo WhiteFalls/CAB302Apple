@@ -78,7 +78,7 @@ public class Garden {
         return this.height;
     }
 
-    public void setHeight(int width)
+    public void setHeight(int height)
     {
         this.height = height;
     }

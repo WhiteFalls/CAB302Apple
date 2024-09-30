@@ -10,5 +10,5 @@ public interface IGardenMapDAO {
 
     public void updateCell(GardenCell cell);
 
-    public void resizeMap(Garden garden);
+    public void resizeMap(Garden garden, int newWidth, int newHeight);
 }
