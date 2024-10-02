@@ -88,3 +88,8 @@
     -fx-border-size: 10px;
     -fx-background-radius: 20px;
 }
+
+.garden-cell:focused{
+    -fx-border-color: yellow;
+    -fx-border-size: 10px;
+}
