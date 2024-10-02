@@ -9,14 +9,16 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
 
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -33,6 +35,8 @@ import static java.lang.Integer.MAX_VALUE;
 public class GardenController {
     @FXML
     private Label gardenTitle;
+    @FXML
+    private ScrollPane gardenScroll;
     @FXML
     private GridPane gardenGrid;
     @FXML
@@ -96,11 +100,32 @@ public class GardenController {
                 if (cell != null) { // added in cause it was telling me cells was null
                     cell.setPlant("BEAN"); // for funsies
 
-                    Button plotButton = createPlotButton(cell);
-                    plotButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+                    for (int row = 0 ; row < garden.getHeight() ; row++ ){
+                        RowConstraints rc = new RowConstraints();
+                        rc.setFillHeight(true);
+                        rc.setVgrow(Priority.ALWAYS);
+                        gardenGrid.getRowConstraints().add(rc);
+                    }
+                    for (int col = 0 ; col < garden.getHeight(); col++ ) {
+                        ColumnConstraints cc = new ColumnConstraints();
+                        cc.setFillWidth(true);
+                        cc.setHgrow(Priority.ALWAYS);
+                        gardenGrid.getColumnConstraints().add(cc);
+                    }
 
-                    gardenGrid.add(plotButton, x, y); // it actually takes in y,x but it think we swapped the coords everywhere so it cancels out technically
-                    gardenGrid.setMargin(plotButton, new Insets(1));
+
+                    Button plotButton = createPlotButton(cell);
+                    StackPane stack = new StackPane(plotButton);
+
+
+
+                    GridPane.setFillWidth(plotButton, true);
+                    GridPane.setFillHeight(plotButton, true);
+                    GridPane.setHalignment(plotButton, HPos.CENTER);
+                    GridPane.setValignment(plotButton, VPos.CENTER);
+
+                    gardenGrid.add(stack, x, y); // it actually takes in y,x but it think we swapped the coords everywhere so it cancels out technically
+                    //gardenGrid.setMargin(plotButton, new Insets(1));
                 }
             }
         }
@@ -111,6 +136,13 @@ public class GardenController {
         Button plotButton = new Button(cell.getPlant());
         String colour_s = colorToString(cell.getColour());
         plotButton.setStyle("-fx-background-color:" + colour_s);
+        plotButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        plotButton.setMaxHeight(Double.MAX_VALUE);
+        plotButton.setMaxWidth(Double.MAX_VALUE);
+        plotButton.setPrefHeight(Double.MAX_VALUE);
+        plotButton.setPrefWidth(Double.MAX_VALUE);
+        plotButton.setMinSize(50, 50);
+        plotButton.getStyleClass().add("garden-cell");
         plotButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
