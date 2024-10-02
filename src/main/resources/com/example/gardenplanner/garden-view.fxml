@@ -26,6 +26,7 @@
                <children>
                   <Button maxHeight="1.0E20" maxWidth="1.0E13" mnemonicParsing="false" text="Button" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
                   <Button mnemonicParsing="false" text="Button" />
+                  <Button maxHeight="1.0E17" mnemonicParsing="false" text="Button" GridPane.hgrow="SOMETIMES" GridPane.vgrow="ALWAYS" />
                </children>
             </GridPane>
          </content>

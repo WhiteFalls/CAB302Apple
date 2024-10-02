@@ -90,6 +90,19 @@ public class GardenController {
         gardenTitle.setText(garden.getGardenName());
         syncGardenDetails();
 
+        for (int row = 0 ; row < garden.getHeight() ; row++ ){
+            RowConstraints rc = new RowConstraints();
+            rc.setFillHeight(true);
+            rc.setVgrow(Priority.ALWAYS);
+            gardenGrid.getRowConstraints().add(rc);
+        }
+        for (int col = 0 ; col < garden.getHeight(); col++ ) {
+            ColumnConstraints cc = new ColumnConstraints();
+            cc.setFillWidth(true);
+            cc.setHgrow(Priority.ALWAYS);
+            gardenGrid.getColumnConstraints().add(cc);
+        }
+
         GardenCell[][] cells = gardenMapDAO.getGardenCells(garden);
 
         for (int x = 0; x < cells.length; x++)
@@ -99,19 +112,6 @@ public class GardenController {
                 GardenCell cell = cells[x][y];
                 if (cell != null) { // added in cause it was telling me cells was null
                     cell.setPlant("BEAN"); // for funsies
-
-                    for (int row = 0 ; row < garden.getHeight() ; row++ ){
-                        RowConstraints rc = new RowConstraints();
-                        rc.setFillHeight(true);
-                        rc.setVgrow(Priority.ALWAYS);
-                        gardenGrid.getRowConstraints().add(rc);
-                    }
-                    for (int col = 0 ; col < garden.getHeight(); col++ ) {
-                        ColumnConstraints cc = new ColumnConstraints();
-                        cc.setFillWidth(true);
-                        cc.setHgrow(Priority.ALWAYS);
-                        gardenGrid.getColumnConstraints().add(cc);
-                    }
 
 
                     Button plotButton = createPlotButton(cell);
@@ -137,10 +137,6 @@ public class GardenController {
         String colour_s = colorToString(cell.getColour());
         plotButton.setStyle("-fx-background-color:" + colour_s);
         plotButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        plotButton.setMaxHeight(Double.MAX_VALUE);
-        plotButton.setMaxWidth(Double.MAX_VALUE);
-        plotButton.setPrefHeight(Double.MAX_VALUE);
-        plotButton.setPrefWidth(Double.MAX_VALUE);
         plotButton.setMinSize(50, 50);
         plotButton.getStyleClass().add("garden-cell");
         plotButton.setOnAction(new EventHandler<ActionEvent>() {
