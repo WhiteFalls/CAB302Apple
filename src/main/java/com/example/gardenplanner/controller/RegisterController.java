@@ -18,6 +18,8 @@ import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javax.crypto.SecretKey;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.control.Label;
 import java.util.Base64;
 
 import java.io.IOException;
@@ -36,6 +38,10 @@ public class RegisterController {
     private PasswordField passwordField;
     @FXML
     private PasswordField confirmPasswordField;
+    @FXML
+    private Label strengthLabel;
+    @FXML
+    private ProgressBar strengthBar;
 
     private Connection connection;
 
@@ -52,6 +58,14 @@ public class RegisterController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    public void initialize() {
+        passwordField.textProperty().addListener((observable, oldValue, newValue) -> {
+            int strength = calculatePasswordStrength(newValue);
+            updatePasswordStrengthUI(strength);
+        });
     }
 
     /**
@@ -174,6 +188,58 @@ public class RegisterController {
         } catch (IOException e) {
             e.printStackTrace();
             showAlert("Error", "Unable to load login page.");
+        }
+    }
+
+    private int calculatePasswordStrength(String password) {
+        int strength = 0;
+
+        // Check the length of the password
+        if (password.length() >= 6) {
+            strength++;
+        }
+
+        // Check if the password contains both letters and numbers
+        if (password.matches(".*[A-Za-z].*") && password.matches(".*[0-9].*")) {
+            strength++;
+        }
+
+        // Check for special characters
+        if (password.matches(".*[!@#$%^&*(),.?\":{}|<>].*")) {
+            strength++;
+        }
+
+        // Check for mixed case letters
+        if (password.matches(".*[A-Z].*") && password.matches(".*[a-z].*")) {
+            strength++;
+        }
+
+        return strength;  // Max strength value is 4
+    }
+
+    private void updatePasswordStrengthUI(int strength) {
+        switch (strength) {
+            case 0:
+                strengthLabel.setText("Password Strength: Very Weak");
+                strengthBar.setProgress(0.25);
+                strengthBar.setStyle("-fx-accent: red;");
+                break;
+            case 1:
+                strengthLabel.setText("Password Strength: Weak");
+                strengthBar.setProgress(0.5);
+                strengthBar.setStyle("-fx-accent: orange;");
+                break;
+            case 2:
+                strengthLabel.setText("Password Strength: Medium");
+                strengthBar.setProgress(0.75);
+                strengthBar.setStyle("-fx-accent: yellow;");
+                break;
+            case 3:
+            case 4:
+                strengthLabel.setText("Password Strength: Strong");
+                strengthBar.setProgress(1.0);
+                strengthBar.setStyle("-fx-accent: green;");
+                break;
         }
     }
 }

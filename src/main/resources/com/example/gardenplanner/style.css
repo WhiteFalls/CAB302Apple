@@ -1,7 +1,7 @@
 .title-label {
-    -fx-font-size: 24px;
+    -fx-font-size: 32px;
     -fx-font-weight: bold;
-    -fx-text-fill: #333;
+    -fx-text-fill: #ffffff;
 }
 
 .root {
@@ -12,10 +12,10 @@
 
 .container {
     -fx-background-color: #ffffff;
-    -fx-padding: 20px;
+    -fx-padding: 30px;
     -fx-border-color: lightgray;
     -fx-border-width: 2px;
-    -fx-border-radius: 10px;
+    -fx-border-radius: 20px;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0.5, 0, 0);
 }
 
