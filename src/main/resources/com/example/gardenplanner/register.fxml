@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.ProgressBar?>
 
-<VBox alignment="CENTER" spacing="20" stylesheets="@style.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gardenplanner.controller.RegisterController" maxWidth="500" minWidth="300" maxHeight="600" minHeight="400">
+<VBox alignment="CENTER" spacing="20" stylesheets="@Css/style.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gardenplanner.controller.RegisterController" maxWidth="500" minWidth="300" maxHeight="600" minHeight="400">
     <Label styleClass="title-label" text="Register for Apple Garden" />
 
     <VBox alignment="CENTER" spacing="10" styleClass="container" maxWidth="400" minWidth="300" maxHeight="500" minHeight="400">
