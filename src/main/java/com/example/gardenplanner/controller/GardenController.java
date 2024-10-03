@@ -92,14 +92,16 @@ public class GardenController {
 
         for (int row = 0 ; row < garden.getHeight() ; row++ ){
             RowConstraints rc = new RowConstraints();
-            rc.setFillHeight(true);
-            rc.setVgrow(Priority.ALWAYS);
+            //rc.setFillHeight(true);
+            rc.setPercentHeight(100d / garden.getHeight());
+            rc.setVgrow(Priority.NEVER);
             gardenGrid.getRowConstraints().add(rc);
         }
-        for (int col = 0 ; col < garden.getHeight(); col++ ) {
+        for (int col = 0 ; col < garden.getWidth(); col++ ) {
             ColumnConstraints cc = new ColumnConstraints();
-            cc.setFillWidth(true);
-            cc.setHgrow(Priority.ALWAYS);
+            //cc.setFillWidth(true);
+            cc.setPercentWidth(100d / garden.getWidth());
+            cc.setHgrow(Priority.NEVER);
             gardenGrid.getColumnConstraints().add(cc);
         }
 
@@ -111,18 +113,12 @@ public class GardenController {
             {
                 GardenCell cell = cells[x][y];
                 if (cell != null) { // added in cause it was telling me cells was null
-                    cell.setPlant("BEAN"); // for funsies
-
 
                     Button plotButton = createPlotButton(cell);
                     StackPane stack = new StackPane(plotButton);
 
-
-
-                    GridPane.setFillWidth(plotButton, true);
-                    GridPane.setFillHeight(plotButton, true);
-                    GridPane.setHalignment(plotButton, HPos.CENTER);
-                    GridPane.setValignment(plotButton, VPos.CENTER);
+//                    GridPane.setFillWidth(plotButton, true);
+//                    GridPane.setFillHeight(plotButton, true);
 
                     gardenGrid.add(stack, x, y); // it actually takes in y,x but it think we swapped the coords everywhere so it cancels out technically
                     //gardenGrid.setMargin(plotButton, new Insets(1));
