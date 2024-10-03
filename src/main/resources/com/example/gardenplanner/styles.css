@@ -76,3 +76,20 @@
         -fx-background-color: rgba(232, 230, 225, 0.9);
         -fx-background-radius: 10px;
 }
+
+.garden-cell {
+        -fx-background-radius: 0px;
+        -fx-border-color: black;
+        -fx-border-size: 2px
+}
+
+.garden-cell:selected {
+    -fx-border-color: yellow;
+    -fx-border-size: 10px;
+    -fx-background-radius: 20px;
+}
+
+.garden-cell:focused{
+    -fx-border-color: yellow;
+    -fx-border-size: 10px;
+}
