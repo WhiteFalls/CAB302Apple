@@ -11,6 +11,7 @@ import Tasks.taskCategory;
 import Database.IPersonDAO;
 import Database.GardenDAO;
 import com.example.gardenplanner.UserSession;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -19,15 +20,19 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.io.IOException;
+import java.sql.BatchUpdateException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 import java.sql.Connection;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -161,7 +166,8 @@ public class GardenManagementController {
             @Override
             public void handle(ActionEvent actionEvent) {
                 addTask(person);
-                taskList.getItems().add(person.getNewestTask());
+                Task task = new Task(1, "New Task", LocalDate.now(), LocalDate.now(), taskCategory.DAILY);
+                taskList.getItems().add(task);
             }
         });
         VBox taskBox = new VBox(assignTasksButton, taskList);
@@ -202,15 +208,34 @@ public class GardenManagementController {
                     HBox taskBox = new HBox();
                     taskBox.getStyleClass().add("hbox");
 
-                    Label taskId = new Label("ID: " + String.valueOf(task.getId()));
+                    Label idTitle = new Label("Id:");
+                    idTitle.setStyle("taskTitles");
+                    Label taskId = new Label(String.valueOf(task.getId()));
+                    VBox idBox = new VBox(idTitle, taskId);
+
+                    Label detailsTitle = new Label("Task Details:");
                     TextField taskDetails = new TextField(task.getTaskDetails());
+                    VBox detailsBox = new VBox(detailsTitle, taskDetails);
+
+                    Label aDateTitle = new Label("Assigned Date:");
                     DatePicker assignedDate = new DatePicker(task.getAssignedDate());
+                    VBox aDateBox = new VBox(aDateTitle, assignedDate);
+
+                    Label dDateTitle = new Label("Due Date:");
                     DatePicker dueDate = new DatePicker(task.getDueDate());
+                    VBox dDateBox = new VBox(dDateTitle, dueDate);
+
+                    Label categoryTitle = new Label("Category:");
                     ComboBox<taskCategory> taskCategoryDrop = new ComboBox<taskCategory>();
+                    VBox categoryBox = new VBox(categoryTitle, taskCategoryDrop);
+
                     taskCategoryDrop.getSelectionModel().select(task.getCategory());
                     taskCategoryDrop.getItems().addAll(taskCategory.DAILY, taskCategory.WEEKLY, taskCategory.CUSTOM);
 
+                    Label confirmTitle = new Label("Confirm:");
                     Button confirmChangesButton = new Button("Confirm Changes");
+                    VBox confirmBox = new VBox(confirmTitle, confirmChangesButton);
+
                     confirmChangesButton.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent actionEvent) {
@@ -231,7 +256,10 @@ public class GardenManagementController {
                         }
                     });
 
+                    Label deleteTitle = new Label("Delete:");
                     Button deleteTaskButton = new Button("Delete Task");
+                    VBox deleteBox = new VBox(deleteTitle, deleteTaskButton);
+
                     deleteTaskButton.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent actionEvent) {
@@ -243,7 +271,7 @@ public class GardenManagementController {
                         }
                     });
 
-                    taskBox.getChildren().addAll(taskId, taskDetails, assignedDate, dueDate, taskCategoryDrop, confirmChangesButton, deleteTaskButton);
+                    taskBox.getChildren().addAll(idBox, detailsBox, aDateBox, dDateBox, categoryBox, confirmBox, deleteBox);
 
                     setGraphic(taskBox);
                 }
