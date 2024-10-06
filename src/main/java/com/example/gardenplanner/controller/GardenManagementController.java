@@ -125,6 +125,8 @@ public class GardenManagementController {
      */
     private TitledPane getAddUsersSection() {
         Label addUsersLabel = new Label("Type in the user ID: ");
+        addUsersLabel.getStyleClass().add("task-title");
+
         TextField addUserText = new TextField();
         Button addUserButton = new Button("Add User");
         addUserButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -141,7 +143,7 @@ public class GardenManagementController {
             }
         });
 
-        HBox addUsersBox = new HBox(addUsersLabel, addUserText, addUserButton);
+        VBox addUsersBox = new VBox(addUsersLabel, addUserText, addUserButton);
         addUsersBox.getStyleClass().add("hbox");
 
         TitledPane addUsers = new TitledPane("Add Users", addUsersBox);
@@ -165,7 +167,7 @@ public class GardenManagementController {
         assignTasksButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                addTask(person);
+                addTask(person, taskList);
                 Task task = new Task(1, "New Task", LocalDate.now(), LocalDate.now(), taskCategory.DAILY);
                 taskList.getItems().add(task);
             }
@@ -209,23 +211,27 @@ public class GardenManagementController {
                     taskBox.getStyleClass().add("hbox");
 
                     Label idTitle = new Label("Id:");
-                    idTitle.setStyle("taskTitles");
+                    idTitle.getStyleClass().add("task-title");
                     Label taskId = new Label(String.valueOf(task.getId()));
                     VBox idBox = new VBox(idTitle, taskId);
 
                     Label detailsTitle = new Label("Task Details:");
+                    detailsTitle.getStyleClass().add("task-title");
                     TextField taskDetails = new TextField(task.getTaskDetails());
                     VBox detailsBox = new VBox(detailsTitle, taskDetails);
 
                     Label aDateTitle = new Label("Assigned Date:");
+                    aDateTitle.getStyleClass().add("task-title");
                     DatePicker assignedDate = new DatePicker(task.getAssignedDate());
                     VBox aDateBox = new VBox(aDateTitle, assignedDate);
 
                     Label dDateTitle = new Label("Due Date:");
+                    dDateTitle.getStyleClass().add("task-title");
                     DatePicker dueDate = new DatePicker(task.getDueDate());
                     VBox dDateBox = new VBox(dDateTitle, dueDate);
 
                     Label categoryTitle = new Label("Category:");
+                    categoryTitle.getStyleClass().add("task-title");
                     ComboBox<taskCategory> taskCategoryDrop = new ComboBox<taskCategory>();
                     VBox categoryBox = new VBox(categoryTitle, taskCategoryDrop);
 
@@ -233,6 +239,7 @@ public class GardenManagementController {
                     taskCategoryDrop.getItems().addAll(taskCategory.DAILY, taskCategory.WEEKLY, taskCategory.CUSTOM);
 
                     Label confirmTitle = new Label("Confirm:");
+                    confirmTitle.getStyleClass().add("task-title");
                     Button confirmChangesButton = new Button("Confirm Changes");
                     VBox confirmBox = new VBox(confirmTitle, confirmChangesButton);
 
@@ -257,6 +264,7 @@ public class GardenManagementController {
                     });
 
                     Label deleteTitle = new Label("Delete:");
+                    deleteTitle.getStyleClass().add("task-title");
                     Button deleteTaskButton = new Button("Delete Task");
                     VBox deleteBox = new VBox(deleteTitle, deleteTaskButton);
 
@@ -271,7 +279,8 @@ public class GardenManagementController {
                         }
                     });
 
-                    taskBox.getChildren().addAll(idBox, detailsBox, aDateBox, dDateBox, categoryBox, confirmBox, deleteBox);
+                    taskBox.getChildren().addAll(idBox, detailsBox, aDateBox, dDateBox, categoryBox,
+                            confirmBox, deleteBox);
 
                     setGraphic(taskBox);
                 }
@@ -330,11 +339,12 @@ public class GardenManagementController {
      * Adds a new task to the user
      * @param person The user who is receiving the new task
      */
-    private void addTask(IPerson person)
+    private void addTask(IPerson person, ListView<Task> taskList)
     {
-        Task task = new Task(1, "New Task", LocalDate.now(), LocalDate.now(), taskCategory.DAILY);
+        Task task = new Task("New Task", LocalDate.now(), LocalDate.now(), taskCategory.DAILY);
         taskDAO.add(task,person,garden);
         person.addTask(task);
+        taskList.getItems().add(task);
     }
 
     /**
