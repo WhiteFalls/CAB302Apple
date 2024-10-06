@@ -264,7 +264,8 @@ public class TaskDAO implements ITaskDAO {
     public void setCompletedDate(Task task, LocalDate completedDate){
         String query = "UPDATE Tasks SET completed_date = ? WHERE task_id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setDate(1, Date.valueOf(completedDate));
+            if (completedDate != null) stmt.setDate(1, Date.valueOf(completedDate));
+            else stmt.setDate(1,null);
             stmt.setInt(2, task.getId());
             stmt.executeUpdate();
         } catch (SQLException e) {

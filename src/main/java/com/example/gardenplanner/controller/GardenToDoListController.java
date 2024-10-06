@@ -89,30 +89,26 @@ public class GardenToDoListController {
         weeklyListView2.clear();
         customListView2.clear();
 
-        // reassignTasks(); // if we want to remove it from taskdao when completing it and tasklist
-        if (!personalGardens.isEmpty()){
-                for (int i = 0; i < personalGardens.size(); i++){ // this looks very inefficient propbably
+         // reassignTasks(); // if we want to remove it from taskdao when completing it and tasklist
+        for (int i = 0; i < personalGardens.size(); i++){ // this looks very inefficient propbably
 
-                    // check for out of bounds and create if more lists if needed
-                    if (i >= dailyListView2.size()) {
-                        dailyListView2.add(new ListView<>());
-                        weeklyListView2.add(new ListView<>());
-                        customListView2.add(new ListView<>());
-                    }
+            // check for out of bounds and create if more lists if needed
+            if (i >= dailyListView2.size()) {
+                dailyListView2.add(new ListView<>());
+                weeklyListView2.add(new ListView<>());
+                customListView2.add(new ListView<>());
+            }
 
-                    List<Task> dailyLists = taskDAO.getCategorisedTasksFromGarden(person,taskCategory.DAILY,personalGardens.get(i));
-                    List<Task> weeklyLists = taskDAO.getCategorisedTasksFromGarden(person,taskCategory.WEEKLY,personalGardens.get(i));
-                    List<Task> customLists = taskDAO.getCategorisedTasksFromGarden(person,taskCategory.CUSTOM,personalGardens.get(i));
+            List<Task> dailyLists = taskDAO.getCategorisedTasksFromGarden(person,taskCategory.DAILY,personalGardens.get(i));
+            List<Task> weeklyLists = taskDAO.getCategorisedTasksFromGarden(person,taskCategory.WEEKLY,personalGardens.get(i));
+            List<Task> customLists = taskDAO.getCategorisedTasksFromGarden(person,taskCategory.CUSTOM,personalGardens.get(i));
 
-                    // each list is a task from a separate garden
-                    dailyListView2.get(i).getItems().addAll(dailyLists);
-                    weeklyListView2.get(i).getItems().addAll(weeklyLists);
-                    customListView2.get(i).getItems().addAll(customLists);
-                }
+            // each list is a task from a separate garden
+            dailyListView2.get(i).getItems().addAll(dailyLists);
+            weeklyListView2.get(i).getItems().addAll(weeklyLists);
+            customListView2.get(i).getItems().addAll(customLists);
         }
-        else{
-            // display error --> its never gonna be empty due to checks  before hand
-        }
+
     }
 
 
@@ -150,8 +146,14 @@ public class GardenToDoListController {
                             resetCompletedButton(completeButton);
                             taskDAO.setCompletedDate(task, null);
                         }
-                        else{ // leave it as completed still
+                        // if task is not due
+                        else if (!LocalDate.now().isAfter(task.getDueDate())){
                             completedButton(completeButton);
+                        }
+                        // task is already due
+                        else{
+                            taskDAO.delete(task);
+                            taskList.getItems().remove(task);
                         }
                     }
                     setGraphic(new HBox(taskDescription, assignedDateText, dueDateText, completeButton));
@@ -171,7 +173,7 @@ public class GardenToDoListController {
                 displayPopup("Task will be reassigned!");
             }
             else { // get rid of this to use reassign task
-                taskDAO.delete(task); // so when pages refreshed it wont reappear  wont appear on gardenmanagement
+                taskDAO.delete(task);
                 taskList.getItems().remove(task);
             }
 
