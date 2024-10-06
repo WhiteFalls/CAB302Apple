@@ -136,11 +136,10 @@ public class GardenToDoListController {
                     // if task has been completed
                     if (taskDAO.getCompletedDate(task) != null){
                         // check period when task was completed to its category
-                        Period period = Period.between(taskDAO.getCompletedDate(task), LocalDate.now());
+                        Period period = Period.between(taskDAO.getCompletedDate(task), LocalDate.now()); //task.getassigneddate();
                         taskCategory category = task.getCategory();
-
                         // If it's a daily task and has been completed a day ago or a weekly task and completed a week ago
-                        if ((category.name().equals("DAILY") && period.getDays() >= 1) || (category.name().equals("WEEKLY") && period.getDays() >= 7) ) {
+                        if ((category.name().equals("DAILY") && period.getDays() >= 1) || (category.name().equals("WEEKLY") && period.getDays() >= 7 )) {
                            // reset button
                             completeButton = getButton(taskList,task);
                             resetCompletedButton(completeButton);
