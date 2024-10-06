@@ -2,6 +2,7 @@ package Tasks;
 import People.IPerson;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 
 public class Task implements ITask {
@@ -81,5 +82,21 @@ public class Task implements ITask {
         this.assignedDate = newTask.assignedDate;
         this.dueDate = newTask.dueDate;
         this.category = newTask.category;
+    }
+
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true; // Check if it's the same object
+        if (object == null || getClass() != object.getClass()) return false; // Check if they are the same type
+        Task task = (Task) object;
+        // Compare based on the fields you consider important for equality
+        return Objects.equals(taskId, task.taskId);
+    }
+
+    @Override
+    public int hashCode() {
+        // Generate a hash code based on the same fields you used in equals()
+        return Objects.hash(taskId, taskDetails);
     }
 }
