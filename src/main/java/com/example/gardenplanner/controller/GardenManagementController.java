@@ -22,6 +22,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -43,6 +44,7 @@ public class GardenManagementController {
     // Fields
     @FXML
     private Accordion userDropBox;
+
     private Connection connection;
 
     private IPersonDAO personDAO;
@@ -168,15 +170,15 @@ public class GardenManagementController {
             @Override
             public void handle(ActionEvent actionEvent) {
                 addTask(person, taskList);
-                Task task = new Task(1, "New Task", LocalDate.now(), LocalDate.now(), taskCategory.DAILY);
-                taskList.getItems().add(task);
             }
         });
+
         VBox taskBox = new VBox(assignTasksButton, taskList);
 
         TitledPane userTasks = new TitledPane("Assigned Tasks", taskBox);
-        userTasks.setMinHeight(200);
+        userTasks.setMinHeight(300);
         userTasks.getStyleClass().add("userSectionTitlePane");
+        userTasks.setStyle("-fx-background-color: #7fbd46;");
 
 
         // Create dropdown for user options
@@ -184,7 +186,6 @@ public class GardenManagementController {
 
         TitledPane userSection = new TitledPane(person.getName(), new Accordion(userTasks, userOptions));
         //ArrayList<TitledPane> userTasks = new ArrayList<TitledPane>();
-
 
         return userSection;
     }
@@ -363,14 +364,22 @@ public class GardenManagementController {
      */
     private void addUser(int id)
     {
-        IPerson newPerson = personDAO.getPerson(id);
-        if (newPerson == null)
+        if (gardenUsersDAO.getPeopleIdsInGarden(garden).contains(id))
         {
-            displayPopup("No user with that ID exists");
+            displayPopup("That user is already in your garden");
         }
-        else {
-            gardenUsersDAO.addPersonToGarden(newPerson, garden, "User");
-            syncPeople();
+        else
+        {
+            IPerson newPerson = personDAO.getPerson(id);
+            if (newPerson == null)
+            {
+                displayPopup("No user with that ID exists");
+            }
+
+            else {
+                gardenUsersDAO.addPersonToGarden(newPerson, garden, "User");
+                syncPeople();
+            }
         }
     }
 
