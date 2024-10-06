@@ -249,7 +249,10 @@ public class TaskDAO implements ITaskDAO {
             stmt.setInt(1, task.getId());
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                completedDate = rs.getDate(1).toLocalDate();
+                Date date = rs.getDate(1);
+                if (date != null){
+                    completedDate = date.toLocalDate();
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -263,6 +266,7 @@ public class TaskDAO implements ITaskDAO {
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setDate(1, Date.valueOf(completedDate));
             stmt.setInt(2, task.getId());
+            stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }

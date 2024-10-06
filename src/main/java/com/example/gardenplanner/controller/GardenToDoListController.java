@@ -52,7 +52,6 @@ public class GardenToDoListController {
     private List<ListView<Task>> dailyListView2 = new ArrayList<>();
     private List<ListView<Task>> weeklyListView2 = new ArrayList<>();
     private List<ListView<Task>> customListView2 = new ArrayList<>();
-    private taskReassignmentManager taskManager;
 
     /**
      * Intialises the GardenToDoListController
@@ -63,7 +62,6 @@ public class GardenToDoListController {
         taskDAO = new TaskDAO();
         gardenDAO = new GardenDAO();
         gardenUsersDAO = new GardenUsersDAO(connection);
-        taskManager = taskReassignmentManager.getInstance();
 
         // Retrieve user details from UserSession
         int personId = UserSession.getInstance().getPersonId();
@@ -117,28 +115,6 @@ public class GardenToDoListController {
         }
     }
 
-//    private void reassignTasks() {
-//        for (Map.Entry<Task,LocalDate> entry : reassignedTasks.entrySet()){
-//            Task task = entry.getKey();
-//            LocalDate completedDate = entry.getValue();
-//
-//            // if current date is equal to or less than due date
-//            if (!LocalDate.now().isAfter(task.getDueDate())){
-//                Period period = Period.between(completedDate,LocalDate.now());
-//
-//                // if the period between when the task was completed equals its given timeframe
-//                if ((task.getCategory().name().equals("DAILY") && period.getDays() >= 1) || (task.getCategory().name().equals("WEEKLY") && period.getDays() >= 7) ){
-//                    // reassign tasks
-//                    System.out.println("-------> " + period.getDays());
-//                    Garden garden = gardenDAO.getGardenByTaskId(task);
-//                    taskDAO.add(task, person, garden);
-//                }
-//            }
-//            else{
-//                reassignedTasks.remove(task); // task has passed due date
-//            }
-//        }
-//    }
 
     /**
      * Custom function that structures what each cell in a ListVeiw of Tasks should look like
@@ -161,24 +137,23 @@ public class GardenToDoListController {
 
                     Button completeButton = getButton(taskList,task);
 
-                    // check if completed button needs to be reset when task is reassigned or stay as green
-                    for (Task name : taskManager.getReassignedTasks().keySet()) {
-                        System.out.println(name);
-                        System.out.println(": " + task);
-                    }
-                    if (taskManager.getReassignedTasks().containsKey(task)) {
-                        System.out.println("--------------------------");
-                        Period period = Period.between(taskManager.getReassignedTasks().get(task), LocalDate.now());
-                        // If it's a daily task and has been completed a day ago
-                        if ((task.getCategory().name().equals("DAILY") && period.getDays() >= 1) || (task.getCategory().name().equals("WEEKLY") && period.getDays() >= 7) ) {
+                    // if task has been completed
+                    if (taskDAO.getCompletedDate(task) != null){
+                        // check period when task was completed to its category
+                        Period period = Period.between(taskDAO.getCompletedDate(task), LocalDate.now());
+                        taskCategory category = task.getCategory();
+
+                        // If it's a daily task and has been completed a day ago or a weekly task and completed a week ago
+                        if ((category.name().equals("DAILY") && period.getDays() >= 1) || (category.name().equals("WEEKLY") && period.getDays() >= 7) ) {
+                           // reset button
                             completeButton = getButton(taskList,task);
-                            resetCompletedButton(completeButton); // may not be needed
+                            resetCompletedButton(completeButton);
+                            taskDAO.setCompletedDate(task, null);
                         }
-                        else{
+                        else{ // leave it as completed still
                             completedButton(completeButton);
                         }
                     }
-
                     setGraphic(new HBox(taskDescription, assignedDateText, dueDateText, completeButton));
                 }
             }
@@ -192,7 +167,6 @@ public class GardenToDoListController {
             // check if current date is equal to or before due date
             if(!LocalDate.now().isAfter(task.getDueDate())){
                 taskDAO.setCompletedDate(task,LocalDate.now());
-                taskManager.addReassignedTask(task,LocalDate.now());
                 completedButton(completeButton); // update button
                 displayPopup("Task will be reassigned!");
             }
@@ -209,6 +183,12 @@ public class GardenToDoListController {
     private void resetCompletedButton(Button completeButton) {
         completeButton.setStyle("-fx-background-color: rgba(232, 230, 225, 0.9);");
         completeButton.setText("Complete");
+    }
+    private void completedButton(Button button) {
+        button.setStyle("-fx-background-color: green; -fx-text-fill: black;");
+        button.setText("Completed");
+        button.setOnAction(event -> {displayPopup("Task will be reassigned!");
+        });
     }
 
 
@@ -277,12 +257,6 @@ public class GardenToDoListController {
         alert.showAndWait();
     }
 
-    private void completedButton(Button button) {
-        button.setStyle("-fx-background-color: green; -fx-text-fill: black;");
-        button.setText("Completed");
-        button.setOnAction(event -> {displayPopup("Task will be reassigned!");
-        });
-    }
 
     /**
      * Sets scene back to the main page of the application
