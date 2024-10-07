@@ -17,11 +17,13 @@ public interface ITaskDAO {
      */
     public void delete(Task task);
 
-    /**
-     * Updates a task in the database
-     * @param oldTask The task to be updated
-     * @param newTask The task that will replace oldTask
-     */
+    public void deleteUserTasks(IPerson person, Garden garden);
+
+        /**
+         * Updates a task in the database
+         * @param oldTask The task to be updated
+         * @param newTask The task that will replace oldTask
+         */
     public void update(Task oldTask, Task newTask);
 
     /**

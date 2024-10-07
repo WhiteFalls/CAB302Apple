@@ -354,8 +354,12 @@ public class GardenManagementController {
      */
     private void removeUser(IPerson person)
     {
-        gardenUsersDAO.removePersonFromGarden(person, garden);
-        syncPeople();
+        if (displayConfirmPopup("Are you sure you want to remove this person from your garden?"))
+        {
+            gardenUsersDAO.removePersonFromGarden(person, garden);
+            taskDAO.deleteUserTasks(person, garden);
+            syncPeople();
+        }
     }
 
     /**
