@@ -32,6 +32,11 @@ public class MockTaskDAO implements ITaskDAO{
 
     }
 
+    @Override
+    public void deleteUserTasks(IPerson person, Garden garden) {
+
+    }
+
     public void update(Task oldTask, Task newTask)
     {
 

@@ -53,6 +53,18 @@ public class TaskDAO implements ITaskDAO {
     }
 
     @Override
+    public void deleteUserTasks(IPerson person, Garden garden) {
+        String query = "DELETE FROM Tasks WHERE user_id = ? AND garden_id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, person.getUserId());
+            stmt.setInt(2, garden.getGardenId());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void update(Task oldTask, Task newTask) {
         String query = "UPDATE Tasks SET task_details = ?, assigned_date = ?, due_date = ?, category = ? WHERE task_id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
