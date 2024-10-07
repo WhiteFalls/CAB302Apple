@@ -49,7 +49,6 @@ public class MainPage {
         gardenMapDAO = new GardenMapDAO();
         gardenUsersDAO = new GardenUsersDAO(connection);
         int gardensOwned = findNumGardensOwned();
-        System.out.println("num gardens owned: " + gardensOwned);
         if (gardensOwned == 1){
             setButtonToRemove();
         }

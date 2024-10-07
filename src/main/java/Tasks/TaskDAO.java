@@ -6,6 +6,7 @@ import People.IPerson;
 import People.Person;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -249,6 +250,39 @@ public class TaskDAO implements ITaskDAO {
             e.printStackTrace();
         }
         return tasks;
+    }
+
+    @Override
+    public LocalDate getCompletedDate(Task task){
+        String query = "SELECT completed_date FROM Tasks WHERE task_id = ?";
+        LocalDate completedDate = null;
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, task.getId());
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                Date date = rs.getDate(1);
+                if (date != null){
+                    completedDate = date.toLocalDate();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return completedDate;
+    }
+
+    @Override
+    public void setCompletedDate(Task task, LocalDate completedDate){
+        String query = "UPDATE Tasks SET completed_date = ? WHERE task_id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            if (completedDate != null) stmt.setDate(1, Date.valueOf(completedDate));
+            else stmt.setDate(1,null);
+            stmt.setInt(2, task.getId());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }

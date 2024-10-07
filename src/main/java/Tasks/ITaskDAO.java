@@ -5,6 +5,7 @@ import People.IPerson;
 import People.Person;
 import org.apache.commons.compress.archivers.ar.ArArchiveEntry;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,4 +55,8 @@ public interface ITaskDAO {
     Object getUserTasks(Person person);
 
     ArrayList<Task> getUserTasksFromGarden(IPerson person, Garden garden);
+
+    LocalDate getCompletedDate(Task task);
+
+    void setCompletedDate(Task task, LocalDate completedDate);
 }

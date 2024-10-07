@@ -1,6 +1,7 @@
 package Database;
 
 import People.Garden;
+import Tasks.Task;
 import com.example.gardenplanner.UserSession;
 
 import java.sql.*;
@@ -134,4 +135,21 @@ public class GardenDAO implements IGardenDAO {
         }
     }
 
+    @Override
+    public Garden getGardenByTaskId(Task task)
+    {
+        String query = "SELECT * FROM Tasks WHERE task_id = ?";
+        Garden garden = null;
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, task.getId());
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                garden = getGardenById(rs.getInt("garden_id"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return garden;
+    }
 }
