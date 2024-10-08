@@ -53,7 +53,7 @@ public class RegisterController {
         try {
             aesKey = ConfigKeyLoader.getSecretKeyFromConfig();  // Retrieve AES key from configuration
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(); // if it fails
         }
     }
 
