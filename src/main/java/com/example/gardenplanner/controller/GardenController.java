@@ -61,6 +61,7 @@ public class GardenController {
 
     public GardenController()
     {
+        connection = DatabaseConnection.getConnection();
         personDAO = new PersonDAO();
         gardenDAO = new GardenDAO();
         gardenUsersDAO = new GardenUsersDAO(connection);
