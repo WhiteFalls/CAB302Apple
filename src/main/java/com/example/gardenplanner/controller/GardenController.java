@@ -189,7 +189,7 @@ public class GardenController {
         if (newHeight == garden.getHeight() && newWidth == garden.getWidth()){
             displayPopup("Please enter in a different size!");
         }
-        else if (newHeight <= 0 || newWidth <=0 ){
+        else if ( (newHeight <= 0 || newHeight >50 )|| (newWidth <=0 || newWidth >50) ){
             displayPopup("Invalid size or input!");
         }
         else if (displayConfirmPopup("Are you sure you want to resize the garden to: " + width + "," + height)){
