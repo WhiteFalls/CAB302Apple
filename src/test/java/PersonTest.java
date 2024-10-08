@@ -48,4 +48,84 @@ public class PersonTest {
         person.setPassword("newEncryptedPassword");
         assertEquals("newEncryptedPassword", person.getPassword());
     }
+
+    @Test
+    void updatePersonInDatabase() {
+    }
+
+    @Test
+    void getFirstName() {
+    }
+
+    @Test
+    void setFirstName() {
+    }
+
+    @Test
+    void getLastName() {
+    }
+
+    @Test
+    void setLastName() {
+    }
+
+    @Test
+    void getName() {
+    }
+
+    @Test
+    void getEmail() {
+    }
+
+    @Test
+    void setEmail() {
+    }
+
+    @Test
+    void getPassword() {
+    }
+
+    @Test
+    void setPassword() {
+    }
+
+    @Test
+    void getUserId() {
+    }
+
+    @Test
+    void setUserId() {
+    }
+
+    @Test
+    void getIvBase64() {
+    }
+
+    @Test
+    void setIvBase64() {
+    }
+
+    @Test
+    void getTasks() {
+    }
+
+    @Test
+    void setTasks() {
+    }
+
+    @Test
+    void addTask() {
+    }
+
+    @Test
+    void editTask() {
+    }
+
+    @Test
+    void removeTask() {
+    }
+
+    @Test
+    void getNewestTask() {
+    }
 }
