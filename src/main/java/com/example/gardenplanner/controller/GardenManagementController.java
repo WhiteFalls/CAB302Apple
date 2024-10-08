@@ -11,6 +11,7 @@ import Tasks.taskCategory;
 import Database.IPersonDAO;
 import Database.GardenDAO;
 import com.example.gardenplanner.UserSession;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -19,15 +20,20 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.io.IOException;
+import java.sql.BatchUpdateException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 import java.sql.Connection;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,6 +44,7 @@ public class GardenManagementController {
     // Fields
     @FXML
     private Accordion userDropBox;
+
     private Connection connection;
 
     private IPersonDAO personDAO;
@@ -120,6 +127,8 @@ public class GardenManagementController {
      */
     private TitledPane getAddUsersSection() {
         Label addUsersLabel = new Label("Type in the user ID: ");
+        addUsersLabel.getStyleClass().add("task-title");
+
         TextField addUserText = new TextField();
         Button addUserButton = new Button("Add User");
         addUserButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -136,7 +145,7 @@ public class GardenManagementController {
             }
         });
 
-        HBox addUsersBox = new HBox(addUsersLabel, addUserText, addUserButton);
+        VBox addUsersBox = new VBox(addUsersLabel, addUserText, addUserButton);
         addUsersBox.getStyleClass().add("hbox");
 
         TitledPane addUsers = new TitledPane("Add Users", addUsersBox);
@@ -160,15 +169,16 @@ public class GardenManagementController {
         assignTasksButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                addTask(person);
-                taskList.getItems().add(person.getNewestTask());
+                addTask(person, taskList);
             }
         });
+
         VBox taskBox = new VBox(assignTasksButton, taskList);
 
         TitledPane userTasks = new TitledPane("Assigned Tasks", taskBox);
-        userTasks.setMinHeight(200);
+        userTasks.setMinHeight(300);
         userTasks.getStyleClass().add("userSectionTitlePane");
+        userTasks.setStyle("-fx-background-color: #7fbd46;");
 
 
         // Create dropdown for user options
@@ -176,7 +186,6 @@ public class GardenManagementController {
 
         TitledPane userSection = new TitledPane(person.getName(), new Accordion(userTasks, userOptions));
         //ArrayList<TitledPane> userTasks = new ArrayList<TitledPane>();
-
 
         return userSection;
     }
@@ -202,15 +211,39 @@ public class GardenManagementController {
                     HBox taskBox = new HBox();
                     taskBox.getStyleClass().add("hbox");
 
-                    Label taskId = new Label("ID: " + String.valueOf(task.getId()));
+                    Label idTitle = new Label("Id:");
+                    idTitle.getStyleClass().add("task-title");
+                    Label taskId = new Label(String.valueOf(task.getId()));
+                    VBox idBox = new VBox(idTitle, taskId);
+
+                    Label detailsTitle = new Label("Task Details:");
+                    detailsTitle.getStyleClass().add("task-title");
                     TextField taskDetails = new TextField(task.getTaskDetails());
+                    VBox detailsBox = new VBox(detailsTitle, taskDetails);
+
+                    Label aDateTitle = new Label("Assigned Date:");
+                    aDateTitle.getStyleClass().add("task-title");
                     DatePicker assignedDate = new DatePicker(task.getAssignedDate());
+                    VBox aDateBox = new VBox(aDateTitle, assignedDate);
+
+                    Label dDateTitle = new Label("Due Date:");
+                    dDateTitle.getStyleClass().add("task-title");
                     DatePicker dueDate = new DatePicker(task.getDueDate());
+                    VBox dDateBox = new VBox(dDateTitle, dueDate);
+
+                    Label categoryTitle = new Label("Category:");
+                    categoryTitle.getStyleClass().add("task-title");
                     ComboBox<taskCategory> taskCategoryDrop = new ComboBox<taskCategory>();
+                    VBox categoryBox = new VBox(categoryTitle, taskCategoryDrop);
+
                     taskCategoryDrop.getSelectionModel().select(task.getCategory());
                     taskCategoryDrop.getItems().addAll(taskCategory.DAILY, taskCategory.WEEKLY, taskCategory.CUSTOM);
 
+                    Label confirmTitle = new Label("Confirm:");
+                    confirmTitle.getStyleClass().add("task-title");
                     Button confirmChangesButton = new Button("Confirm Changes");
+                    VBox confirmBox = new VBox(confirmTitle, confirmChangesButton);
+
                     confirmChangesButton.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent actionEvent) {
@@ -231,7 +264,11 @@ public class GardenManagementController {
                         }
                     });
 
+                    Label deleteTitle = new Label("Delete:");
+                    deleteTitle.getStyleClass().add("task-title");
                     Button deleteTaskButton = new Button("Delete Task");
+                    VBox deleteBox = new VBox(deleteTitle, deleteTaskButton);
+
                     deleteTaskButton.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent actionEvent) {
@@ -243,7 +280,8 @@ public class GardenManagementController {
                         }
                     });
 
-                    taskBox.getChildren().addAll(taskId, taskDetails, assignedDate, dueDate, taskCategoryDrop, confirmChangesButton, deleteTaskButton);
+                    taskBox.getChildren().addAll(idBox, detailsBox, aDateBox, dDateBox, categoryBox,
+                            confirmBox, deleteBox);
 
                     setGraphic(taskBox);
                 }
@@ -302,11 +340,12 @@ public class GardenManagementController {
      * Adds a new task to the user
      * @param person The user who is receiving the new task
      */
-    private void addTask(IPerson person)
+    private void addTask(IPerson person, ListView<Task> taskList)
     {
-        Task task = new Task(1, "New Task", LocalDate.now(), LocalDate.now(), taskCategory.DAILY);
+        Task task = new Task("New Task", LocalDate.now(), LocalDate.now(), taskCategory.DAILY);
         taskDAO.add(task,person,garden);
         person.addTask(task);
+        taskList.getItems().add(task);
     }
 
     /**
@@ -315,8 +354,12 @@ public class GardenManagementController {
      */
     private void removeUser(IPerson person)
     {
-        gardenUsersDAO.removePersonFromGarden(person, garden);
-        syncPeople();
+        if (displayConfirmPopup("Are you sure you want to remove this person from your garden?"))
+        {
+            gardenUsersDAO.removePersonFromGarden(person, garden);
+            taskDAO.deleteUserTasks(person, garden);
+            syncPeople();
+        }
     }
 
     /**
@@ -325,14 +368,22 @@ public class GardenManagementController {
      */
     private void addUser(int id)
     {
-        IPerson newPerson = personDAO.getPerson(id);
-        if (newPerson == null)
+        if (gardenUsersDAO.getPeopleIdsInGarden(garden).contains(id))
         {
-            displayPopup("No user with that ID exists");
+            displayPopup("That user is already in your garden");
         }
-        else {
-            gardenUsersDAO.addPersonToGarden(newPerson, garden, "User");
-            syncPeople();
+        else
+        {
+            IPerson newPerson = personDAO.getPerson(id);
+            if (newPerson == null)
+            {
+                displayPopup("No user with that ID exists");
+            }
+
+            else {
+                gardenUsersDAO.addPersonToGarden(newPerson, garden, "User");
+                syncPeople();
+            }
         }
     }
 

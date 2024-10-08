@@ -4,10 +4,7 @@ import Database.*;
 import People.Garden;
 import People.IPerson;
 
-import Tasks.ITaskDAO;
-import Tasks.Task;
-import Tasks.TaskDAO;
-import Tasks.taskCategory;
+import Tasks.*;
 import com.example.gardenplanner.UserSession;
 
 import javafx.event.ActionEvent;
@@ -20,15 +17,22 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.testng.reporters.jq.TestNgXmlPanel;
 
+import javax.sound.midi.SysexMessage;
 import java.io.IOException;
 
 import java.sql.SQLException;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.temporal.WeekFields;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import java.sql.Connection;
+import java.util.Map;
 
 public class GardenToDoListController {
 
@@ -49,7 +53,6 @@ public class GardenToDoListController {
     private List<ListView<Task>> weeklyListView2 = new ArrayList<>();
     private List<ListView<Task>> customListView2 = new ArrayList<>();
 
-
     /**
      * Intialises the GardenToDoListController
      */
@@ -64,8 +67,6 @@ public class GardenToDoListController {
         int personId = UserSession.getInstance().getPersonId();
         this.person = personDAO.getPerson(personId);
         personalGardens = gardenUsersDAO.getAllGardenByUserId(person.getUserId());
-
-
 
         // Sync tasks with the person
         syncPerson(this.person);
@@ -88,10 +89,15 @@ public class GardenToDoListController {
         weeklyListView2.clear();
         customListView2.clear();
 
+         // reassignTasks(); // if we want to remove it from taskdao when completing it and tasklist
         for (int i = 0; i < personalGardens.size(); i++){ // this looks very inefficient propbably
-            dailyListView2.add(new ListView<>());
-            weeklyListView2.add(new ListView<>());
-            customListView2.add(new ListView<>());
+
+            // check for out of bounds and create if more lists if needed
+            if (i >= dailyListView2.size()) {
+                dailyListView2.add(new ListView<>());
+                weeklyListView2.add(new ListView<>());
+                customListView2.add(new ListView<>());
+            }
 
             List<Task> dailyLists = taskDAO.getCategorisedTasksFromGarden(person,taskCategory.DAILY,personalGardens.get(i));
             List<Task> weeklyLists = taskDAO.getCategorisedTasksFromGarden(person,taskCategory.WEEKLY,personalGardens.get(i));
@@ -102,7 +108,9 @@ public class GardenToDoListController {
             weeklyListView2.get(i).getItems().addAll(weeklyLists);
             customListView2.get(i).getItems().addAll(customLists);
         }
+
     }
+
 
     /**
      * Custom function that structures what each cell in a ListVeiw of Tasks should look like
@@ -123,16 +131,65 @@ public class GardenToDoListController {
                     Text assignedDateText = new Text(": Assigned: " + task.getAssignedDate().toString());
                     Text dueDateText = new Text(" Due: " + task.getDueDate().toString());
 
-                    Button completeButton = new Button("Complete");
-                    completeButton.setOnAction(event -> {
-                        taskList.getItems().remove(task);
-                        taskDAO.delete(task);
-                    });
+                    Button completeButton = getButton(taskList,task);
 
+                    // if task has been completed
+                    if (taskDAO.getCompletedDate(task) != null){
+                        // check period when task was completed to its category
+                        Period period = Period.between(taskDAO.getCompletedDate(task), LocalDate.now()); //task.getassigneddate();
+                        taskCategory category = task.getCategory();
+                        // If it's a daily task and has been completed a day ago or a weekly task and completed a week ago
+                        if ((category.name().equals("DAILY") && period.getDays() >= 1) || (category.name().equals("WEEKLY") && period.getDays() >= 7 )) {
+                           // reset button
+                            completeButton = getButton(taskList,task);
+                            resetCompletedButton(completeButton);
+                            taskDAO.setCompletedDate(task, null);
+                        }
+                        // if task is not due
+                        else if (!LocalDate.now().isAfter(task.getDueDate())){
+                            completedButton(completeButton);
+                        }
+                        // task is already due
+                        else{
+                            taskDAO.delete(task);
+                            taskList.getItems().remove(task);
+                        }
+                    }
                     setGraphic(new HBox(taskDescription, assignedDateText, dueDateText, completeButton));
                 }
             }
         };
+    }
+
+    private Button getButton(ListView<Task> taskList,Task task) {
+        Button completeButton = new Button("Complete");
+
+        completeButton.setOnAction(event -> {
+            // check if current date is equal to or before due date
+            if(!LocalDate.now().isAfter(task.getDueDate())){
+                taskDAO.setCompletedDate(task,LocalDate.now());
+                completedButton(completeButton); // update button
+                displayPopup("Task will be reassigned!");
+            }
+            else { // get rid of this to use reassign task
+                taskDAO.delete(task);
+                taskList.getItems().remove(task);
+            }
+
+        });
+
+        return completeButton;
+    }
+
+    private void resetCompletedButton(Button completeButton) {
+        completeButton.setStyle("-fx-background-color: rgba(232, 230, 225, 0.9);");
+        completeButton.setText("Complete");
+    }
+    private void completedButton(Button button) {
+        button.setStyle("-fx-background-color: green; -fx-text-fill: black;");
+        button.setText("Completed");
+        button.setOnAction(event -> {displayPopup("Task will be reassigned!");
+        });
     }
 
 
@@ -145,47 +202,60 @@ public class GardenToDoListController {
         }
         testGarden.getPanes().clear();
 
-        dailyListView2.clear();
-        weeklyListView2.clear();
-        customListView2.clear();
+        syncPerson(person);
 
         if (personalGardens != null && !personalGardens.isEmpty()) {
             for (int i = 0; i < personalGardens.size(); i++){
                 TitledPane gardenPane = new TitledPane();
-                gardenPane.setText("Garden: " + personalGardens.get(i).getGardenName()); // will be users name for now (see main page)
+                gardenPane.setText("Garden: " + personalGardens.get(i).getGardenName());
 
                 // create inner accordian for task categories
                 Accordion taskCategories = new Accordion();
-
-                // check for out of bounds
-                if (i >= dailyListView2.size()) {
-                    dailyListView2.add(new ListView<>());
-                    weeklyListView2.add(new ListView<>());
-                    customListView2.add(new ListView<>());
-                }
-                // add categorised tasks to list of listviews
-                dailyListView2.get(i).getItems().addAll( taskDAO.getCategorisedTasksFromGarden(person,taskCategory.DAILY,personalGardens.get(i)));
-                weeklyListView2.get(i).getItems().addAll(taskDAO.getCategorisedTasksFromGarden(person,taskCategory.WEEKLY,personalGardens.get(i)));
-                customListView2.get(i).getItems().addAll(taskDAO.getCategorisedTasksFromGarden(person,taskCategory.CUSTOM,personalGardens.get(i)));
-
+                TitledPane dailyTasks;
+                TitledPane weeklyTasks;
+                TitledPane customTasks;
                 // generate list of tasks (might not need to be seperated since sync does it for us..?)
-                dailyListView2.get(i).setCellFactory(this::renderCell);
-                weeklyListView2.get(i).setCellFactory(this::renderCell);
-                customListView2.get(i).setCellFactory(this::renderCell);
-
-                // generate titlepanes for corresponding task categories
-                TitledPane dailyTasks = new TitledPane("Daily Tasks: ", dailyListView2.get(i));
-                TitledPane weeklyTasks = new TitledPane("Weekly Tasks: ", weeklyListView2.get(i));
-                TitledPane customTasks = new TitledPane("Custom Tasks: ",  customListView2.get(i));
-
+                if(!dailyListView2.get(i).getItems().isEmpty()){
+                    dailyListView2.get(i).setCellFactory(this::renderCell);
+                    dailyTasks = new TitledPane("Daily Tasks: ", dailyListView2.get(i));
+                }
+                else{
+                    Text emptyDailyTask = new Text("There are no daily tasks here currently: " + LocalDate.now());
+                    dailyTasks = new TitledPane("Daily Tasks: ", emptyDailyTask);
+                }
+                if(!weeklyListView2.get(i).getItems().isEmpty()){
+                    weeklyListView2.get(i).setCellFactory(this::renderCell);
+                    weeklyTasks = new TitledPane("Weekly Tasks: ", weeklyListView2.get(i));
+                }
+                else{
+                    Text emptyWeeklyTask = new Text("There are no weekly tasks here currently: " + LocalDate.now());
+                    weeklyTasks = new TitledPane("Weekly Tasks: ", emptyWeeklyTask);
+                }
+                if(!customListView2.get(i).getItems().isEmpty()) {
+                    customListView2.get(i).setCellFactory(this::renderCell);
+                    customTasks = new TitledPane("Custom Tasks: ", customListView2.get(i));
+                }
+                else{
+                    Text emptyCustomTask = new Text("There are no custom tasks here currently: " + LocalDate.now());
+                    customTasks = new TitledPane("Custom Tasks: ", emptyCustomTask);
+                }
                 taskCategories.getPanes().addAll(dailyTasks, weeklyTasks, customTasks); // add tasks for the tasks accordian
                 ScrollPane scrollPane = new ScrollPane((taskCategories));
                 gardenPane.setContent(scrollPane); // add task accordian to each garden pane
                 testGarden.getPanes().add(gardenPane); // set outer accordian
             }
             testGarden.getStyleClass().add("outer-accordion"); // make it look cooler i guess
-
         }
+    }
+
+
+    private void displayPopup(String message)
+    {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Garden");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
 
