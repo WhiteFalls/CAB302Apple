@@ -7,19 +7,16 @@ import Util.EmailValidator;
 import com.example.gardenplanner.HelloApplication;
 import Util.ConfigKeyLoader;
 import Util.BouncyCastleAESUtil;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javax.crypto.SecretKey;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.Label;
 import java.util.Base64;
 
 import java.io.IOException;
@@ -39,9 +36,9 @@ public class RegisterController {
     @FXML
     private PasswordField confirmPasswordField;
     @FXML
-    private Label strengthLabel;
-    @FXML
-    private ProgressBar strengthBar;
+    private Label errorLabel;
+
+    private Tooltip passwordTooltip;
 
     private Connection connection;
 
@@ -62,9 +59,13 @@ public class RegisterController {
 
     @FXML
     public void initialize() {
+        passwordTooltip = new Tooltip();
+        passwordField.setTooltip(passwordTooltip);
+
         passwordField.textProperty().addListener((observable, oldValue, newValue) -> {
-            int strength = calculatePasswordStrength(newValue);
-            updatePasswordStrengthUI(strength);
+            boolean isValid = validatePassword(newValue);
+            updatePasswordFieldUI(isValid);
+            updateTooltip(newValue);
         });
     }
 
@@ -72,7 +73,7 @@ public class RegisterController {
      * Register's the user into the database
      */
     @FXML
-    public void registerUser() throws Exception {
+    public void registerUser(ActionEvent event) throws Exception {
         // Validate user input before proceeding
         if (!validateInput()) {
             return;
@@ -104,6 +105,8 @@ public class RegisterController {
         // Save the new user to the database
         personDAO.addPerson(newPerson);
         showAlert("Success", "User successfully registered!");
+
+        goToLogin(event);
     }
 
     /**
@@ -116,6 +119,8 @@ public class RegisterController {
         String email = emailField.getText();
         String password = passwordField.getText();
         String confirmPassword = confirmPasswordField.getText();
+        System.out.println(password);
+        System.out.println(confirmPassword);
 
         if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
             showAlert("Validation Error", "All fields are required.");
@@ -134,7 +139,7 @@ public class RegisterController {
         }
 
         if (personDAO.isEmailRegistered(email)) {
-            showAlert("Validation Error", "Passwords do not match.");
+            showAlert("Validation Error", "User Is already registered.");
             return false;
         }
 
@@ -191,55 +196,85 @@ public class RegisterController {
         }
     }
 
-    private int calculatePasswordStrength(String password) {
-        int strength = 0;
-
-        // Check the length of the password
-        if (password.length() >= 6) {
-            strength++;
+    private boolean validatePassword(String password) {
+        if (password.length() < 8) {
+            errorLabel.setText("Password must be at least 8 characters long");
+            return false;
         }
 
-        // Check if the password contains both letters and numbers
-        if (password.matches(".*[A-Za-z].*") && password.matches(".*[0-9].*")) {
-            strength++;
+        if (!password.matches(".*[A-Z].*")) {
+            errorLabel.setText("Password must contain at least one uppercase letter");
+            return false;
+        }
+
+        if (!password.matches(".*[0-9].*")) {
+            errorLabel.setText("Password must contain at least one number");
+            return false;
         }
 
         // Check for special characters
-        if (password.matches(".*[!@#$%^&*(),.?\":{}|<>].*")) {
-            strength++;
+        if (!password.matches(".*[!@#$%^&*(),.?\":{}|<>].*")) {
+            errorLabel.setText("Password must contain at least one special character");
+            return false;
         }
 
-        // Check for mixed case letters
-        if (password.matches(".*[A-Z].*") && password.matches(".*[a-z].*")) {
-            strength++;
-        }
-
-        return strength;  // Max strength value is 4
+        errorLabel.setText("");  // Clear the error message if the password is valid
+        return true;
     }
 
-    private void updatePasswordStrengthUI(int strength) {
-        switch (strength) {
-            case 0:
-                strengthLabel.setText("Password Strength: Very Weak");
-                strengthBar.setProgress(0.25);
-                strengthBar.setStyle("-fx-accent: red;");
-                break;
-            case 1:
-                strengthLabel.setText("Password Strength: Weak");
-                strengthBar.setProgress(0.5);
-                strengthBar.setStyle("-fx-accent: orange;");
-                break;
-            case 2:
-                strengthLabel.setText("Password Strength: Medium");
-                strengthBar.setProgress(0.75);
-                strengthBar.setStyle("-fx-accent: yellow;");
-                break;
-            case 3:
-            case 4:
-                strengthLabel.setText("Password Strength: Strong");
-                strengthBar.setProgress(1.0);
-                strengthBar.setStyle("-fx-accent: green;");
-                break;
+//    private void updatePasswordStrengthUI(int strength) {
+//        switch (strength) {
+//            case 0:
+//                strengthLabel.setText("Password Strength: Very Weak");
+//                strengthBar.setProgress(0.25);
+//                strengthBar.setStyle("-fx-accent: red;");
+//                break;
+//            case 1:
+//                strengthLabel.setText("Password Strength: Weak");
+//                strengthBar.setProgress(0.5);
+//                strengthBar.setStyle("-fx-accent: orange;");
+//                break;
+//            case 2:
+//                strengthLabel.setText("Password Strength: Medium");
+//                strengthBar.setProgress(0.75);
+//                strengthBar.setStyle("-fx-accent: yellow;");
+//                break;
+//            case 3:
+//            case 4:
+//                strengthLabel.setText("Password Strength: Strong");
+//                strengthBar.setProgress(1.0);
+//                strengthBar.setStyle("-fx-accent: green;");
+//                break;
+//        }
+//    }
+
+    // Update the PasswordField UI when validation fails or succeeds
+    private void updatePasswordFieldUI(boolean isValid) {
+        if (!isValid) {
+            // Make the PasswordField border red when validation fails
+            passwordField.setStyle("-fx-border-color: red;");
+            errorLabel.setVisible(true);
+        } else {
+            // Reset the PasswordField border color when the password is valid
+            passwordField.setStyle("");
+            errorLabel.setVisible(false);
+        }
+    }
+
+    // Update the tooltip with feedback based on the current password input
+    private void updateTooltip(String password) {
+        if (password.length() < 8) {
+            passwordTooltip.setText("Password must be at least 8 characters.");
+        } else if (!password.matches(".*[A-Z].*")) {
+            passwordTooltip.setText("Password must contain at least one uppercase letter.");
+        } else if (!password.matches(".*[a-z].*")) {
+            passwordTooltip.setText("Password must contain at least one lowercase letter.");
+        } else if (!password.matches(".*[0-9].*")) {
+            passwordTooltip.setText("Password must contain at least one number.");
+        } else if (!password.matches(".*[!@#$%^&*(),.?\":{}|<>].*")) {
+            passwordTooltip.setText("Password must contain at least one special character.");
+        } else {
+            passwordTooltip.setText("Password is strong.");
         }
     }
 }

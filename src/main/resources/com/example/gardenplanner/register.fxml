@@ -6,7 +6,6 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.ProgressBar?>
 
 <VBox alignment="CENTER" spacing="20" stylesheets="@Css/style.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gardenplanner.controller.RegisterController" maxWidth="500" minWidth="300" maxHeight="600" minHeight="400">
     <Label styleClass="title-label" text="Register for Apple Garden" />
@@ -23,11 +22,11 @@
 
         <Label styleClass="label" text="Password" />
         <PasswordField fx:id="passwordField" promptText="Enter your password" styleClass="password-field" />
+        <Label fx:id="errorLabel" textFill="red" visible="false" />
 
         <Label styleClass="label" text="Confirm Password" />
         <PasswordField fx:id="confirmPasswordField" promptText="Confirm your password" styleClass="password-field" />
-        <Label fx:id="strengthLabel" text="Password Strength: " />
-        <ProgressBar fx:id="strengthBar" progress="0" />
+
 
         <Button onAction="#registerUser" styleClass="button" text="Register" />
 
