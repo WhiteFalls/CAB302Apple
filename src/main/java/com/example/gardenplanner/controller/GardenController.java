@@ -61,6 +61,7 @@ public class GardenController {
 
     public GardenController()
     {
+        connection = DatabaseConnection.getConnection();
         personDAO = new PersonDAO();
         gardenDAO = new GardenDAO();
         gardenUsersDAO = new GardenUsersDAO(connection);
@@ -182,15 +183,17 @@ public class GardenController {
     }
 
     private void confirmChangeGardenSize() {
-        int newWidth = Integer.parseInt(gardenWidth.getText());
-        int newHeight = Integer.parseInt(gardenHeight.getText());
+        String width = gardenWidth.getText().trim();
+        String height = gardenHeight.getText().trim();
+        int newWidth =  width.matches("^[1-9]\\d*$") ? Integer.parseInt(width) : -1;
+        int newHeight = height.matches("^[1-9]\\d*$") ? Integer.parseInt(height) : -1;
         if (newHeight == garden.getHeight() && newWidth == garden.getWidth()){
             displayPopup("Please enter in a different size!");
         }
-        else if (newHeight <= 0 || newWidth <=0 ){
-            displayPopup("Invalid size!");
+        else if ( (newHeight <= 0 || newHeight >50 )|| (newWidth <=0 || newWidth >50) ){
+            displayPopup("Invalid size or input!");
         }
-        else if (displayConfirmPopup("Are you sure you want to resize the garden to: " + gardenWidth.getText() + "," + gardenHeight.getText())){
+        else if (displayConfirmPopup("Are you sure you want to resize the garden to: " + width + "," + height)){
             gardenMapDAO.resizeMap(garden,newWidth,newHeight);
             syncGarden();
         }
