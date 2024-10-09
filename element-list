@@ -1,6 +1,7 @@
 module:com.example.gardenplanner
-com.example.gardenplanner
-com.example.gardenplanner.controller
+com.gardenapplication
+com.gardenapplication.controller
 Database
+GardenCell
 People
 Tasks
