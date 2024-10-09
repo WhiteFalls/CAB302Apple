@@ -1,4 +1,4 @@
-import com.example.gardenplanner.controller.GardenManagementController;
+import com.gardenapplication.controller.GardenManagementController;
 import org.junit.jupiter.api.BeforeEach;
 
 public class GardenManagementControllerTest {

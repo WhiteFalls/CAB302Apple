@@ -1,8 +1,7 @@
 package Database;
 
-import People.Garden;
+import GardenCell.Garden;
 import Tasks.Task;
-import com.example.gardenplanner.UserSession;
 
 import java.sql.*;
 import java.util.ArrayList;
