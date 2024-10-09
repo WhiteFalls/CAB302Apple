@@ -18,4 +18,6 @@ public class Plant {
         this.optimalSunlight = optimalSunlight;
     }
 
+    public int getPlantID() {
+    }
 }

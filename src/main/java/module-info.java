@@ -8,6 +8,7 @@ module com.example.gardenplanner {
     requires commons.lang;
     requires org.bouncycastle.provider;
     requires java.sql;
+    requires commons.beanutils;
 
 
     opens com.example.gardenplanner to javafx.fxml;
