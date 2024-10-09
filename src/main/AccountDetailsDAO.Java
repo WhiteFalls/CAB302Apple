@@ -134,7 +134,7 @@ public class AccountDetailsDAO {
         try
         {
             PreparedStatement deleteAccountDetails = connection.prepareStatement(
-                    "DELETE FROM bankAccounts WHERE id = ?"
+                    "DELETE FROM AccountDetails WHERE id = ?"
             );
             deleteAccountDetails.setInt(1, deleteAccountDetails.getuserID()); // deleteAccountDetails.setInt( delete userID)
 
