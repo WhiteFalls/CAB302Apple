@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" maxHeight="600" maxWidth="500" minHeight="400" minWidth="300" spacing="10" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gardenplanner.controller.RegisterController">
+    <Label styleClass="title-label" text="Settings" />
+
+    <VBox alignment="CENTER" maxHeight="500" maxWidth="400" minHeight="400" minWidth="300" spacing="10" styleClass="container">
+      <Button ellipsisString="Change account details" mnemonicParsing="false" text="Change account details" />
+
+        <Button ellipsisString="Change app colour" onAction="#registerUser" styleClass="button" text="Change app colour" />
+    </VBox>
+   <Label text="    " />
+</VBox>

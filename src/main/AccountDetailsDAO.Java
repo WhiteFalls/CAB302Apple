@@ -30,10 +30,10 @@ public class AccountDetailsDAO {
         /*
         public class Main {
             public static void main(String[] args) {
-                BankAccountDAO bankAccountDAO = new BankAccountDAO();
-                bankAccountDAO.createTable();
+                AccountDetailsDAO accountDetailsDAO = new accountDetailsDAO();
+                accountDetailsDAO.createTable();
 
-                bankAccountDAO.close();
+                accountDetailsDAO.close();
             }
         }
          */
@@ -44,13 +44,14 @@ public class AccountDetailsDAO {
 
     }
 
+
     public void insertDetails(AccountDetails accountDetails)
     {
         try {
             // running insert query
             PreparedStatement insertAccountDetails = connection.prepareStatement(
                     "INSERT INTO AccountDetails (firstName, lastName, email, password) " +
-                            "VALUES (?, ?, ?)"
+                            "VALUES (?, ?, ?, ?)"
             );
             insertAccountDetails.setString(1, accountDetails.getFirstName());
             insertAccountDetails.setString(2, accountDetails.getLastName());
@@ -100,6 +101,34 @@ public class AccountDetailsDAO {
         // running update query
     }
 
+
+    /* // UPDATE DETAILS FOR MAIN
+    public static void updateDetails
+    {
+    // records here
+    Listt<AccountDetails> accountDetails = AccountDetailsDAO.getAll() // retrieving all records
+    for (AccountDetails accdeet : accountDetails
+        {
+            System.out.println(acc);
+        }
+    
+    //Retrieving a record by ID
+    AccountDetails accountDetails = AccountDetailsDAO.getByID(userID);
+    System.out.println("Previous details:");
+    System.out.println(accountDetails);
+
+    // Update a record
+    accountDetails.setAccountDetails(string fname, string lname, string email, string password)
+    AccountDetailsDao.update(accountDetails);
+    System.out.println("After update: List<accountDetails> );
+    System.out.println(AccountDetailsDAO.getByID(userID));
+
+    AccountDetailsDAO.close();
+    }
+
+     */
+
+
     public void deleteAccountDetails(int userID)
     {
         try
@@ -118,17 +147,73 @@ public class AccountDetailsDAO {
 
     }
 
-    public List<AccountDetails> getAll()
-    {
+    public List<AccountDetails> getAll() {
         List<AccountDetails> accountDetails = new ArrayList<>();
-        // Todo Later: Create a Statement to run the SELECT * query
-        // and populate the accounts list above
+        try {
+            Statement getAll = connection.createStatement();
+            ResultSet rs = getAll.executeQuery("SELECT * FROM bankAccounts");
+            while (rs.next()) {
+                accounts.add(
+                        new BankAccount(
+                                rs.getInt("id"),
+                                rs.getString("firstName"),
+                                rs.getString("lastName"),
+                                rs.getInt("bankBalance")
+                        )
+                ); // gets all information inputted by user -> needs to be presented
+            }
+            catch(SQLException ex)
+            {
+                System.err.println(ex)
+            }
+        }
         return accountDetails;
     }
-    public AccountDetails getByUsername (String username)
+
+        /*
+        to go into main:
+
+        public static void presentDetails
+        List<BankAccount> accounts = bankAccountDAO.getAll();
+        for (BankAccount acc : accounts) {
+            System.out.println(acc);
+         }
+
+         AccountDetailsDAO.close();
+         */
+
+        // getting a record by ID
+    public accountDetails searchUserIDdetails(int userID)
     {
-        return null;
+        try {
+            PreparedStatement getAccount = connection.prepareStatement("SELECT * FROM bankAccounts WHERE id = ?");
+            getAccount.setInt(1, userID); // later userID will need to be autoincremented and linked to email address in a key-value pair
+            ResultSet rs = getAccount.executeQuery();
+            if (rs.next())
+                {
+                    return new BankAccount(
+                        rs.getInt("id"),
+                        rs.getString("firstName"),
+                        rs.getString("lastName"),
+                        rs.getInt("bankBalance")
+                     );
+                }
+            }
+                catch (SQLException ex)
+            {
+                System.err.println(ex);
+            }
+            return null;
     }
+
+    /*
+    // functionality for main
+    public static void searchUserID details
+    AccountDetails accountDetails = accountDetailsDAO.getById(2) // eventually 2 will be a variable
+    System.out.println(accountDetails);
+    accountDetailsDAO.close();
+     */
+
 
     public void closeAccountDetails()
     {
