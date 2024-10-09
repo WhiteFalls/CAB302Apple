@@ -19,5 +19,6 @@ public class Plant {
     }
 
     public int getPlantID() {
+        return plantId;
     }
 }

@@ -22,7 +22,6 @@ public class PlantDAO implements IPlantDAO {
         @Override
         public Plant getPlantById(Plant plant) {
             String query = "SELECT * FROM Plants WHERE plant_id = ?";
-            Plant plant = null;
 
             try (PreparedStatement stmt = connection.prepareStatement(query)) {
                 stmt.setInt(1, plant.getPlantID());
