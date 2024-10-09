@@ -212,6 +212,7 @@ public class GardenToDoListController {
                 // create inner accordian for task categories
                 Accordion taskCategories = new Accordion();
                 TitledPane dailyTasks;
+               // dailyTasks.setPrefWidth(Double.MAX_VALUE);
                 TitledPane weeklyTasks;
                 TitledPane customTasks;
                 // generate list of tasks (might not need to be seperated since sync does it for us..?)
@@ -240,11 +241,9 @@ public class GardenToDoListController {
                     customTasks = new TitledPane("Custom Tasks: ", emptyCustomTask);
                 }
                 taskCategories.getPanes().addAll(dailyTasks, weeklyTasks, customTasks); // add tasks for the tasks accordian
-                ScrollPane scrollPane = new ScrollPane((taskCategories));
-                gardenPane.setContent(scrollPane); // add task accordian to each garden pane
+                gardenPane.setContent(taskCategories); // add task accordian to each garden pane
                 testGarden.getPanes().add(gardenPane); // set outer accordian
             }
-            testGarden.getStyleClass().add("outer-accordion"); // make it look cooler i guess
         }
     }
 
