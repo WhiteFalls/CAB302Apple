@@ -1,20 +1,36 @@
 package com.example.gardenplanner.controller;
-
+import Database.IPersonDAO;
 import Database.PersonDAO;
+import People.IPerson;
 import People.Person;
-import Util.BouncyCastleAESUtil;
-import Util.ConfigKeyLoader;
 import Util.EmailValidator;
-import javafx.event.ActionEvent;
+import com.example.gardenplanner.HelloApplication;
+import Util.ConfigKeyLoader;
+import Util.BouncyCastleAESUtil;
+import com.example.gardenplanner.UserSession;
+import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
+import javafx.event.ActionEvent;
+import javafx.scene.Node;
 import javax.crypto.SecretKey;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Base64;
 
+import java.io.IOException;
+
+import java.sql.Connection;
+import java.util.HashSet;
+import java.util.Set;
+
 public class SettingsController {
+
     @FXML
     private TextField firstNameField;
     @FXML
@@ -27,10 +43,19 @@ public class SettingsController {
     private PasswordField confirmPasswordField;
     @FXML
     private Label errorLabel;
+
+    public int userID;
+
+    private Tooltip passwordTooltip;
+
+    private Connection connection;
+
+    private IPersonDAO personDAO;
+
     private SecretKey aesKey;
 
     public SettingsController() {
-        PersonDAO = new PersonDAO();
+        personDAO = new PersonDAO();
 
         // Encryption good
         try {
@@ -40,36 +65,53 @@ public class SettingsController {
         }
     }
 
-    @FXML
-    public void updatefname(ActionEvent event) {
-        String fname = firstNameField.getText();
+    // Updates specific details of the person in the database
+    @SuppressWarnings("SqlResolve")
+    public void updatePersonInDatabase(String field, String value, Connection connection) {
+        // Define a whitelist of valid fields
+        Set<String> allowedFields = new HashSet<>();
+        allowedFields.add("fname");
+        allowedFields.add("lname");
+        allowedFields.add("email");
+        allowedFields.add("password");
+        allowedFields.add("iv_base64");
 
-    }
-}
-
-
-    @FXML
-    public void loginUser(ActionEvent event) {
-        String email = emailField.getText();
-        String password = passwordField.getText();
-
-        try {
-            // Retrieve the person(s) from the database (I'm working on it)
-            Person person = new PersonDAO().getPersonByEmail(email);
-
-            if (person != null && validateInput(email, password)) {
-                String encryptedPassword = person.getPassword();
-                String ivBase64 = person.getIvBase64();
-
-                // Decode the IV from Base64
-                byte[] iv = Base64.getDecoder().decode(ivBase64);
-
-                // Decrypt the stored password
-                String decryptedPassword = BouncyCastleAESUtil.decrypt(encryptedPassword, aesKey, iv);
-            }
+        // Check if the provided field is allowed
+        if (!allowedFields.contains(field)) {
+            throw new IllegalArgumentException("Invalid field: " + field);
         }
-        catch (Exception e) {
-        e.printStackTrace();
+
+        // Safe query with the valid field name
+        String updateQuery = "UPDATE Users SET " + field + " = ? WHERE user_id = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
+            preparedStatement.setString(1, value);
+            preparedStatement.setInt(2, userID);
+            int rowsUpdated = preparedStatement.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                System.out.println("User " + field + " updated successfully.");
+            } else {
+                System.out.println("Failed to update " + field + " for user " + userID);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void initialize() {
+        // Get the current user session
+        UserSession session = UserSession.getInstance();
+        String firstName = session.getFirstName();
+        String lastName = session.getLastName();
+        String email = session.getEmail();
+    }
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     private boolean validateInput() {
@@ -105,6 +147,6 @@ public class SettingsController {
         return true;  // If all validations pass, return true
     }
 
-
 }
+
 
