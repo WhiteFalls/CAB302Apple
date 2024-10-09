@@ -49,6 +49,7 @@ public class DatabaseInitializer {
                     garden_id INTEGER NOT NULL,
                     assigned_date DATE NOT NULL,
                     due_date DATE NOT NULL,
+                    completed_date DATE,
                     task_details TEXT,
                     category TEXT NOT NULL,  -- Add category as a TEXT field but is an enum
                     FOREIGN KEY (user_id) REFERENCES Users(user_id),

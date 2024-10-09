@@ -1,8 +1,7 @@
 .root {
-    -fx-background-image: url("Images/apple_background.png");
-    -fx-background-repeat: repeat;
-    -fx-background-size: 25%;
+     -fx-background-color: #9fed58;
 }
+
 
 .scroll-pane {
     -fx-background-color: transparent;
@@ -11,8 +10,17 @@
    -fx-background-color: transparent;
 }
 
+.button {
+    -fx-text-color:black;
+    -fx-padding:4px;
+    -fx-background-color: rgba(232, 230, 225, 0.9);
+    -fx-background-radius: 10px;
+}
+
 .page-title {
-    -fx-background-color: #81C049;
+    -fx-text-color:black;
+    -fx-padding:4px;
+    -fx-background-color: rgba(232, 230, 225, 0.9);
 }
 
 .exit-button {
@@ -44,12 +52,16 @@
     -fx-background-radius: 0 0 2em 2em;
 }
 
+.titled-pane > .content > .titled-pane > .content {
+    -fx-background-color: #7fbd46;
+}
+
 .list-view {
     -fx-background-color: #81C049;
 }
 
 .list-view .list-cell:even {
-    -fx-background-color: #81C049;
+    -fx-background-color: #b2f079;
 }
 
 .list-view .list-cell:odd {
@@ -70,9 +82,25 @@
     -fx-padding: 2em 0 2em 0;
 }
 
-.button {
-        -fx-text-color:black;
-        -fx-padding:4px;
-        -fx-background-color: rgba(232, 230, 225, 0.9);
-        -fx-background-radius: 10px;
+.task-title {
+    -fx-font-weight: bold;
 }
+
+.garden-cell {
+    -fx-background-radius: 0px;
+    -fx-border-color: black;
+    -fx-border-size: 2px
+}
+
+.garden-cell:selected {
+    -fx-border-color: yellow;
+    -fx-border-size: 10px;
+    -fx-background-radius: 20px;
+}
+
+.garden-cell:focused{
+    -fx-border-color: yellow;
+    -fx-border-size: 10px;
+}
+
+

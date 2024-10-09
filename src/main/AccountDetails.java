@@ -44,7 +44,7 @@ public class AccountDetails
 
     public String getLastName()
     {
-        return lastName;
+        return lastName;m
     }
 
     public String getEmail()
@@ -86,7 +86,7 @@ public class AccountDetails
 
     public void DisplayAccountDetails()
     {
-        System.out.print("Username:" + userID);
+        System.out.print("User ID:" + userID);
         System.out.print("Email:" + email);
 
     }

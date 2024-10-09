@@ -9,14 +9,16 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
 
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -28,6 +30,8 @@ import java.util.Optional;
 public class GardenController {
     @FXML
     private Label gardenTitle;
+    @FXML
+    private ScrollPane gardenScroll;
     @FXML
     private GridPane gardenGrid;
     @FXML
@@ -57,6 +61,7 @@ public class GardenController {
 
     public GardenController()
     {
+        connection = DatabaseConnection.getConnection();
         personDAO = new PersonDAO();
         gardenDAO = new GardenDAO();
         gardenUsersDAO = new GardenUsersDAO(connection);
@@ -80,6 +85,21 @@ public class GardenController {
         gardenTitle.setText(garden.getGardenName());
         syncGardenDetails();
 
+        for (int row = 0 ; row < garden.getHeight() ; row++ ){
+            RowConstraints rc = new RowConstraints();
+            //rc.setFillHeight(true);
+            rc.setPercentHeight(100d / garden.getHeight());
+            rc.setVgrow(Priority.NEVER);
+            gardenGrid.getRowConstraints().add(rc);
+        }
+        for (int col = 0 ; col < garden.getWidth(); col++ ) {
+            ColumnConstraints cc = new ColumnConstraints();
+            //cc.setFillWidth(true);
+            cc.setPercentWidth(100d / garden.getWidth());
+            cc.setHgrow(Priority.NEVER);
+            gardenGrid.getColumnConstraints().add(cc);
+        }
+
         GardenCell[][] cells = gardenMapDAO.getGardenCells(garden);
 
         for (int x = 0; x < cells.length; x++)
@@ -88,13 +108,15 @@ public class GardenController {
             {
                 GardenCell cell = cells[x][y];
                 if (cell != null) { // added in cause it was telling me cells was null
-                    cell.setPlant("BEAN"); // for funsies
 
                     Button plotButton = createPlotButton(cell);
-                    plotButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+                    StackPane stack = new StackPane(plotButton);
 
-                    gardenGrid.add(plotButton, x, y); // it actually takes in y,x but it think we swapped the coords everywhere so it cancels out technically
-                    gardenGrid.setMargin(plotButton, new Insets(1));
+//                    GridPane.setFillWidth(plotButton, true);
+//                    GridPane.setFillHeight(plotButton, true);
+
+                    gardenGrid.add(stack, x, y); // it actually takes in y,x but it think we swapped the coords everywhere so it cancels out technically
+                    //gardenGrid.setMargin(plotButton, new Insets(1));
                 }
             }
         }
@@ -105,6 +127,9 @@ public class GardenController {
         Button plotButton = new Button(cell.getPlant());
         String colour_s = colorToString(cell.getColour());
         plotButton.setStyle("-fx-background-color:" + colour_s);
+        plotButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        plotButton.setMinSize(50, 50);
+        plotButton.getStyleClass().add("garden-cell");
         plotButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -158,15 +183,17 @@ public class GardenController {
     }
 
     private void confirmChangeGardenSize() {
-        int newWidth = Integer.parseInt(gardenWidth.getText());
-        int newHeight = Integer.parseInt(gardenHeight.getText());
+        String width = gardenWidth.getText().trim();
+        String height = gardenHeight.getText().trim();
+        int newWidth =  width.matches("^[1-9]\\d*$") ? Integer.parseInt(width) : -1;
+        int newHeight = height.matches("^[1-9]\\d*$") ? Integer.parseInt(height) : -1;
         if (newHeight == garden.getHeight() && newWidth == garden.getWidth()){
             displayPopup("Please enter in a different size!");
         }
-        else if (newHeight <= 0 || newWidth <=0 ){
-            displayPopup("Invalid size!");
+        else if ( (newHeight <= 0 || newHeight >50 )|| (newWidth <=0 || newWidth >50) ){
+            displayPopup("Invalid size or input!");
         }
-        else if (displayConfirmPopup("Are you sure you want to resize the garden to: " + gardenWidth.getText() + "," + gardenHeight.getText())){
+        else if (displayConfirmPopup("Are you sure you want to resize the garden to: " + width + "," + height)){
             gardenMapDAO.resizeMap(garden,newWidth,newHeight);
             syncGarden();
         }

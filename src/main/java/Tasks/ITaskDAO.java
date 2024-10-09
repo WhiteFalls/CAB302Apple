@@ -5,6 +5,7 @@ import People.IPerson;
 import People.Person;
 import org.apache.commons.compress.archivers.ar.ArArchiveEntry;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,11 +18,13 @@ public interface ITaskDAO {
      */
     public void delete(Task task);
 
-    /**
-     * Updates a task in the database
-     * @param oldTask The task to be updated
-     * @param newTask The task that will replace oldTask
-     */
+    public void deleteUserTasks(IPerson person, Garden garden);
+
+        /**
+         * Updates a task in the database
+         * @param oldTask The task to be updated
+         * @param newTask The task that will replace oldTask
+         */
     public void update(Task oldTask, Task newTask);
 
     /**
@@ -52,4 +55,8 @@ public interface ITaskDAO {
     Object getUserTasks(Person person);
 
     ArrayList<Task> getUserTasksFromGarden(IPerson person, Garden garden);
+
+    LocalDate getCompletedDate(Task task);
+
+    void setCompletedDate(Task task, LocalDate completedDate);
 }

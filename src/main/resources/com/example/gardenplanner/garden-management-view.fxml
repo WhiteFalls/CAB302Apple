@@ -1,28 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Accordion?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.TextFlow?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane id="page" prefHeight="600.0" prefWidth="1200.0" styleClass="page" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gardenplanner.controller.GardenManagementController">
+<AnchorPane id="page" prefHeight="600.0" prefWidth="1200.0" styleClass="page" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gardenplanner.controller.GardenManagementController">
     <children>
         <!-- Replace the "X" button with a "Back to Main" button -->
-        <Button fx:id="backToMain" alignment="TOP_LEFT" layoutX="14.0" layoutY="27.0" mnemonicParsing="false" onAction="#goBackToMainPage" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: null; -fx-text-fill: black;" text="Back to Main">
+        <Button fx:id="backToMain" alignment="TOP_LEFT" layoutX="14.0" layoutY="27.0" mnemonicParsing="false" onAction="#goBackToMainPage" prefHeight="35.0" prefWidth="120.0" text="Back to Main">
             <font>
                 <Font size="18.0" />
             </font>
         </Button>
         <StackPane alignment="TOP_CENTER" layoutX="500.0" layoutY="14.0" prefHeight="30.0" prefWidth="200.0">
             <children>
-                <Label alignment="TOP_CENTER" contentDisplay="CENTER" style="-fx-background-color: #81C049;" styleClass="page-title" text="Garden Manager" textAlignment="CENTER">
+                <Label alignment="TOP_CENTER" contentDisplay="CENTER" styleClass="page-title" text="Garden Manager" textAlignment="CENTER">
                     <font>
                         <Font size="24.0" />
                     </font>
@@ -31,7 +24,7 @@
         </StackPane>
         <StackPane layoutX="101.0" layoutY="72.0" prefHeight="344.0" prefWidth="1000.0">
             <children>
-            <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" styleClass="scroll-pane">
+            <ScrollPane hbarPolicy="NEVER" hmax="0.0" prefHeight="200.0" prefWidth="200.0" styleClass="scroll-pane">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="400.0" prefWidth="1200.0" style="-fx-background-color: transparent;">
                      <children>
