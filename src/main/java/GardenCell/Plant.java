@@ -9,16 +9,31 @@ public class Plant {
     private String watering;
     private String optimalSunlight;
 
-
-    public Plant(int plantId, String plantName, String plantDescription, String waterRequirements, String optimalSunlight) {
+    public Plant(int plantId, String plantName, String plantDescription, String watering, String optimalSunlight) {
         this.plantId = plantId;
         this.plantName = plantName;
         this.plantDescription = plantDescription;
-        this.watering = waterRequirements;
+        this.watering = watering;
         this.optimalSunlight = optimalSunlight;
     }
 
     public int getPlantID() {
         return plantId;
+    }
+
+    public String getPlantName() {
+        return plantName;
+    }
+
+    public String getPlantDescription() {
+        return plantDescription;
+    }
+
+    public String getWatering() {
+        return watering;
+    }
+
+    public String getOptimalSunlight() {
+        return optimalSunlight;
     }
 }
