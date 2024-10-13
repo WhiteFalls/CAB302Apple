@@ -3,6 +3,7 @@ package com.gardenapplication.controller;
 import Database.*;
 import GardenCell.Garden;
 import People.IPerson;
+import Util.Popup;
 import com.gardenapplication.Gary;
 import com.gardenapplication.UserSession;
 import javafx.fxml.FXML;
@@ -77,7 +78,7 @@ public class MainPage {
             Scene scene = new Scene(fxmlLoader.load(), 1200, 600);
             stage.setScene(scene);
         } else if (gardensOwned == 0) {
-            displayErrorPopup("You must create a garden first!");
+            Popup.displayErrorPopup("You must create a garden first!");
         }
         else{
             displayUnknownError();
@@ -95,7 +96,7 @@ public class MainPage {
 
             int gardensOwned = findNumGardensOwned();
             if (gardensOwned >= 1){
-                displayErrorPopup("You are only allowed to own one garden!");
+                Popup.displayErrorPopup("You are only allowed to own one garden!");
                 // change button to remove
                 setButtonToRemove();
             }
@@ -118,7 +119,7 @@ public class MainPage {
                     setButtonToRemove();
                 }
                 else{
-                    displayErrorPopup("Garden name must include a character!");
+                    Popup.displayErrorPopup("Garden name must include a character!");
                 }
             }
             else{
@@ -144,14 +145,14 @@ public class MainPage {
     }
 
     private void handleRemoveGardenButton(Garden garden) {
-    if (displayConfirmPopup("Are you sure you want to delete your garden: " +garden.getGardenName() + "?")){
+    if (Popup.displayConfirmPopup("Are you sure you want to delete your garden: " +garden.getGardenName() + "?")){
         gardenDAO.deleteGarden(garden.getGardenId());
     }
         int numGardens = findNumGardensOwned(); // check if garden is removed from database
         System.out.println(numGardens) ;
         if (numGardens == 0) // only allowed to own one garden
         {
-            displayPopup("Garden successfully removed!");
+            Popup.displayErrorPopup("Garden successfully removed!");
             addGarden.setText("Add Garden");
             addGarden.setOnAction(e -> {
                 try {
@@ -164,7 +165,7 @@ public class MainPage {
 
         }
         else if (numGardens == 1){
-            displayErrorPopup("Garden has not been removed, please try again!");
+            Popup.displayErrorPopup("Garden has not been removed, please try again!");
         }
         else{
             displayUnknownError();
@@ -192,41 +193,6 @@ public class MainPage {
         alert.setHeaderText(null);
         alert.setContentText("AN ERROR OCCURRED IN THE APPLICATION");
         alert.showAndWait();
-    }
-
-    private void displayErrorPopup(String message)
-    {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-    // stolen from gardenmanagement controller - we really need a utlis class
-    private void displayPopup(String message)
-    {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-    // stolen from gardenmanagement controller - we really need a utlis class
-    private boolean displayConfirmPopup(String message)
-    {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("CONFIRMATION");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK)
-        {
-            return true;
-        }
-        return false;
     }
 
 

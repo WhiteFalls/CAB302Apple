@@ -5,6 +5,7 @@ import GardenCell.Garden;
 import People.IPerson;
 
 import Tasks.*;
+import Util.Popup;
 import com.gardenapplication.UserSession;
 
 import javafx.event.ActionEvent;
@@ -164,7 +165,7 @@ public class GardenToDoListController {
             if(!LocalDate.now().isAfter(task.getDueDate())){
                 taskDAO.setCompletedDate(task,LocalDate.now());
                 completedButton(completeButton); // update button
-                displayPopup("Task will be reassigned!");
+                Popup.displayErrorPopup("Task will be reassigned!");
             }
             else { // get rid of this to use reassign task
                 taskDAO.delete(task);
@@ -183,7 +184,8 @@ public class GardenToDoListController {
     private void completedButton(Button button) {
         button.setStyle("-fx-background-color: green; -fx-text-fill: black;");
         button.setText("Completed");
-        button.setOnAction(event -> {displayPopup("Task will be reassigned!");
+        button.setOnAction(event -> {
+            Popup.displayErrorPopup("Task will be reassigned!");
         });
     }
 
@@ -242,17 +244,6 @@ public class GardenToDoListController {
             testGarden.getStyleClass().add("outer-accordion"); // make it look cooler i guess
         }
     }
-
-
-    private void displayPopup(String message)
-    {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Garden");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
 
     /**
      * Sets scene back to the main page of the application

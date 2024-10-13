@@ -14,6 +14,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
+import Util.Popup;
+
 
 import javafx.scene.layout.*;
 
@@ -22,7 +24,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.util.Optional;
 
 public class GardenController {
     @FXML
@@ -185,32 +186,32 @@ public class GardenController {
         int newWidth =  width.matches("^[1-9]\\d*$") ? Integer.parseInt(width) : -1;
         int newHeight = height.matches("^[1-9]\\d*$") ? Integer.parseInt(height) : -1;
         if (newHeight == garden.getHeight() && newWidth == garden.getWidth()){
-            displayPopup("Please enter in a different size!");
+            Popup.displayErrorPopup("Please enter in a different size!");
         }
         else if ( (newHeight <= 0 || newHeight >50 )|| (newWidth <=0 || newWidth >50) ){
-            displayPopup("Invalid size or input!");
+            Popup.displayErrorPopup("Invalid size or input!");
         }
-        else if (displayConfirmPopup("Are you sure you want to resize the garden to: " + width + "," + height)){
+        else if (Popup.displayConfirmPopup("Are you sure you want to resize the garden to: " + width + "," + height)){
             gardenMapDAO.resizeMap(garden,newWidth,newHeight);
             syncGarden();
         }
         else{
-            displayPopup("Garden resizing cancelled");
+            Popup.displayErrorPopup("Garden resizing cancelled");
         }
     }
 
     private void confirmChangeGardenName(){
         String newName =  gardenNameText.getText();
         if (newName.equals(garden.getGardenName())){
-            displayPopup("Please enter in a different name!");
+            Popup.displayErrorPopup("Please enter in a different name!");
         }
-        else if (displayConfirmPopup("Are you sure you want to change your garden name to: " + newName + "?")){
+        else if (Popup.displayConfirmPopup("Are you sure you want to change your garden name to: " + newName + "?")){
             garden.setGardenName(newName);
             gardenDAO.updateGarden(garden);
             syncGardenDetails();
         }
         else{
-            displayPopup("Garden name change has been cancelled.");
+            Popup.displayErrorPopup("Garden name change has been cancelled.");
         }
     }
     private void displayCell(GardenCell cell)
@@ -250,38 +251,6 @@ public class GardenController {
         gardenGrid.getChildren().remove(oldCell);
         gardenGrid.add(plotButton, newCell.getX(), newCell.getY());
     }
-    /**
-     * Displays a popup message on the screen
-     * @param message The message inside the popup window
-     */
-    private void displayPopup(String message)
-    {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-    /**
-     * Displays a confirmation popup on the screen
-     * @param message The message to be shown in the popup
-     * @return A boolean value based on the user's decision to confirm or deny the action
-     */
-    private boolean displayConfirmPopup(String message)
-    {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("CONFIRMATION");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK)
-        {
-            return true;
-        }
-        return false;
-    }
 
     /**
      * Sets scene back to the main page of the application
@@ -299,6 +268,4 @@ public class GardenController {
             e.printStackTrace();
         }
     }
-
-
 }

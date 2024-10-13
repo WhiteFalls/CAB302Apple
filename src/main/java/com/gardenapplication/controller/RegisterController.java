@@ -3,6 +3,7 @@ package com.gardenapplication.controller;
 import Database.IPersonDAO;
 import Database.PersonDAO;
 import People.Person;
+import Util.Popup;
 import Util.EmailValidator;
 import com.gardenapplication.Gary;
 import Util.ConfigKeyLoader;
@@ -103,7 +104,7 @@ public class RegisterController {
 
         // Save the new user to the database
         personDAO.addPerson(newPerson);
-        showAlert("Success", "User successfully registered!");
+        Popup.showAlert("Success", "User successfully registered!");
 
         goToLogin(event);
     }
@@ -122,40 +123,27 @@ public class RegisterController {
         System.out.println(confirmPassword);
 
         if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-            showAlert("Validation Error", "All fields are required.");
+            Popup.showAlert("Validation Error", "All fields are required.");
             return false;
         }
 
         // Check if the email is valid
         if (!EmailValidator.isValidEmail(email)) {
-            showAlert("Validation Error", "Invalid Email Format");
+            Popup.showAlert("Validation Error", "Invalid Email Format");
             return false;
         }
 
         if (!password.equals(confirmPassword)) {
-            showAlert("Validation Error", "Passwords do not match.");
+            Popup.showAlert("Validation Error", "Passwords do not match.");
             return false;
         }
 
         if (personDAO.isEmailRegistered(email)) {
-            showAlert("Validation Error", "User Is already registered.");
+            Popup.showAlert("Validation Error", "User Is already registered.");
             return false;
         }
 
         return true;  // If all validations pass, return true
-    }
-
-    /**
-     * Displays an alert pop-up message
-     * @param title The title of the alert message
-     * @param message The message contained in the pop-up
-     */
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 
     /**
@@ -191,7 +179,7 @@ public class RegisterController {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            showAlert("Error", "Unable to load login page.");
+            Popup.showAlert("Error", "Unable to load login page.");
         }
     }
 

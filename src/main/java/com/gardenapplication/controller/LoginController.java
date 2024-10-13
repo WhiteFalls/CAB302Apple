@@ -1,12 +1,12 @@
 package com.gardenapplication.controller;
 
+import Util.Popup;
 import com.gardenapplication.Gary;
 import com.gardenapplication.UserSession;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -71,13 +71,13 @@ public class LoginController {
                     session.setFirstName(person.getFirstName());
                     session.setLastName(person.getLastName());
 
-                    showAlert("Login Successful!", "Welcome back, " + person.getFirstName() + " " + person.getLastName());
+                    Popup.showAlert("Login Successful!", "Welcome back, " + person.getFirstName() + " " + person.getLastName());
                     clearFields();
                     goToMainPage(event);
                 }
             }
             else {
-                showAlert("Login Failed", "Incorrect Email or Password.");
+                Popup.showAlert("Login Failed", "Incorrect Email or Password.");
                 clearFields();
             }
         } catch (Exception e) {
@@ -93,24 +93,11 @@ public class LoginController {
      */
     private boolean validateInput(String email, String password) {
         if (email.isEmpty() || password.isEmpty()) {
-            showAlert("Validation Error", "Email and password are required.");
+            Popup.showAlert("Validation Error", "Email and password are required.");
             return false;
         }
 
         return true;
-    }
-
-    /**
-     * Displays an alert pop-up message
-     * @param title The title of the alert message
-     * @param message The message contained in the pop-up
-     */
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 
     /**
@@ -143,7 +130,7 @@ public class LoginController {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            showAlert("Error", "Unable to load main page.");
+            Popup.showAlert("Error", "Unable to load main page.");
         }
     }
 
@@ -167,7 +154,7 @@ public class LoginController {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            showAlert("Error", "Unable to load registration page.");
+            Popup.showAlert("Error", "Unable to load registration page.");
         }
     }
 }

@@ -4,6 +4,7 @@ import Database.GardenUsersDAO;
 import Database.PersonDAO;
 import GardenCell.Garden;
 import People.IPerson;
+import Util.Popup;
 import Database.ITaskDAO;
 import Tasks.Task;
 import Database.TaskDAO;
@@ -29,7 +30,6 @@ import java.util.ArrayList;
 
 import java.sql.Connection;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Controller for the garden management page
@@ -134,7 +134,7 @@ public class GardenManagementController {
                 }
                 catch (NumberFormatException e)
                 {
-                    displayPopup("User ID must be a valid number.");
+                    Popup.displayErrorPopup("User ID must be a valid number.");
                 }
             }
         });
@@ -253,7 +253,7 @@ public class GardenManagementController {
                             catch (Exception e)
                             {
                                 e.printStackTrace();
-                                displayPopup("Date must be in appropriate format.");
+                                Popup.displayErrorPopup("Date must be in appropriate format.");
                             }
                         }
                     });
@@ -266,7 +266,7 @@ public class GardenManagementController {
                     deleteTaskButton.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent actionEvent) {
-                            if (displayConfirmPopup("Are you sure?"))
+                            if (Popup.displayConfirmPopup("Are you sure?"))
                             {
                                 taskList.getItems().remove(task);
                                 deleteTask(task);
@@ -348,7 +348,7 @@ public class GardenManagementController {
      */
     private void removeUser(IPerson person)
     {
-        if (displayConfirmPopup("Are you sure you want to remove this person from your garden?"))
+        if (Popup.displayConfirmPopup("Are you sure you want to remove this person from your garden?"))
         {
             gardenUsersDAO.removePersonFromGarden(person, garden);
             taskDAO.deleteUserTasks(person, garden);
@@ -364,14 +364,14 @@ public class GardenManagementController {
     {
         if (gardenUsersDAO.getPeopleIdsInGarden(garden).contains(id))
         {
-            displayPopup("That user is already in your garden");
+            Popup.displayErrorPopup("That user is already in your garden");
         }
         else
         {
             IPerson newPerson = personDAO.getPerson(id);
             if (newPerson == null)
             {
-                displayPopup("No user with that ID exists");
+                Popup.displayErrorPopup("No user with that ID exists");
             }
 
             else {
@@ -379,39 +379,6 @@ public class GardenManagementController {
                 syncPeople();
             }
         }
-    }
-
-    /**
-     * Displays a popup message on the screen
-     * @param message The message inside the popup window
-     */
-    private void displayPopup(String message)
-    {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-    /**
-     * Displays a confirmation popup on the screen
-     * @param message The message to be shown in the popup
-     * @return A boolean value based on the user's decision to confirm or deny the action
-     */
-    private boolean displayConfirmPopup(String message)
-    {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("CONFIRMATION");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK)
-        {
-            return true;
-        }
-        return false;
     }
 
     /**

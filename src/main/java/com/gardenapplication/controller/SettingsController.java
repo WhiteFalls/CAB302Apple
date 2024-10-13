@@ -1,28 +1,16 @@
 package com.gardenapplication.controller;
 import Database.IPersonDAO;
 import Database.PersonDAO;
-import People.IPerson;
-import People.Person;
+import Util.Popup;
 import Util.EmailValidator;
 import Util.ConfigKeyLoader;
-import Util.BouncyCastleAESUtil;
 import com.gardenapplication.UserSession;
-import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
-import javafx.event.ActionEvent;
-import javafx.scene.Node;
+
 import javax.crypto.SecretKey;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Base64;
-
-import java.io.IOException;
 
 import java.sql.Connection;
 import java.util.HashSet;
@@ -105,13 +93,6 @@ public class SettingsController {
         String lastName = session.getLastName();
         String email = session.getEmail();
     }
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
 
     private boolean validateInput() {
         String firstName = firstNameField.getText();
@@ -123,23 +104,23 @@ public class SettingsController {
         System.out.println(confirmPassword);
 
         if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-            showAlert("Validation Error", "All fields are required.");
+            Popup.showAlert("Validation Error", "All fields are required.");
             return false;
         }
 
         // Check if the email is valid
         if (!EmailValidator.isValidEmail(email)) {
-            showAlert("Validation Error", "Invalid Email Format");
+            Popup.showAlert("Validation Error", "Invalid Email Format");
             return false;
         }
 
         if (!password.equals(confirmPassword)) {
-            showAlert("Validation Error", "Passwords do not match.");
+            Popup.showAlert("Validation Error", "Passwords do not match.");
             return false;
         }
 
         if (personDAO.isEmailRegistered(email)) {
-            showAlert("Validation Error", "User Is already registered.");
+            Popup.showAlert("Validation Error", "User Is already registered.");
             return false;
         }
 
