@@ -15,33 +15,30 @@ public class GardenCellTest {
         cell = new GardenCell("Vegetable", 2, 3, LocalDate.now(), LocalDate.now(), Color.BLUE);
     }
 
-    @org.junit.jupiter.api.Test
-    public void testGetPlant() {
+    @Test
+    public void testGetMethods() {
         assertEquals("Vegetable", cell.getPlant());
-    }
-
-    @org.junit.jupiter.api.Test
-    public void testGetX() {
         assertEquals(2, cell.getX());
-    }
-
-    @org.junit.jupiter.api.Test
-    public void testGetY() {
         assertEquals(3, cell.getY());
-    }
-
-    @org.junit.jupiter.api.Test
-    public void testGetPlantedDate() {
         assertEquals(LocalDate.now(), cell.getPlantedDate());
-    }
-
-    @org.junit.jupiter.api.Test
-    public void testGetHarvestDate() {
         assertEquals(LocalDate.now(), cell.getHarvestDate());
+        assertEquals(Color.BLUE, cell.getColour());
     }
 
-    @org.junit.jupiter.api.Test
-    public void testGetColour() {
-        assertEquals(Color.BLUE, cell.getColour());
+    @Test
+    public void testSetMethods() {
+        cell.setPlant("New Vegetable");
+        cell.setX(10);
+        cell.setY(12);
+        cell.setPlantedDate(LocalDate.EPOCH);
+        cell.setHarvestDate(LocalDate.EPOCH);
+        cell.setColour(Color.PERU);
+
+        assertEquals("New Vegetable", cell.getPlant());
+        assertEquals(10, cell.getX());
+        assertEquals(12, cell.getY());
+        assertEquals(LocalDate.EPOCH, cell.getPlantedDate());
+        assertEquals(LocalDate.EPOCH, cell.getHarvestDate());
+        assertEquals(Color.PERU, cell.getColour());
     }
 }
