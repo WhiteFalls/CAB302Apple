@@ -14,29 +14,25 @@ public class GardenTest {
         garden = new Garden(1, "Garden", 2, 5, 5);
     }
 
-    @org.junit.jupiter.api.Test
-    public void testGetId() {
-        garden.setGardenId(10);
-        assertEquals(10, garden.getGardenId());
-    }
-
-    @org.junit.jupiter.api.Test
-    public void testGetGardenName() {
+    @Test
+    public void testGetMethods() {
+        assertEquals(1, garden.getGardenId());
         assertEquals("Garden", garden.getGardenName());
-    }
-
-    @org.junit.jupiter.api.Test
-    public void testGetOwnerID() {
         assertEquals(2, garden.getOwnerId());
-    }
-
-    @org.junit.jupiter.api.Test
-    public void testGetHeight() {
+        assertEquals(5, garden.getWidth());
         assertEquals(5, garden.getHeight());
     }
 
-    @org.junit.jupiter.api.Test
-    public void testGetWidth() {
-        assertEquals(5, garden.getWidth());
+    @Test
+    public void testSetMethods() {
+        garden.setGardenId(2);
+        garden.setGardenName("new garden");
+        garden.setWidth(10);
+        garden.setHeight(10);
+
+        assertEquals(2, garden.getGardenId());
+        assertEquals("new garden", garden.getGardenName());
+        assertEquals(10, garden.getWidth());
+        assertEquals(10, garden.getHeight());
     }
 }
