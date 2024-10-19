@@ -1,8 +1,7 @@
 .root {
-    -fx-background-image: url("Images/apple_background.png");
-    -fx-background-repeat: repeat;
-    -fx-background-size: 25%;
+    -fx-background-color: #9fed58;
 }
+
 
 .scroll-pane {
     -fx-background-color: transparent;
