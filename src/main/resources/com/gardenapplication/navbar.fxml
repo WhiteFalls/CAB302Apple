@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<HBox fx:controller="com.gardenapplication.controller.NavbarController" xmlns:fx="http://javafx.com/fxml" alignment="CENTER_LEFT" spacing="10" styleClass="navbar" maxWidth="Infinity" minWidth="1400">
+    <children>
+        <!-- Home Button as an Apple Image -->
+        <Button fx:id="homeIconButton" onAction="#goToHome" styleClass="icon-button">
+            <graphic>
+                <ImageView fitHeight="30" fitWidth="30" preserveRatio="true"/>
+            </graphic>
+        </Button>
+
+        <Button text="Login" onAction="#goToGarden"/>
+        <Button text="Register" onAction="#goToManagement"/>
+        <Button text="Settings" onAction="#goToSettings"/>
+        <Button text="To-Do List" onAction="#goToTodoList"/>
+    </children>
+</HBox>

@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER" maxHeight="600" maxWidth="500" minHeight="400" minWidth="300" spacing="10" stylesheets="@styles/style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gardenapplication.controller.RegisterController">
+<VBox alignment="CENTER" maxHeight="600" maxWidth="500" minHeight="400" minWidth="300" spacing="10" stylesheets="@styles/styles.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gardenapplication.controller.RegisterController">
     <Label styleClass="title-label" text="Settings" />
 
     <VBox alignment="CENTER" maxHeight="500" maxWidth="400" minHeight="400" minWidth="300" spacing="10" styleClass="container">

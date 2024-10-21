@@ -7,15 +7,23 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" spacing="10" stylesheets="@styles/style.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gardenapplication.controller.LoginController">
-    <Label styleClass="title-label" text="Apple Garden Login" />
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+
+
+<VBox alignment="CENTER" spacing="10" stylesheets="@styles/styles.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gardenapplication.controller.LoginController">
+
 
     <VBox alignment="CENTER" spacing="10" styleClass="container"  maxWidth="400" minWidth="300" maxHeight="500" minHeight="400">
+        <Label styleClass="page-title" text="Apple Garden" />
+        <Label minHeight="10"></Label>
+
         <Label styleClass="label" text="Email" />
-        <TextField fx:id="emailField" promptText="Enter your email" styleClass="text-field" />
+        <TextField fx:id="emailField" promptText="Enter your email" styleClass="text-field" text="man@man.man"/>
 
         <Label styleClass="label" text="Password" />
-        <PasswordField fx:id="passwordField" promptText="Enter your password" styleClass="password-field" />
+        <PasswordField fx:id="passwordField" promptText="Enter your password" styleClass="password-field" text="Manman1!"/>
 
         <Button onAction="#loginUser" styleClass="button" text="Login" />
 

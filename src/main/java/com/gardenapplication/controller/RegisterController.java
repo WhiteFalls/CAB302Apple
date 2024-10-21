@@ -173,7 +173,7 @@ public class RegisterController {
             Parent loginPage = loader.load();
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(loginPage, 1200, 600);
+            Scene scene = new Scene(loginPage, 1400, 700);
             stage.setScene(scene);
             stage.setTitle("Login");
             stage.show();

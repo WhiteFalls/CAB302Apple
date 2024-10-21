@@ -8,6 +8,7 @@ import com.gardenapplication.Gary;
 import com.gardenapplication.UserSession;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -19,10 +20,12 @@ import java.util.Optional;
 
 public class MainPage {
     @FXML
+    public Text welcomeText;
+    @FXML
     private Button UpdatesButton;
-
     @FXML
     private Button addGarden;
+    private Stage stage;
 
     private UserSession currentUser = UserSession.getInstance();  // can be used to refactor initialize
     private GardenDAO gardenDAO;
@@ -53,6 +56,8 @@ public class MainPage {
         if (gardensOwned == 1){
             setButtonToRemove();
         }
+
+        welcomeText.setText("Welcome Back, " + currentUser.getFirstName());
     }
 
     /**
@@ -194,9 +199,6 @@ public class MainPage {
         alert.setContentText("AN ERROR OCCURRED IN THE APPLICATION");
         alert.showAndWait();
     }
-
-
-
 
 
 

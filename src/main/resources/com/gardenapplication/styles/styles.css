@@ -1,61 +1,101 @@
+/* Root element styling */
 .root {
-     -fx-background-color: #9fed58;
+    -fx-background-color: #81C049;
 }
 
-
-.scroll-pane {
-    -fx-background-color: transparent;
+/* Container styling for modular layout */
+.container {
+    -fx-background-color: #ffffff;
+    -fx-padding: 30px;
+    -fx-border-color: lightgray;
+    -fx-border-width: 2px;
+    /*-fx-border-radius: 20px;*/
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0.5, 0, 0);
 }
-.scroll-pane > .viewport {
-   -fx-background-color: transparent;
-}
 
+/* Button styles */
 .button {
-    -fx-text-color:black;
-    -fx-padding:4px;
-    -fx-background-color: rgba(232, 230, 225, 0.9);
+    -fx-background-color: white;
+    -fx-text-fill: #4CAF50;
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
     -fx-background-radius: 10px;
 }
 
-.page-title {
-    -fx-text-color:black;
-    -fx-padding:4px;
-    -fx-background-color: rgba(232, 230, 225, 0.9);
+.button:hover {
+    -fx-background-color: #F0F0F0;
 }
 
+/* Title label styling */
+.title-label {
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+}
+
+/* General label styling */
+.label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #555;
+}
+
+/* Page titles */
+.page-title {
+    /*-fx-background-color: #81C049;*/
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px;
+    -fx-text-fill: black;
+}
+
+/* Exit button */
 .exit-button {
     -fx-background-color: transparent;
 }
 
-.accordion > .titled-pane {
+/* Text field and password field */
+.text-field, .password-field {
+    -fx-pref-width: 100%;
+    -fx-padding: 10px;
+    -fx-border-radius: 5px;
+    -fx-border-color: #81C049;
+}
+
+/* Scroll Pane */
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Accordion styling */
+.accordion, .accordion > .titled-pane {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
     -fx-padding: 0.5em 0 0 0;
 }
 
+/* Accordion titles */
 .titled-pane > .title {
     -fx-alignment: center;
     -fx-background-color: rgba(232, 230, 225, 0.9);
-    -fx-border-color: transparent;
     -fx-background-radius: 2em;
 }
 
-.titled-pane:collapsed > .title {
-    -fx-background-radius: 2em;
-}
-
+.titled-pane:collapsed > .title,
 .titled-pane:expanded > .title {
-    -fx-background-radius: 2em 2em 0 0;
+    -fx-background-radius: 2em;
 }
 
+/* Accordion content */
 .titled-pane > .content {
-    -fx-border-color:transparent;
+    -fx-border-color: transparent;
     -fx-background-color: #81C049;
     -fx-background-radius: 0 0 2em 2em;
 }
 
-.titled-pane > .content > .titled-pane > .content {
-    -fx-background-color: #7fbd46;
-}
-
+/* List view styling */
 .list-view {
     -fx-background-color: #81C049;
 }
@@ -68,39 +108,59 @@
     -fx-background-color: #9fed58;
 }
 
-.combo-box > .list-cell:even {
-    -fx-background-color: white;
-}
-
+/* ComboBox styling */
+.combo-box > .list-cell:even,
 .combo-box > .list-cell:odd {
     -fx-background-color: white;
 }
 
-.hbox {
-    -fx-spacing: 1em;
-    -fx-background-color: transparent;
-    -fx-padding: 2em 0 2em 0;
-}
-
-.task-title {
-    -fx-font-weight: bold;
-}
-
+/* Garden-specific cell styling */
 .garden-cell {
-    -fx-background-radius: 0px;
     -fx-border-color: black;
-    -fx-border-size: 2px
+    -fx-border-width: 2px;
 }
 
-.garden-cell:selected {
+.garden-cell:selected, .garden-cell:focused {
     -fx-border-color: yellow;
-    -fx-border-size: 10px;
+    -fx-border-width: 10px;
     -fx-background-radius: 20px;
 }
 
-.garden-cell:focused{
-    -fx-border-color: yellow;
-    -fx-border-size: 10px;
+/* HBox and VBox styling */
+.hbox, .vbox {
+    -fx-spacing: 1em;
+    -fx-padding: 2em 0;
+    -fx-background-color: transparent;
 }
 
+.navbar .button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-border-radius: 5px;
+}
+
+.navbar .button:hover {
+    -fx-background-color: #388E3C;
+}
+
+/* Navbar Styling */
+.navbar {
+    -fx-background-color: white;
+    -fx-padding: 10px;
+    -fx-border-color: lightgray;
+    -fx-border-width: 1px;
+}
+
+/* Icon Button Styling */
+.icon-button {
+    -fx-background-color: transparent;
+    -fx-padding: 5px;
+    -fx-border-radius: 50%;
+}
+
+.icon-button:hover {
+    -fx-background-color: #81C049;
+    -fx-border-color: #4CAF50;
+    -fx-border-width: 2px;
+}
 

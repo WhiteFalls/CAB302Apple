@@ -7,10 +7,12 @@
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" spacing="20" stylesheets="@styles/style.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gardenapplication.controller.RegisterController" maxWidth="500" minWidth="300" maxHeight="600" minHeight="400">
-    <Label styleClass="title-label" text="Register for Apple Garden" />
+<VBox alignment="CENTER" spacing="20" stylesheets="@styles/styles.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gardenapplication.controller.RegisterController" maxWidth="500" minWidth="300" maxHeight="600" minHeight="400">
 
-    <VBox alignment="CENTER" spacing="10" styleClass="container" maxWidth="400" minWidth="300" maxHeight="500" minHeight="400">
+    <VBox alignment="CENTER" spacing="10" styleClass="container" maxWidth="400" minWidth="300" maxHeight="600" minHeight="400">
+        <Label styleClass="page-title" text="Register for Apple Garden" />
+        <Label minHeight="10"></Label>
+
         <Label styleClass="label" text="First Name" />
         <TextField fx:id="firstNameField" promptText="Enter your first name" styleClass="text-field" />
 

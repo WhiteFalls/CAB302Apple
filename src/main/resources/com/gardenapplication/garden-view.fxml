@@ -5,13 +5,14 @@
 <?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="600.0" prefWidth="1200.0" stylesheets="@styles/styles.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gardenapplication.controller.GardenController">
+   <fx:include source="navbar.fxml"/>
    <children>
-      <Label fx:id="gardenTitle" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="484.0" layoutY="14.0" prefHeight="44.0" prefWidth="232.0" text="Garden" textAlignment="CENTER">
+      <Label fx:id="gardenTitle" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="484.0" layoutY="20.0" prefHeight="44.0" prefWidth="232.0" text="Garden" textAlignment="CENTER">
          <font>
-            <Font size="24.0" />
+            <Font size="36.0" />
          </font>
       </Label>
-      <ScrollPane fx:id="gardenScroll" fitToHeight="true" fitToWidth="true" layoutX="16.0" layoutY="58.0" prefHeight="458.0" prefWidth="870.0">
+      <ScrollPane fx:id="gardenScroll" fitToHeight="true" fitToWidth="true" layoutX="16.0" layoutY="88.0" prefHeight="458.0" prefWidth="870.0">
          <content>
             <GridPane fx:id="gardenGrid" gridLinesVisible="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" opacity="1" prefHeight="456.0" prefWidth="688.0" style="-fx-background-color: green;">
               <columnConstraints>
@@ -31,7 +32,7 @@
             </GridPane>
          </content>
       </ScrollPane>
-      <AnchorPane layoutX="930.0" layoutY="36.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="543.0" prefWidth="256.0" style="-fx-background-color: #9fed58;">
+      <AnchorPane layoutX="930.0" layoutY="66.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="543.0" prefWidth="256.0" style="-fx-background-color: #9fed58;">
          <children>
             <VBox prefHeight="543.0" prefWidth="256.0" style="-fx-padding: 1em;">
                <children>
@@ -76,6 +77,5 @@
             </VBox>
          </children>
       </AnchorPane>
-      <Button fx:id="goBackToMainPage" layoutX="21.0" layoutY="24.0" mnemonicParsing="false" onAction="#goBackToMainPage" prefHeight="26.0" prefWidth="151.0" text="Go Back To Main Page" />
    </children>
 </AnchorPane>

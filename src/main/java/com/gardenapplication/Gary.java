@@ -1,7 +1,9 @@
 package com.gardenapplication;
 
+import com.gardenapplication.controller.NavbarController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -20,8 +22,15 @@ public class Gary extends Application {
     public void start(Stage stage) throws IOException {
 
         checkAndCreateDatabase();
-        FXMLLoader fxmlLoader = new FXMLLoader(Gary.class.getResource("login.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1200, 600);
+        FXMLLoader loader = new FXMLLoader(Gary.class.getResource("login.fxml"));
+        Scene scene = new Scene(loader.load(), 1400, 700);
+
+        FXMLLoader navbarLoader = new FXMLLoader(Gary.class.getResource("navbar.fxml"));
+        Node navbar = navbarLoader.load();  // Ensure the FXML is fully loaded
+        NavbarController navbarController = navbarLoader.getController();
+
+        navbarController.setStage(stage);
+
         stage.setTitle("Garden Manager");
         stage.setScene(scene);
         stage.show();

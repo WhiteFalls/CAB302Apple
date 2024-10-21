@@ -7,34 +7,16 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.layout.VBox?>
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" stylesheets="@styles/styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gardenapplication.controller.MainPage">
-    <children>
-        <Button layoutX="317.0" layoutY="492.0" mnemonicParsing="false" text="Home">
-         <font>
-            <Font size="24.0" />
-         </font></Button>
-        <Button fx:id="UpdatesButton" layoutX="422.0" layoutY="492.0" mnemonicParsing="false" onAction="#onUpdatesButtonClick" text="Updates">
-         <font>
-            <Font size="24.0" />
-         </font></Button>
-        <Button layoutX="558.0" layoutY="492.0" mnemonicParsing="false" text="Search">
-         <font>
-            <Font size="24.0" />
-         </font></Button>
-        <Button layoutX="670.0" layoutY="492.0" mnemonicParsing="false" onAction="#onGardenButtonClick" text="Garden">
-         <font>
-            <Font size="24.0" />
-         </font></Button>
-        <Button layoutX="789.0" layoutY="492.0" mnemonicParsing="false" text="Settings">
-         <font>
-            <Font size="24.0" />
-         </font></Button>
-        <Text layoutX="400.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="page-title" text="Welcome Back, User" wrappingWidth="401.9830722808838">
+    <VBox>
+        <fx:include source="navbar.fxml"/>
+        <Text fx:id="welcomeText" translateX="100" strokeWidth="0.0" styleClass="page-title" text="Welcome Back, User">
             <font>
                 <Font size="43.0" />
             </font>
         </Text>
-      <ImageView fitHeight="341.0" fitWidth="588.0" layoutX="394.0" layoutY="115.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="341.0" fitWidth="588.0" layoutX="200.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/garden-clip-art.jpg" />
          </image>
@@ -44,5 +26,5 @@
             <Font size="20.0" />
          </font>
       </Button>
-    </children>
+    </VBox>
 </Pane>

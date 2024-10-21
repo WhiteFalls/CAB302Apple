@@ -6,13 +6,8 @@
 <?import javafx.scene.text.*?>
 
 <AnchorPane id="page" prefHeight="600.0" prefWidth="1200.0" styleClass="page" stylesheets="@styles/styles.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gardenapplication.controller.GardenManagementController">
+    <fx:include source="navbar.fxml"/>
     <children>
-        <!-- Replace the "X" button with a "Back to Main" button -->
-        <Button fx:id="backToMain" alignment="TOP_LEFT" layoutX="14.0" layoutY="27.0" mnemonicParsing="false" onAction="#goBackToMainPage" prefHeight="35.0" prefWidth="120.0" text="Back to Main">
-            <font>
-                <Font size="18.0" />
-            </font>
-        </Button>
         <StackPane alignment="TOP_CENTER" layoutX="500.0" layoutY="14.0" prefHeight="30.0" prefWidth="200.0">
             <children>
                 <Label alignment="TOP_CENTER" contentDisplay="CENTER" styleClass="page-title" text="Garden Manager" textAlignment="CENTER">
@@ -76,11 +71,6 @@
             </ScrollPane>
             </children>
         </StackPane>
-      <Button fx:id="goToGarden" layoutX="1027.0" layoutY="19.0" mnemonicParsing="false" onAction="#goToGardenPage" prefHeight="35.0" prefWidth="120.0" text="Go To Garden">
-         <font>
-            <Font size="17.0" />
-         </font>
-      </Button>
     </children>
     <opaqueInsets>
         <Insets />
