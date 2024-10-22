@@ -1,7 +1,7 @@
 package Database;
 
 import GardenCell.GardenCell;
-import People.Garden;
+import GardenCell.Garden;
 
 public interface IGardenMapDAO {
     public void createDefaultMap(Garden garden);

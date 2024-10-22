@@ -1,14 +1,11 @@
 package Database;
 
 import GardenCell.GardenCell;
-import People.Garden;
-import com.example.gardenplanner.controller.GardenManagementController;
-import org.apache.commons.lang.ObjectUtils;
+import GardenCell.Garden;
 
 import java.sql.*;
 import javafx.scene.paint.Color;
 import java.time.LocalDate;
-import java.util.HexFormat;
 
 public class GardenMapDAO implements IGardenMapDAO{
     private Connection connection;

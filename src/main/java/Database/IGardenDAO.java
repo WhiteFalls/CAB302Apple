@@ -1,6 +1,6 @@
 package Database;
 
-import People.Garden;
+import GardenCell.Garden;
 import Tasks.Task;
 
 import java.util.List;

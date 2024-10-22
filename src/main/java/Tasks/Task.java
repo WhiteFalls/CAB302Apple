@@ -43,14 +43,6 @@ public class Task implements ITask {
         this.taskId = taskId;
     }
 
-    public boolean isCompleted() {
-        return false;
-    }
-
-    public void assignTo(IPerson person) {
-
-    }
-
     public String getTaskDetails() {
         return taskDetails;
     }

@@ -1,8 +1,7 @@
 package Database;
 
-import People.Garden;
+import GardenCell.Garden;
 import People.IPerson;
-import People.Person;
 
 import java.util.List;
 
