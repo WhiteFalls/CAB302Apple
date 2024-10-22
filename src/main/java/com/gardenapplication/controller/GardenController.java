@@ -72,6 +72,9 @@ public class GardenController {
         IPerson gardenOwner = personDAO.getPerson(personId);
         gardenWidth.setMinWidth(30);
         gardenHeight.setMinWidth(30);
+        plantedDatePicker.setMinWidth(250);
+        harvestDatePicker.setMinWidth(250);
+
 
         garden = gardenDAO.getGardenByUserId(personId);
         syncGarden();
