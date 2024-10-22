@@ -118,6 +118,7 @@
 .garden-cell {
     -fx-border-color: black;
     -fx-border-width: 2px;
+    -fx-text-fill: black;
 }
 
 .garden-cell:selected, .garden-cell:focused {

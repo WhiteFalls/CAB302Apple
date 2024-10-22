@@ -16,8 +16,8 @@
             </graphic>
         </Button>
 
-        <Button text="Login" onAction="#goToGarden"/>
-        <Button text="Register" onAction="#goToManagement"/>
+        <Button text="Garden" onAction="#goToGarden"/>
+        <Button text="Manage" onAction="#goToManagement"/>
         <Button text="Settings" onAction="#goToSettings"/>
         <Button text="To-Do List" onAction="#goToTodoList"/>
     </children>
