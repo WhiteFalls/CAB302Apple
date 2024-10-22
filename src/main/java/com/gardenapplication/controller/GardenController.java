@@ -70,6 +70,8 @@ public class GardenController {
         // Retrieve user details from UserSession
         int personId = UserSession.getInstance().getPersonId();
         IPerson gardenOwner = personDAO.getPerson(personId);
+        gardenWidth.setMinWidth(30);
+        gardenHeight.setMinWidth(30);
 
         garden = gardenDAO.getGardenByUserId(personId);
         syncGarden();

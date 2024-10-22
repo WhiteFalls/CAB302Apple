@@ -50,7 +50,7 @@
                   <Label text="Garden Size:" />
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <TextField fx:id="gardenWidth" onAction="#changeGardenSize" prefHeight="25.0" prefWidth="60.0" />
+                        <TextField fx:id="gardenWidth" onAction="#changeGardenSize" prefHeight="20.0" prefWidth="60.0" />
                         <Label text="By" />
                         <TextField fx:id="gardenHeight" onAction="#changeGardenSize" prefHeight="25.0" prefWidth="60.0" />
                      </children>
