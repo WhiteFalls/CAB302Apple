@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<?import javafx.scene.image.ImageView?>
-<HBox fx:controller="com.gardenapplication.controller.NavbarController" xmlns:fx="http://javafx.com/fxml" alignment="CENTER_LEFT" spacing="10" styleClass="navbar" maxWidth="Infinity" minWidth="1400">
+<HBox alignment="CENTER_LEFT" maxWidth="Infinity" minWidth="1400" spacing="10" styleClass="navbar" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="com.gardenapplication.controller.NavbarController">
     <children>
         <!-- Home Button as an Apple Image -->
         <Button fx:id="homeIconButton" onAction="#goToHome" styleClass="icon-button">
             <graphic>
-                <ImageView fitHeight="30" fitWidth="30" preserveRatio="true"/>
+                <ImageView fitHeight="30" fitWidth="30" preserveRatio="true" />
             </graphic>
         </Button>
 
-        <Button text="Garden" onAction="#goToGarden"/>
-        <Button text="Manage" onAction="#goToManagement"/>
-        <Button text="Settings" onAction="#goToSettings"/>
-        <Button text="To-Do List" onAction="#goToTodoList"/>
+        <Button onAction="#goToGarden" text="Garden" />
+      <Button mnemonicParsing="false" text="Search" />
+        <Button onAction="#goToManagement" text="Manage" />
+        <Button onAction="#goToSettings" text="Settings" />
+        <Button onAction="#goToTodoList" text="To-Do List" />
     </children>
 </HBox>

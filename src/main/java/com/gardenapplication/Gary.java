@@ -22,7 +22,7 @@ public class Gary extends Application {
     public void start(Stage stage) throws IOException {
 
         checkAndCreateDatabase();
-        FXMLLoader loader = new FXMLLoader(Gary.class.getResource("plant-info-page.fxml"));
+        FXMLLoader loader = new FXMLLoader(Gary.class.getResource("login.fxml"));
         Scene scene = new Scene(loader.load(), 1400, 700);
 
         FXMLLoader navbarLoader = new FXMLLoader(Gary.class.getResource("navbar.fxml"));

@@ -65,6 +65,11 @@ public class NavbarController {
         loadPage("usertodoList.fxml");
     }
 
+    @FXML
+    private void goToPlantSearch() throws IOException {
+        loadPage("plant-info-page.fxml");
+    }
+
     private void loadPage(String fxml) throws IOException {
         stage = (Stage) homeIconButton.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(Gary.class.getResource(fxml));
