@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<?import javafx.scene.layout.VBox?>
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" stylesheets="@styles/styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gardenapplication.controller.MainPage">
+    <VBox>
+        <fx:include source="navbar.fxml"/>
+        <Text fx:id="welcomeText" translateX="100" strokeWidth="0.0" styleClass="page-title" text="Welcome Back, User">
+            <font>
+                <Font size="43.0" />
+            </font>
+        </Text>
+      <ImageView fitHeight="341.0" fitWidth="588.0" layoutX="200.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/garden-clip-art.jpg" />
+         </image>
+      </ImageView>
+      <Button fx:id="addGarden" layoutX="830.0" layoutY="121.0" mnemonicParsing="false" onAction="#addGarden" prefHeight="57.0" prefWidth="175.0" text="Add Garden">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+    </VBox>
+</Pane>

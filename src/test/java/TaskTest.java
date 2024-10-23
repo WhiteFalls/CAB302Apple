@@ -1,10 +1,12 @@
+import People.Person;
 import Tasks.Task;
 import Tasks.taskCategory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
+import java.util.Objects;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TaskTest {
     private Task task;
@@ -14,33 +16,67 @@ public class TaskTest {
         task = new Task(1, "task", LocalDate.now(), LocalDate.now(), taskCategory.DAILY);
     }
 
-    @org.junit.jupiter.api.Test
-    public void testGetId() {
-        task.setId(1);
+
+    @Test
+    public void testGetMethods() {
         assertEquals(1, task.getId());
-    }
-
-    @org.junit.jupiter.api.Test
-    public void testGetTaskDetails()
-    {
         assertEquals("task", task.getTaskDetails());
-    }
-
-    @org.junit.jupiter.api.Test
-    public void testGetTaskAssignedDate()
-    {
         assertEquals(LocalDate.now(), task.getAssignedDate());
-    }
-
-    @org.junit.jupiter.api.Test
-    public void testGetTaskDueDate()
-    {
         assertEquals(LocalDate.now(), task.getDueDate());
+        assertEquals(taskCategory.DAILY, task.getCategory());
     }
 
-    @org.junit.jupiter.api.Test
-    public void testGetCategory()
+    @Test
+    public void testSetMethods() {
+        task.setId(2);
+        task.setAssignedDate(LocalDate.EPOCH);
+        task.setDueDate(LocalDate.EPOCH);
+        task.setCategory(taskCategory.WEEKLY);
+
+        assertEquals(2, task.getId());
+        assertEquals(LocalDate.EPOCH, task.getAssignedDate());
+        assertEquals(LocalDate.EPOCH, task.getDueDate());
+        assertEquals(taskCategory.WEEKLY, task.getCategory());
+    }
+
+    @Test
+    public void testGetHashCode()
     {
-        assertEquals(taskCategory.DAILY, task.getCategory());
+        int hash = Objects.hash(task.getId(), task.getTaskDetails());
+        assertEquals(hash, task.hashCode());
+    }
+
+    @Test
+    public void testTaskEquals() {
+        Task sametask = new Task(1, "task", LocalDate.now(), LocalDate.now(), taskCategory.DAILY);
+        assertTrue(task.equals(sametask));
+    }
+
+    @Test
+    public void testTaskEqualsSameObject() {
+        assertTrue(task.equals(task));
+    }
+
+    @Test
+    public void testTaskEqualsNull() {
+        assertFalse(task.equals(null));
+    }
+
+    @Test
+    public void testTaskEqualsDifferentClass() {
+        Person person = new Person("test", "user", "test@gmail.com",
+                "Password", "testIV");
+        assertFalse(task.equals(person));
+    }
+
+    @Test
+    public void testUpdateTask() {
+        Task newTask = new Task(2, "new task", LocalDate.EPOCH, LocalDate.EPOCH, taskCategory.WEEKLY);
+        task.updateTask(newTask);
+
+        assertEquals(task.getTaskDetails(), newTask.getTaskDetails());
+        assertEquals(task.getAssignedDate(), newTask.getAssignedDate());
+        assertEquals(task.getDueDate(), newTask.getDueDate());
+        assertEquals(task.getCategory(), newTask.getCategory());
     }
 }
