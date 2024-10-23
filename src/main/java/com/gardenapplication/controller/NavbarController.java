@@ -57,7 +57,7 @@ public class NavbarController {
 
     @FXML
     private void goToSettings() throws IOException {
-        loadPage("settings_page.fxml");
+        loadPage("settings3.fxml");
     }
 
     @FXML
