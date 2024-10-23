@@ -161,4 +161,4 @@ public class DatabaseInitializer {
 
 //Debug SQL
 //ALTER TABLE Tasks ADD COLUMN category TEXT DEFAULT 'DAILY';
-t
+//ALTER TABLE Users ADD COLUMN iv_base64 TEXT;
