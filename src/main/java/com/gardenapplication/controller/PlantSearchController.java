@@ -6,10 +6,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
+import javafx.util.Callback;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -57,12 +60,42 @@ public class PlantSearchController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         plant_id.setCellValueFactory(new PropertyValueFactory<>("plantID"));
         plant_name.setCellValueFactory(new PropertyValueFactory<>("plantName"));
+
         plant_description.setCellValueFactory(new PropertyValueFactory<>("plantDescription"));
+        wrapCellText(plant_description);
+
         watering.setCellValueFactory(new PropertyValueFactory<>("watering"));
+        wrapCellText(watering);
+
         optimal_sunlight.setCellValueFactory(new PropertyValueFactory<>("optimalSunlight"));
+        wrapCellText(optimal_sunlight);
 
         ArrayList<Plant> plant_list = plantDAO.getAllPlants();
         plantTableView.getItems().addAll(plant_list);
+    }
+
+    private void wrapCellText(TableColumn<Plant, String> column)
+    {
+        column.setCellFactory(new Callback<TableColumn<Plant, String>, TableCell<Plant, String>>() {
+            @Override
+            public TableCell<Plant, String> call(TableColumn<Plant, String> param) {
+                return new TableCell<Plant, String>() {
+                    private final Text text = new Text();
+
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item != null && !empty) {
+                            text.setText(item);
+                            text.setWrappingWidth(getTableColumn().getWidth());  // Wrap to column width
+                            setGraphic(text);  // Set the text as the graphic in the cell
+                        } else {
+                            setGraphic(null);
+                        }
+                    }
+                };
+            }
+        });
     }
 
     public void searchPlants(String searchQuery) {

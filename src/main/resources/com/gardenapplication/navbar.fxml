@@ -4,7 +4,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<HBox alignment="CENTER_LEFT" maxWidth="Infinity" minWidth="1400" spacing="10" styleClass="navbar" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="com.gardenapplication.controller.NavbarController">
+<HBox alignment="CENTER_LEFT" maxWidth="Infinity" minWidth="1400" spacing="10" styleClass="navbar" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gardenapplication.controller.NavbarController">
     <children>
         <!-- Home Button as an Apple Image -->
         <Button fx:id="homeIconButton" onAction="#goToHome" styleClass="icon-button">
@@ -14,7 +14,7 @@
         </Button>
 
         <Button onAction="#goToGarden" text="Garden" />
-      <Button mnemonicParsing="false" text="Search" />
+      <Button mnemonicParsing="false" onAction="#goToPlantSearch" text="Search" />
         <Button onAction="#goToManagement" text="Manage" />
         <Button onAction="#goToSettings" text="Settings" />
         <Button onAction="#goToTodoList" text="To-Do List" />
