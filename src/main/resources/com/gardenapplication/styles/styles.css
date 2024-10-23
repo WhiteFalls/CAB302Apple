@@ -22,9 +22,6 @@
     -fx-background-radius: 10px;
 }
 
-.button:hover {
-    -fx-background-color: #F0F0F0;
-}
 
 /* Title label styling */
 .title-label {
@@ -154,7 +151,7 @@
 
 /* Icon Button Styling */
 .icon-button {
-    -fx-background-color: transparent;
+    -fx-background-color: white;
     -fx-padding: 5px;
     -fx-border-radius: 50%;
 }
@@ -163,5 +160,9 @@
     -fx-background-color: #81C049;
     -fx-border-color: #4CAF50;
     -fx-border-width: 2px;
+}
+
+.home-icon {
+    -fx-background-radius: 50%;
 }
 

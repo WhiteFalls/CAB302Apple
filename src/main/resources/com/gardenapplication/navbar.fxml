@@ -7,10 +7,14 @@
 <HBox alignment="CENTER_LEFT" maxWidth="Infinity" minWidth="1400" spacing="10" styleClass="navbar" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gardenapplication.controller.NavbarController">
     <children>
         <!-- Home Button as an Apple Image -->
-        <Button fx:id="homeIconButton" onAction="#goToHome" styleClass="icon-button">
-            <graphic>
-                <ImageView fitHeight="30" fitWidth="30" preserveRatio="true" />
-            </graphic>
+        <Button fx:id="homeIconButton" onAction="#goToHome" prefHeight="13.0" prefWidth="0.0" style="-fx-background-color: transparent;" styleClass="icon-button">
+         <graphic>
+                <ImageView fitHeight="46.0" fitWidth="72.0" preserveRatio="true" styleClass="home-icon">
+               <image>
+                  <Image url="@images/apple_icon.png" />
+               </image>
+            </ImageView>
+         </graphic>
         </Button>
 
         <Button onAction="#goToGarden" text="Garden" />
