@@ -165,7 +165,7 @@ public class GardenToDoListController {
             if(!LocalDate.now().isAfter(task.getDueDate())){
                 taskDAO.setCompletedDate(task,LocalDate.now());
                 completedButton(completeButton); // update button
-                Popup.displayErrorPopup("Task will be reassigned!");
+                Popup.showAlert("Task","Task will be reassigned!");
             }
             else { // get rid of this to use reassign task
                 taskDAO.delete(task);
@@ -185,7 +185,7 @@ public class GardenToDoListController {
         button.setStyle("-fx-background-color: green; -fx-text-fill: black;");
         button.setText("Completed");
         button.setOnAction(event -> {
-            Popup.displayErrorPopup("Task will be reassigned!");
+            Popup.showAlert("Task","Task will be reassigned!");
         });
     }
 
