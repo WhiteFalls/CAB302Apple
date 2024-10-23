@@ -21,4 +21,21 @@ public class Plant {
     public int getPlantID() {
         return plantId;
     }
+
+    public void setPlantId(int plantId) {
+        this.plantId = plantId;
+    }
+
+    public String getPlantName() {
+        return plantName;
+    }
+
+    public void setPlantName(String plantName) {
+        this.plantName = plantName;
+    }
+
+    public String getPlantDescription() {
+        return plantDescription;
+    }
+
 }
