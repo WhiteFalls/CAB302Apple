@@ -11,14 +11,17 @@ module com.example.gardenplanner {
     requires commons.beanutils;
 
 
-    opens com.example.gardenplanner to javafx.fxml;
-    exports com.example.gardenplanner;
-    exports com.example.gardenplanner.controller;
-    opens com.example.gardenplanner.controller to javafx.fxml;
+    opens com.gardenapplication to javafx.fxml;
+    exports com.gardenapplication;
+    exports com.gardenapplication.controller;
+    opens com.gardenapplication.controller to javafx.fxml;
     exports People;
     opens People to javafx.fxml;
     exports Tasks;
     opens Tasks to javafx.fxml;
     exports Database;
     opens Database to javafx.fxml;
+    exports GardenCell;
+    opens GardenCell to javafx.fxml;
+    exports Util;
 }

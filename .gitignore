@@ -36,5 +36,5 @@ build/
 
 ### Mac OS ###
 .DS_Store
-/GardenPlanner.db
+/GardenPlanner.sqlite
 /docs/

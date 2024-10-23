@@ -1,6 +1,7 @@
 package Database;
 
-import People.Garden;
+import GardenCell.Garden;
+import Tasks.Task;
 
 import java.util.List;
 
@@ -39,4 +40,5 @@ public interface IGardenDAO {
     void deleteGarden(int gardenId);
 
     //List<Garden> getAllGardenByUserId(int userId);
+    Garden getGardenByTaskId(Task task);
 }

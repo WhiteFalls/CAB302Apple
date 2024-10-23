@@ -1,14 +1,11 @@
 package Database;
 
 import GardenCell.GardenCell;
-import People.Garden;
-import com.example.gardenplanner.controller.GardenManagementController;
-import org.apache.commons.lang.ObjectUtils;
+import GardenCell.Garden;
 
 import java.sql.*;
 import javafx.scene.paint.Color;
 import java.time.LocalDate;
-import java.util.HexFormat;
 
 public class GardenMapDAO implements IGardenMapDAO{
     private Connection connection;
@@ -37,7 +34,7 @@ public class GardenMapDAO implements IGardenMapDAO{
                     stmt.setDate(6, null);
                     stmt.setString(7, Color.PERU.toString());
                     stmt.executeUpdate();
-                    System.out.println("Garden added successfully.");
+                   // System.out.println("Garden added successfully.");
 
 
                 } catch (SQLException e) {
@@ -112,9 +109,14 @@ public class GardenMapDAO implements IGardenMapDAO{
     public void resizeMap(Garden garden, int newWidth, int newHeight) {
         GardenCell[][] newGrid = new GardenCell[newWidth][newHeight];
         GardenCell[][] currentGrid = getGardenCells(garden);
-        for (int i = 0; i < Math.min(newWidth,garden.getWidth()); i++){
-            for (int j = 0; j < Math.min(newHeight,garden.getHeight()); j++){
-                newGrid[i][j] = currentGrid[i][j]; // overlap between old size and new size
+        for (int i = 0; i < garden.getWidth(); i++){
+            for (int j = 0; j < garden.getHeight(); j++){
+                if (i < newWidth && j < newHeight) {
+                    newGrid[i][j] = currentGrid[i][j]; // overlap between old size and new size
+                }
+                else{
+                    removeCellsFromGardenMap(garden,i,j);
+                }
             }
         }
 
@@ -124,11 +126,11 @@ public class GardenMapDAO implements IGardenMapDAO{
                 if(newGrid[i][j] == null){
                 newGrid[i][j] = makeDefaultCell(i,j); // not really needed tbf
                 addDefaultCellsToGardenMap(garden,i,j);
-                System.out.println(i + "," + j + " Added");
+               // System.out.println(i + "," + j + " Added");
                 }
             }
         }
-        removeOutOfBoundsCell(garden,newWidth,newHeight); // updates garden map
+        //removeOutOfBoundsCell(garden,newWidth,newHeight); // updates garden map
         updateGardenSize(garden,newWidth,newHeight);
     }
 
@@ -144,7 +146,7 @@ public class GardenMapDAO implements IGardenMapDAO{
             for (int j = 0; j < garden.getHeight(); j++) {
                 if( j >= newHeight || i >= newWidth) {
                     removeCellsFromGardenMap(garden, i, j);
-                    System.out.println(i + "," + j + " Removed");
+                    //System.out.println(i + "," + j + " Removed");
                 }
             }
         }
@@ -166,7 +168,7 @@ public class GardenMapDAO implements IGardenMapDAO{
             stmt.setDate(6, null);
             stmt.setString(7, Color.PERU.toString());
             stmt.executeUpdate();
-            System.out.println("Coords added successfully.");
+           // System.out.println("Coords added successfully.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -179,7 +181,7 @@ public class GardenMapDAO implements IGardenMapDAO{
             stmt.setInt(2, x);
             stmt.setInt(3, y);
             stmt.executeUpdate();
-            System.out.println("Coords removed successfully.");
+            //System.out.println("Coords removed successfully.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
