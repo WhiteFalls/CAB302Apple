@@ -10,10 +10,6 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@styles/styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gardenapplication.controller.GardenToDoListController">
     <fx:include source="navbar.fxml"/>
     <children>
-        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="448.0" layoutY="13.0" prefHeight="50.0" prefWidth="154.0" text="To Do List" underline="true">
-            <font>
-                <Font size="30.0" />
-            </font></Label>
         <Button fx:id="Refresh" layoutX="1009.0" layoutY="80.0" mnemonicParsing="false" onAction="#testAddTask" text="Refresh" />
         <!-- New Back to Main button -->
 <!--        <Button fx:id="backToMain" layoutX="29.0" layoutY="400.0" mnemonicParsing="false" onAction="#goBackToMainPage" text="Back to Main" />-->

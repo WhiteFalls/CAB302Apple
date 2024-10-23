@@ -23,7 +23,7 @@ public class Gary extends Application {
 
         checkAndCreateDatabase();
         FXMLLoader loader = new FXMLLoader(Gary.class.getResource("login.fxml"));
-        Scene scene = new Scene(loader.load(), 1400, 700);
+        Scene scene = new Scene(loader.load(), 1200, 600);
 
         FXMLLoader navbarLoader = new FXMLLoader(Gary.class.getResource("navbar.fxml"));
         Node navbar = navbarLoader.load();  // Ensure the FXML is fully loaded
