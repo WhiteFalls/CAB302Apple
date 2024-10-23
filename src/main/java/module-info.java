@@ -22,4 +22,5 @@ module com.example.gardenplanner {
     opens Database to javafx.fxml;
     exports GardenCell;
     opens GardenCell to javafx.fxml;
+    exports Util;
 }
