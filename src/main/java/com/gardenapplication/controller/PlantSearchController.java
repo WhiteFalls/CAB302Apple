@@ -1,4 +1,4 @@
-package com.example.gardenplanner.controller;
+package com.gardenapplication.controller;
 
 import Database.PlantDAO;
 import GardenCell.Plant;
