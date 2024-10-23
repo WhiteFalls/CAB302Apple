@@ -40,6 +40,11 @@ public class PlantSearchController implements Initializable {
 
     private PlantDAO plantDAO;
 
+    public PlantSearchController()
+    {
+        plantDAO = new PlantDAO();
+    }
+
     @FXML
     public void handleSearch() {
         String searchQuery = PlantSearchBar.getText();
@@ -50,8 +55,6 @@ public class PlantSearchController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        plantDAO = new PlantDAO();
-
         plant_id.setCellValueFactory(new PropertyValueFactory<>("plantID"));
         plant_name.setCellValueFactory(new PropertyValueFactory<>("plantName"));
         plant_description.setCellValueFactory(new PropertyValueFactory<>("plantDescription"));
@@ -63,10 +66,8 @@ public class PlantSearchController implements Initializable {
     }
 
     public void searchPlants(String searchQuery) {
-        PlantDAO plantDAO = new PlantDAO();
         ArrayList<Plant> plants = plantDAO.getPlantContainsName(searchQuery);
-        plantsObservableList.setAll(plants);
-        plantTableView.setItems(plantsObservableList);
+        plantTableView.getItems().addAll(plants);
     }
 }
 

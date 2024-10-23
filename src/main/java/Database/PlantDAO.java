@@ -32,7 +32,7 @@ public class PlantDAO implements IPlantDAO {
                             rs.getString("plant_name"),
                             rs.getString("plant_description"),
                             rs.getString("watering"),
-                            rs.getString("optimal_sunlight"));
+                            rs.getString("optimal_sun"));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -54,7 +54,7 @@ public class PlantDAO implements IPlantDAO {
                             rs.getString("plant_name"),
                             rs.getString("plant_description"),
                             rs.getString("watering"),
-                            rs.getString("optimal_sunlight"));
+                            rs.getString("optimal_sun"));
                     if (plant.getPlantID() == 0)
                     {
                         break;
