@@ -67,6 +67,10 @@ public class PlantSearchController implements Initializable {
 
     public void searchPlants(String searchQuery) {
         ArrayList<Plant> plants = plantDAO.getPlantContainsName(searchQuery);
+        for (Plant plant : plants){
+            System.out.println("Plant " + plant.getPlantName());
+        }
+        plantTableView.getItems().clear();
         plantTableView.getItems().addAll(plants);
     }
 }
