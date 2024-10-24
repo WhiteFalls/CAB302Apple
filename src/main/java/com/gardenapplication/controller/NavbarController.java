@@ -56,11 +56,6 @@ public class NavbarController {
     }
 
     @FXML
-    private void goToSettings() throws IOException {
-        loadPage("settings_page.fxml");
-    }
-
-    @FXML
     private void goToTodoList() throws IOException {
         loadPage("usertodoList.fxml");
     }

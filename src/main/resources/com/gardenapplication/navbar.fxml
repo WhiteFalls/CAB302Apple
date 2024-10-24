@@ -20,7 +20,6 @@
         <Button onAction="#goToGarden" text="Garden" />
       <Button mnemonicParsing="false" onAction="#goToPlantSearch" text="Search" />
         <Button onAction="#goToManagement" text="Manage" />
-        <Button onAction="#goToSettings" text="Settings" />
         <Button onAction="#goToTodoList" text="To-Do List" />
     </children>
 </HBox>
