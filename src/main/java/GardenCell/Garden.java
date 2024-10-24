@@ -1,6 +1,6 @@
 package GardenCell;
 
-public class Garden {
+public class Garden implements IGarden {
     private int gardenId;
     private int ownerId;
     private int width;
@@ -14,8 +14,10 @@ public class Garden {
 
     /**
      * Constructs a new garden object
-     * @param ownerId The user ID of the owner/manager of the garden
      * @param gardenName The name of the garden
+     * @param ownerId The user ID of the owner/manager of the garden
+     * @param width How many plots make up the width of the garden
+     * @param height How many plots make up the height of the garden
      */
     public Garden(String gardenName, int ownerId, int width, int height) {
         this.ownerId = ownerId;
@@ -34,59 +36,52 @@ public class Garden {
 
     // Getters and Setters
 
-    /**
-     * Gets a garden's ID
-     * @return An integer of the garden's ID
-     */
+    @Override
     public int getGardenId() {
         return gardenId;
     }
 
+    @Override
     public void setGardenId(int gardenId)
     {
         this.gardenId = gardenId;
     }
 
-    /**
-     * Gets the ID of the garden's owner
-     * @return An integer of the garden's owner's ID
-     */
+    @Override
     public int getOwnerId() {
         return ownerId;
     }
 
-    /**
-     * Gets the name of the garden
-     * @return A string of the name of the garden
-     */
+    @Override
     public String getGardenName() {
         return gardenName;
     }
 
+    @Override
     public int getWidth()
     {
         return this.width;
     }
 
+    @Override
     public void setWidth(int width)
     {
         this.width = width;
     }
 
+    @Override
     public int getHeight()
     {
         return this.height;
     }
 
+    @Override
     public void setHeight(int height)
     {
         this.height = height;
     }
 
-    /**
-     * Sets the name of the garden
-     * @param gardenName The new name of the Garden
-     */
+    @Override
     public void setGardenName(String gardenName) {
         this.gardenName = gardenName;
     }

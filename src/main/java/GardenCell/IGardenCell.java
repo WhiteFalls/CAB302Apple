@@ -5,6 +5,17 @@ import javafx.scene.paint.Color;
 import java.time.LocalDate;
 
 public interface IGardenCell {
+    /**
+     * Gets the plant stored in the cell
+     * @return The name of the plant stored in the cell
+     */
+    String getPlant();
+
+    /**
+     * Sets the name of the plant stored in the cell
+     * @param plant The name of the cell's plant
+     */
+    void setPlant(String plant);
 
     /**
      * Gets the x-coordinate of the garden cell
