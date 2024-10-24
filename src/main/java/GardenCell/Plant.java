@@ -2,7 +2,7 @@ package GardenCell;
 import Database.PlantDAO;
 import Database.IPlantDAO;
 
-public class Plant {
+public class Plant implements IPlant {
     private int plantId;
     private String plantName;
     private String plantDescription;

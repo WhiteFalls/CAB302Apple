@@ -3,7 +3,7 @@ package GardenCell;
 import javafx.scene.paint.Color;
 import java.time.LocalDate;
 
-public class GardenCell {
+public class GardenCell implements IGardenCell {
     private int X;
     private int Y;
     private Color colour;
