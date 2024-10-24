@@ -13,7 +13,7 @@ public class Task implements ITask {
     private taskCategory category;
 
     /**
-     * Contructs a new task with the specified task details, assigned date, due date and category type
+     * Contructs a new task with the specified ID, task details, assigned date, due date and category type
      *
      * @param taskId
      * @param taskDetails  The details of the task that needs to be completed

@@ -154,7 +154,7 @@ public class TaskDAO implements ITaskDAO {
     }
 
     @Override
-    public Task get(int id) {
+    public Task getTaskFromId(int id) {
         String query = "SELECT * FROM Tasks WHERE task_id = ?";
         Task task = null;
         try (PreparedStatement stmt = connection.prepareStatement(query)) {

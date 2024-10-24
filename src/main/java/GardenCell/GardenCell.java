@@ -3,7 +3,7 @@ package GardenCell;
 import javafx.scene.paint.Color;
 import java.time.LocalDate;
 
-public class GardenCell {
+public class GardenCell implements IGardenCell {
     private int X;
     private int Y;
     private Color colour;
@@ -11,6 +11,16 @@ public class GardenCell {
     private LocalDate plantedDate;
     private LocalDate harvestDate;
 
+    /**
+     * Constructs a new GardenCell object with the specified plant, x and y coordinates, planted and
+     * harvest dates and colour
+     * @param plant The plant stored in the cell
+     * @param x The x-coordinate of the cell
+     * @param y The y-coordinate of the cell
+     * @param plantedDate The date the plant was planted
+     * @param harvestDate The date the plant will be harvested
+     * @param colour The background colour of the cell
+     */
     public GardenCell(String plant, int x, int y, LocalDate plantedDate, LocalDate harvestDate, Color colour)
     {
         this.plant = plant;
