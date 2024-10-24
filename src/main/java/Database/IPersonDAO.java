@@ -28,6 +28,7 @@ public interface IPersonDAO {
      * @param person The contact to update.
      */
     public void updatePerson(IPerson person);
+
     /**
      * Deletes a contact from the database.
      * @param person The contact to delete.
@@ -51,5 +52,10 @@ public interface IPersonDAO {
 
     void deletePerson(Person person);
 
+    /**
+     * Checks whether an email is registered or not
+     * @param email The email to be checked
+     * @return True if the email is registered, else false
+     */
     boolean isEmailRegistered(String email);
 }

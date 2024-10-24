@@ -43,21 +43,57 @@ public interface ITaskDAO {
      */
     ArrayList<Task> getCategorisedTasks(IPerson person, taskCategory category);
 
+    /**
+     * Returns all a user's tasks in a garden with the specified category
+     * @param person The person who owns the tasks
+     * @param category The category to group the tasks
+     * @param garden The garden that the tasks belong to
+     * @return An ArrayList of all the users tasks in the garden that have the category
+     */
     ArrayList<Task> getCategorisedTasksFromGarden(IPerson person, taskCategory category, Garden garden);
 
-    Task get(int id);
+    /**
+     * Gets a task with the specified ID
+     * @param id The ID of the desired task
+     * @return The task that shares the ID
+     */
+    Task getTaskFromId(int id);
 
     List<Task> getAllTasks();
 
+    /**
+     * Updates the information of a task using its task ID
+     * @param task The tasks containing the new information and the same ID as the task to be replaced
+     */
     void update(Task task);
 
+    /**
+     * Deletes a task with a certain ID
+     * @param id The ID of the task to be deleted
+     */
     void delete(int id);
 
     Object getUserTasks(Person person);
 
+    /**
+     * Gets all the users tasks from a particular garden
+     * @param person The person who owns the tasks
+     * @param garden The garden where the tasks are located
+     * @return An ArrayList of all the user's tasks in the garden
+     */
     ArrayList<Task> getUserTasksFromGarden(IPerson person, Garden garden);
 
+    /**
+     * Gets the date that a task is to be completed
+     * @param task The task to get the completed date from
+     * @return The expected completed date for that task
+     */
     LocalDate getCompletedDate(Task task);
 
+    /**
+     * Sets the date a task is expected to be completed by
+     * @param task The task to be completed
+     * @param completedDate The date that the task needs to be completed by
+     */
     void setCompletedDate(Task task, LocalDate completedDate);
 }
