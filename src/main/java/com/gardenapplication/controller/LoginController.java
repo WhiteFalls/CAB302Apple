@@ -149,7 +149,7 @@ public class LoginController {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
             // Set the new scene to the current stage
-            Scene scene = new Scene(registrationPage, 1400, 700);
+            Scene scene = new Scene(registrationPage, 1200, 600);
             stage.setScene(scene);
             stage.setTitle("Register");
             stage.show();
