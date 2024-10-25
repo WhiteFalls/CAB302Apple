@@ -10,8 +10,8 @@ public class Plant implements IPlant {
     private String optimalSunlight;
 
     /**
-     * Contructs a new Plant object with the specified ID, name, description, and watering and
-     * sunlight information
+     * Contructs a new Plant object with the specified ID, name, description, and watering and sunlight information
+     *
      * @param plantId
      * @param plantName
      * @param plantDescription
