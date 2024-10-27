@@ -2,14 +2,12 @@ package Database;
 
 import GardenCell.Garden;
 import People.IPerson;
-import People.Person;
 import Tasks.Task;
 import Tasks.taskCategory;
 
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
 public class TaskDAO implements ITaskDAO {
 
@@ -19,30 +17,11 @@ public class TaskDAO implements ITaskDAO {
         connection = DatabaseConnection.getConnection();  // Get the connection from your utility
     }
 
-    @Override
-    public ArrayList<Task> getUserTasks(IPerson person) {
-        String query = "SELECT * FROM Tasks WHERE user_id = ?";
-        ArrayList<Task> tasks = new ArrayList<>();
 
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, person.getUserId());
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                Task task = new Task(
-                        rs.getInt("task_id"),
-                        rs.getString("task_details"),
-                        rs.getDate("assigned_date").toLocalDate(),
-                        rs.getDate("due_date").toLocalDate(),
-                        taskCategory.valueOf(rs.getString("category"))  // Convert text to enum
-                );
-                tasks.add(task);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return tasks;
-    }
-
+    /**
+     * Deletes task from the database
+     * @param task The task to be deleted
+     */
     @Override
     public void delete(Task task) {
         String query = "DELETE FROM Tasks WHERE task_id = ?";
@@ -54,6 +33,11 @@ public class TaskDAO implements ITaskDAO {
         }
     }
 
+    /**
+     * Deletes tasks from the user and garden
+     * @param person The user for tasks to be deleted from
+     * @param garden The garden for tasks to be deleted from
+     */
     @Override
     public void deleteUserTasks(IPerson person, Garden garden) {
         String query = "DELETE FROM Tasks WHERE user_id = ? AND garden_id = ?";
@@ -66,6 +50,11 @@ public class TaskDAO implements ITaskDAO {
         }
     }
 
+    /**
+     * Updates the tasks
+     * @param oldTask The task to be updated
+     * @param newTask The task that will replace oldTask
+     */
     @Override
     public void update(Task oldTask, Task newTask) {
         String query = "UPDATE Tasks SET task_details = ?, assigned_date = ?, due_date = ?, category = ? WHERE task_id = ?";
@@ -81,6 +70,12 @@ public class TaskDAO implements ITaskDAO {
         }
     }
 
+    /**
+     * Adds the task into the database
+     * @param task The task to be added
+     * @param person The person to add the task to
+     * @param garden The garden the task is assigned in
+     */
     @Override
     public void add(Task task, IPerson person,Garden garden) {
         String query = "INSERT INTO Tasks (user_id, garden_id, task_details, assigned_date, due_date, category) VALUES (?, ?, ?, ?, ?, ?)";
@@ -102,31 +97,13 @@ public class TaskDAO implements ITaskDAO {
         }
     }
 
-    @Override
-    public ArrayList<Task> getCategorisedTasks(IPerson person, taskCategory category) {
-        String query = "SELECT * FROM Tasks WHERE user_id = ? AND category = ?";
-        ArrayList<Task> tasks = new ArrayList<>();
-
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, person.getUserId());
-            stmt.setString(2, category.toString());
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                Task task = new Task(
-                        rs.getInt("task_id"),
-                        rs.getString("task_details"),
-                        rs.getDate("assigned_date").toLocalDate(),
-                        rs.getDate("due_date").toLocalDate(),
-                        taskCategory.valueOf(rs.getString("category"))  // Convert text to enum
-                );
-                tasks.add(task);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return tasks;
-    }
-
+    /**
+     * Retrieves tasks based on its category (DAILY,WEEKLY,CUSTOM) and garden
+     * @param person The person who owns the tasks
+     * @param category The category to group the tasks
+     * @param garden The garden that the tasks belong to
+     * @return An array list of the tasks based on its category and garden
+     */
     @Override
     public ArrayList<Task> getCategorisedTasksFromGarden(IPerson person, taskCategory category, Garden garden) {
         String query = "SELECT * FROM Tasks WHERE user_id = ? AND category = ? AND garden_id = ?";
@@ -153,50 +130,10 @@ public class TaskDAO implements ITaskDAO {
         return tasks;
     }
 
-    @Override
-    public Task getTaskFromId(int id) {
-        String query = "SELECT * FROM Tasks WHERE task_id = ?";
-        Task task = null;
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                task = new Task(
-                        rs.getInt("task_id"),
-                        rs.getString("task_details"),
-                        rs.getDate("assigned_date").toLocalDate(),
-                        rs.getDate("due_date").toLocalDate(),
-                        taskCategory.valueOf(rs.getString("category"))  // Convert text to enum
-                );
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return task;
-    }
-
-    @Override
-    public List<Task> getAllTasks() {
-        String query = "SELECT * FROM Tasks";
-        List<Task> tasks = new ArrayList<>();
-        try (Statement stmt = connection.createStatement()) {
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
-                Task task = new Task(
-                        rs.getInt("task_id"),
-                        rs.getString("task_details"),
-                        rs.getDate("assigned_date").toLocalDate(),
-                        rs.getDate("due_date").toLocalDate(),
-                        taskCategory.valueOf(rs.getString("category"))  // Convert text to enum
-                );
-                tasks.add(task);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return tasks;
-    }
-
+    /**
+     * Updates the task
+     * @param task The tasks containing the new information and the same ID as the task to be replaced
+     */
     @Override
     public void update(Task task) {
         String query = "UPDATE Tasks SET task_details = ?, assigned_date = ?, due_date = ?, category = ? WHERE task_id = ?";
@@ -212,6 +149,10 @@ public class TaskDAO implements ITaskDAO {
         }
     }
 
+    /**
+     * Deletes task given its task ID
+     * @param id The ID of the task to be deleted
+     */
     @Override
     public void delete(int id) {
         String query = "DELETE FROM Tasks WHERE task_id = ?";
@@ -223,11 +164,12 @@ public class TaskDAO implements ITaskDAO {
         }
     }
 
-    @Override
-    public Object getUserTasks(Person person) {
-        return null;
-    }
-
+    /**
+     * Retrieves all tasks from the user in the garden
+     * @param person The person who owns the tasks
+     * @param garden The garden where the tasks are located
+     * @return An array list of tasks based on the user ID and garden ID
+     */
     @Override
     public ArrayList<Task> getUserTasksFromGarden(IPerson person, Garden garden) {
         String query = "SELECT * FROM Tasks WHERE user_id = ? AND garden_id = ?";
@@ -253,6 +195,11 @@ public class TaskDAO implements ITaskDAO {
         return tasks;
     }
 
+    /**
+     * Retrieves the task's completed date
+     * @param task The task to get the completed date from
+     * @return The date at which the task was completed
+     */
     @Override
     public LocalDate getCompletedDate(Task task){
         String query = "SELECT completed_date FROM Tasks WHERE task_id = ?";
@@ -273,6 +220,11 @@ public class TaskDAO implements ITaskDAO {
         return completedDate;
     }
 
+    /**
+     * Sets the task's completed date
+     * @param task The task to be completed
+     * @param completedDate The date that the task needs to be completed by
+     */
     @Override
     public void setCompletedDate(Task task, LocalDate completedDate){
         String query = "UPDATE Tasks SET completed_date = ? WHERE task_id = ?";

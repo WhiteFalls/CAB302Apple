@@ -1,74 +1,55 @@
 package Database;
 
 import GardenCell.Plant;
-import javafx.beans.Observable;
-import javafx.beans.value.ObservableListValue;
-import javafx.collections.ObservableList;
-import org.apache.commons.beanutils.converters.CharacterArrayConverter;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class PlantDAO implements IPlantDAO {
 
-        private Connection connection;
+    private Connection connection;
 
 
-        public PlantDAO() {
-            connection = DatabaseConnection.getConnection();  // Get a connection from your utility
-        }
+    public PlantDAO() {
+        connection = DatabaseConnection.getConnection();  // Get a connection from your utility
+    }
 
-        @Override
-        public Plant getPlantById(Plant plant) {
-            String query = "SELECT * FROM garden_vegetables WHERE plant_id = ?";
 
-            try (PreparedStatement stmt = connection.prepareStatement(query)) {
-                stmt.setInt(1, plant.getPlantID());
-                ResultSet rs = stmt.executeQuery();
+    /**
+     * Retrieves all plants that contain a string
+     * @param userInput The word that the plants need to contain
+     * @return An array of plants that contain the user input string
+     */
+    public ArrayList<Plant> getPlantContainsName(String userInput) {
+        ArrayList<Plant> plants = new ArrayList<Plant>();
+        String query = "SELECT * FROM garden_vegetables WHERE plant_name LIKE ?";
 
-                if (rs.next()) {
-                    plant = new Plant(rs.getInt("plant_id"),
-                            rs.getString("plant_name"),
-                            rs.getString("plant_description"),
-                            rs.getString("watering"),
-                            rs.getString("optimal_sun"));
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, "%" + userInput + "%");
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Plant plant = new Plant(rs.getInt("plant_id"),
+                        rs.getString("plant_name"),
+                        rs.getString("plant_description"),
+                        rs.getString("watering"),
+                        rs.getString("optimal_sun"));
+                if (plant.getPlantID() == 0) {
+                    break;
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
+                plants.add(plant);
             }
-            return plant;
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        return plants;
+    }
 
-        public ArrayList<Plant> getPlantContainsName(String userInput)
-        {
-            ArrayList<Plant> plants = new ArrayList<Plant>();
-            String query = "SELECT * FROM garden_vegetables WHERE plant_name LIKE ?";
-
-            try (PreparedStatement stmt = connection.prepareStatement(query)) {
-                stmt.setString(1, "%" + userInput + "%");
-                ResultSet rs = stmt.executeQuery();
-
-                while (rs.next()) {
-                    Plant plant = new Plant(rs.getInt("plant_id"),
-                            rs.getString("plant_name"),
-                            rs.getString("plant_description"),
-                            rs.getString("watering"),
-                            rs.getString("optimal_sun"));
-                    if (plant.getPlantID() == 0)
-                    {
-                        break;
-                    }
-                    plants.add(plant);
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            return plants;
-        }
-
-    public ArrayList<Plant> getAllPlants()
-    {
+    /**
+     * Retrieves all the plants from the database
+     * @return All the plants from the database
+     */
+    public ArrayList<Plant> getAllPlants() {
         ArrayList<Plant> plants = new ArrayList<>();
         String query = "SELECT * FROM garden_vegetables";
 
@@ -81,8 +62,7 @@ public class PlantDAO implements IPlantDAO {
                         rs.getString("plant_description"),
                         rs.getString("watering"),
                         rs.getString("optimal_sun"));
-                if (plant.getPlantID() == 0)
-                {
+                if (plant.getPlantID() == 0) {
                     break;
                 }
                 plants.add(plant);
@@ -93,11 +73,7 @@ public class PlantDAO implements IPlantDAO {
         return plants;
     }
 
-        @Override
-        public Plant getPlantById(int plantId) {
-            return null;
-        }
-    }
+}
 
 
 

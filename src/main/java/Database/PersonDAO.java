@@ -1,11 +1,8 @@
 package Database;
 
-import People.IPerson;
 import People.Person;
 
 import java.sql.*;
-import java.util.ArrayList;
-
 public class PersonDAO implements IPersonDAO {
 
     private final Connection connection;
@@ -35,7 +32,11 @@ public class PersonDAO implements IPersonDAO {
         }
     }
 
-
+    /**
+     * Retrieves the user given their email
+     * @param email The email of the specified person
+     * @return The person that the email corresponds towards
+     */
     @Override
     public Person getPersonByEmail(String email) {
         String query = "SELECT * FROM Users WHERE email = ?";
@@ -54,32 +55,12 @@ public class PersonDAO implements IPersonDAO {
         return person;
     }
 
-    @Override
-    public void addPerson(IPerson person) {
 
-    }
-
-    @Override
-    public void updatePerson(IPerson person) {
-
-    }
-
-    @Override
-    public void deletePerson(IPerson person) {
-        String query = "DELETE FROM Users WHERE user_id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, person.getUserId());
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void deletePersonFromGarden(IPerson person, int garden_ID) throws IllegalArgumentException {
-
-    }
-
+    /**
+     * Retrieves a person that matches with the user ID
+     * @param id The id of the contact to retrieve.
+     * @return A person that corresponds to the user ID
+     */
     @Override
     public Person getPerson(int id) {
         String query = "SELECT * FROM Users WHERE user_id = ?";
@@ -98,30 +79,11 @@ public class PersonDAO implements IPersonDAO {
         return person;
     }
 
-    @Override
-    public ArrayList<IPerson> getAllPeople() {
-        String query = "SELECT * FROM Users";
-        ArrayList<IPerson> people = new ArrayList<>();
-
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            //stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                Person person = new Person(rs.getInt("user_id"), rs.getString("fname"), rs.getString("lname"), rs.getString("email"), rs.getString("password"), rs.getString("iv_base64"));
-                if (person.getUserId() == 0)
-                {
-                    break;
-                }
-                people.add(person);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return people;
-    }
-
-    // Method to check if email is already registered
+    /**
+     * Email validation to see if email already exists
+     * @param email The email to be checked
+     * @return
+     */
     public boolean isEmailRegistered(String email) {
         try (Connection conn = DatabaseConnection.getConnection()) {
             String sql = "SELECT COUNT(*) FROM Users WHERE email = ?";
@@ -138,8 +100,4 @@ public class PersonDAO implements IPersonDAO {
         return false;
     }
 
-    @Override
-    public void deletePerson(Person person) {
-
-    }
 }

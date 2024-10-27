@@ -69,7 +69,6 @@ public class GardenManagementController {
     public void initialize() {
         // Retrieve user details from UserSession
         int personId = UserSession.getInstance().getPersonId();
-        IPerson gardenOwner = personDAO.getPerson(personId);
 
         garden = gardenDAO.getGardenByUserId(personId);
         syncPeople();
@@ -104,15 +103,12 @@ public class GardenManagementController {
         for (IPerson person : people){
             TitledPane user = createUserSection(person);
             user.getStyleClass().add("userSectionTitlePane");
-            //userSections.add(user);
             userDropBox.getPanes().add(user);
         }
 
         if (hasPeople) {
 
         }
-        // Show / hide based on whether there are people
-        //userDropBox.setVisible(hasPeople);
     }
 
     /**
@@ -174,12 +170,10 @@ public class GardenManagementController {
         userTasks.getStyleClass().add("userSectionTitlePane");
         userTasks.setStyle("-fx-background-color: #7fbd46;");
 
-
         // Create dropdown for user options
         TitledPane userOptions = createUserOptions(person);
 
         TitledPane userSection = new TitledPane(person.getName(), new Accordion(userTasks, userOptions));
-        //ArrayList<TitledPane> userTasks = new ArrayList<TitledPane>();
 
         return userSection;
     }
@@ -381,37 +375,5 @@ public class GardenManagementController {
         }
     }
 
-    /**
-     * Sets scene back to the main page of the application
-     * @param event The event that triggers the page change
-     */
-    public void goBackToMainPage(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/gardenapplication/main-page.fxml"));
-            Parent mainPageParent = loader.load();
-            Scene mainPageScene = new Scene(mainPageParent, 1200, 600);
-            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            window.setScene(mainPageScene);
-            window.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
-    /**
-     * Sets scene back to the garden page of the application
-     * @param event The event that triggers the page change
-     */
-    public void goToGardenPage(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/gardenapplication/garden-view.fxml"));
-            Parent mainPageParent = loader.load();
-            Scene mainPageScene = new Scene(mainPageParent, 1200, 600);
-            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            window.setScene(mainPageScene);
-            window.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

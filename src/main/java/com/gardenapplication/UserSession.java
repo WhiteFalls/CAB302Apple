@@ -9,6 +9,10 @@ public class UserSession {
 
     private UserSession() {}
 
+    /**
+     * Retreives the instance the user is currently in
+     * @return The instance the user is in
+     */
     public static UserSession getInstance() {
         if (instance == null) {
             instance = new UserSession();
@@ -48,11 +52,4 @@ public class UserSession {
         this.lastName = lastName;
     }
 
-    public void clearSession() {
-        personId = -1;
-        email = null;
-        firstName = null;
-        lastName = null;
-        instance = null;
-    }
 }

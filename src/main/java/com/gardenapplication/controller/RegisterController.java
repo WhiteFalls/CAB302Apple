@@ -40,8 +40,6 @@ public class RegisterController {
 
     private Tooltip passwordTooltip;
 
-    private Connection connection;
-
     private IPersonDAO personDAO;
 
     private SecretKey aesKey;
@@ -49,7 +47,6 @@ public class RegisterController {
     public RegisterController() {
         personDAO = new PersonDAO();
 
-        // Encryption good
         try {
             aesKey = ConfigKeyLoader.getSecretKeyFromConfig();  // Retrieve AES key from configuration
         } catch (Exception e) {
@@ -146,21 +143,6 @@ public class RegisterController {
         return true;  // If all validations pass, return true
     }
 
-    /**
-     * Clears all the fields on the page
-     */
-    private void clearFields() {
-        firstNameField.clear();
-        lastNameField.clear();
-        emailField.clear();
-        passwordField.clear();
-        confirmPasswordField.clear();
-    }
-
-//    @FXML
-//    public void initialize() {
-//        System.out.println("RegisterController initialized.");
-//    }
 
     /**
      * Sets scene to the login page of the application
@@ -209,33 +191,10 @@ public class RegisterController {
         return true;
     }
 
-//    private void updatePasswordStrengthUI(int strength) {
-//        switch (strength) {
-//            case 0:
-//                strengthLabel.setText("Password Strength: Very Weak");
-//                strengthBar.setProgress(0.25);
-//                strengthBar.setStyle("-fx-accent: red;");
-//                break;
-//            case 1:
-//                strengthLabel.setText("Password Strength: Weak");
-//                strengthBar.setProgress(0.5);
-//                strengthBar.setStyle("-fx-accent: orange;");
-//                break;
-//            case 2:
-//                strengthLabel.setText("Password Strength: Medium");
-//                strengthBar.setProgress(0.75);
-//                strengthBar.setStyle("-fx-accent: yellow;");
-//                break;
-//            case 3:
-//            case 4:
-//                strengthLabel.setText("Password Strength: Strong");
-//                strengthBar.setProgress(1.0);
-//                strengthBar.setStyle("-fx-accent: green;");
-//                break;
-//        }
-//    }
-
-    // Update the PasswordField UI when validation fails or succeeds
+    /**
+     * Update the PasswordField UI when validation fails or succeeds
+     * @param isValid Whether the password was valid or not
+     */
     private void updatePasswordFieldUI(boolean isValid) {
         if (!isValid) {
             // Make the PasswordField border red when validation fails
@@ -248,7 +207,10 @@ public class RegisterController {
         }
     }
 
-    // Update the tooltip with feedback based on the current password input
+    /**
+     * Update the tooltip with feedback based on the current password input
+     * @param password The password to be validated
+     */
     private void updateTooltip(String password) {
         if (password.length() < 8) {
             passwordTooltip.setText("Password must be at least 8 characters.");

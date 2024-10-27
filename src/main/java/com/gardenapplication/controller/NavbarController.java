@@ -30,11 +30,19 @@ public class NavbarController {
         this.stage = stage;
     }
 
+    /**
+     * Transitions into main page
+     * @throws IOException
+     */
     @FXML
     private void goToHome() throws IOException {
         loadPage("main-page.fxml");
     }
 
+    /**
+     * Transitions into garden page
+     * @throws IOException
+     */
     @FXML
     private void goToGarden() throws IOException {
         if (findNumGardensOwned() == 1){
@@ -45,6 +53,10 @@ public class NavbarController {
         }
     }
 
+    /**
+     * Transitions into management page
+     * @throws IOException
+     */
     @FXML
     private void goToManagement() throws IOException {
         if (findNumGardensOwned() == 1){
@@ -55,16 +67,29 @@ public class NavbarController {
         }
     }
 
+    /**
+     * Transitions into to do list page
+     * @throws IOException
+     */
     @FXML
     private void goToTodoList() throws IOException {
         loadPage("usertodoList.fxml");
     }
 
+    /**
+     * Transitions into plant information page
+     * @throws IOException
+     */
     @FXML
     private void goToPlantSearch() throws IOException {
         loadPage("plant-info-page.fxml");
     }
 
+    /**
+     * Loads the page based on the FXML
+     * @param fxml The FXML to be loaded
+     * @throws IOException
+     */
     private void loadPage(String fxml) throws IOException {
         stage = (Stage) homeIconButton.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(Gary.class.getResource(fxml));
@@ -73,6 +98,10 @@ public class NavbarController {
         stage.show();
     }
 
+    /**
+     * Retrieves the number of gardens the user owns
+     * @return The number of gardens the user owns, -1 otherwise
+     */
     private int findNumGardensOwned(){
         Connection connection = DatabaseConnection.getConnection();
         PersonDAO personDAO = new PersonDAO();
@@ -87,6 +116,6 @@ public class NavbarController {
         }catch(SQLException e ) {
             e.printStackTrace();
         }
-        return -1; // handle this case
+        return -1;
     }
 }

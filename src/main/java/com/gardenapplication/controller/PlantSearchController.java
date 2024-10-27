@@ -48,14 +48,20 @@ public class PlantSearchController implements Initializable {
         plantDAO = new PlantDAO();
     }
 
+    /**
+     * Retrieves the search query
+     */
     @FXML
     public void handleSearch() {
         String searchQuery = PlantSearchBar.getText();
         searchPlants(searchQuery);
     }
 
-    private ObservableList<Plant> plantsObservableList = FXCollections.observableArrayList();
-
+    /**
+     * Initializes the plant search controller
+     * @param url The resource to be located
+     * @param resourceBundle The localised data
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         plant_id.setCellValueFactory(new PropertyValueFactory<>("plantID"));
@@ -74,6 +80,10 @@ public class PlantSearchController implements Initializable {
         plantTableView.getItems().addAll(plant_list);
     }
 
+    /**
+     * Wraps the text in the column
+     * @param column The column for the text to be wrapped
+     */
     private void wrapCellText(TableColumn<Plant, String> column)
     {
         column.setCellFactory(new Callback<TableColumn<Plant, String>, TableCell<Plant, String>>() {
@@ -98,6 +108,10 @@ public class PlantSearchController implements Initializable {
         });
     }
 
+    /**
+     * Searches the plant and displays them in the tableview
+     * @param searchQuery The plant to be queried
+     */
     public void searchPlants(String searchQuery) {
         ArrayList<Plant> plants = plantDAO.getPlantContainsName(searchQuery);
         plantTableView.getItems().clear();

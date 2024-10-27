@@ -18,6 +18,11 @@ public class GardenUsersDAO implements IGardenUsersDAO {
         this.connection = DatabaseConnection.getConnection();
     }
 
+    /**
+     * Retrieves all users that are in the garden
+     * @param garden The garden to get the user IDs from
+     * @return A list of user IDs that belong in the garden
+     */
     @Override
     public List<Integer> getPeopleIdsInGarden(Garden garden) {
         String query = "SELECT * FROM Garden_Users WHERE garden_id = ?";
@@ -41,6 +46,12 @@ public class GardenUsersDAO implements IGardenUsersDAO {
         return peopleIds;
     }
 
+    /**
+     * Adds a person to the garden
+     * @param person The person to be added
+     * @param garden The garden to add that person to
+     * @param Role The person's particular role in the garden
+     */
     @Override
     public void addPersonToGarden(IPerson person, Garden garden, String Role) {
         String query = "INSERT INTO Garden_Users (garden_id, user_id, access_level) VALUES (?, ?, ?)";
@@ -55,6 +66,11 @@ public class GardenUsersDAO implements IGardenUsersDAO {
         }
     }
 
+    /**
+     * Removes a person from the garden
+     * @param person The person to be removed
+     * @param garden The garden to remove the person from
+     */
     @Override
     public void removePersonFromGarden(IPerson person, Garden garden) {
         String query = "DELETE FROM Garden_Users WHERE user_id = ? AND garden_id = ?";
@@ -68,6 +84,11 @@ public class GardenUsersDAO implements IGardenUsersDAO {
         }
     }
 
+    /**
+     * Retrieves all gardens the user belongs to
+     * @param userId The user ID of the specified person
+     * @return A list of gardens the user is in
+     */
     @Override
     public List<Garden> getAllGardenByUserId(int userId) {
 

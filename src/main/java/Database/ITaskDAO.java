@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface ITaskDAO {
-    ArrayList<Task> getUserTasks(IPerson person);
-
     /**
      * Deletes a task from the database
      * @param task The task to be deleted
@@ -36,14 +34,6 @@ public interface ITaskDAO {
     public void add(Task task, IPerson person, Garden garden);
 
     /**
-     * Returns all the tasks of a person associated with a certain category
-     * @param person
-     * @param category
-     * @return
-     */
-    ArrayList<Task> getCategorisedTasks(IPerson person, taskCategory category);
-
-    /**
      * Returns all a user's tasks in a garden with the specified category
      * @param person The person who owns the tasks
      * @param category The category to group the tasks
@@ -52,14 +42,6 @@ public interface ITaskDAO {
      */
     ArrayList<Task> getCategorisedTasksFromGarden(IPerson person, taskCategory category, Garden garden);
 
-    /**
-     * Gets a task with the specified ID
-     * @param id The ID of the desired task
-     * @return The task that shares the ID
-     */
-    Task getTaskFromId(int id);
-
-    List<Task> getAllTasks();
 
     /**
      * Updates the information of a task using its task ID
@@ -72,8 +54,6 @@ public interface ITaskDAO {
      * @param id The ID of the task to be deleted
      */
     void delete(int id);
-
-    Object getUserTasks(Person person);
 
     /**
      * Gets all the users tasks from a particular garden

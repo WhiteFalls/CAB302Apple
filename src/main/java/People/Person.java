@@ -68,40 +68,6 @@ public class Person implements IPerson {
         }
     }
 
-    // Updates specific details of the person in the database
-    @SuppressWarnings("SqlResolve")
-    public void updatePersonInDatabase(String field, String value, Connection connection) {
-        // Define a whitelist of valid fields
-        Set<String> allowedFields = new HashSet<>();
-        allowedFields.add("fname");
-        allowedFields.add("lname");
-        allowedFields.add("email");
-        allowedFields.add("password");
-        allowedFields.add("iv_base64");
-
-        // Check if the provided field is allowed
-        if (!allowedFields.contains(field)) {
-            throw new IllegalArgumentException("Invalid field: " + field);
-        }
-
-        // Safe query with the valid field name
-        String updateQuery = "UPDATE Users SET " + field + " = ? WHERE user_id = ?";
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
-            preparedStatement.setString(1, value);
-            preparedStatement.setInt(2, userId);
-            int rowsUpdated = preparedStatement.executeUpdate();
-
-            if (rowsUpdated > 0) {
-                System.out.println("User " + field + " updated successfully.");
-            } else {
-                System.out.println("Failed to update " + field + " for user " + userId);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     // Getters and Setters
     @Override
     public String getFirstName() {

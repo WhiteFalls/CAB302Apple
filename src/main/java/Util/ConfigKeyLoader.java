@@ -9,8 +9,11 @@ import java.util.Base64;
 
 public class ConfigKeyLoader {
 
-    // 100% basically just storing they key to our passwords in what is effectively a text document
-    // I could list 90 reasons why this sucks and 9 ways to do it better, but I'm not going to.
+    /**
+     * Retrieves a secret key
+     * @return A secret key
+     * @throws IOException
+     */
     public static SecretKey getSecretKeyFromConfig() throws IOException {
         Properties properties = new Properties();
         try (FileInputStream input = new FileInputStream("src/main/java/Util/config.properties")) {

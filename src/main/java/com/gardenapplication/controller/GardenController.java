@@ -49,27 +49,28 @@ public class GardenController {
     @FXML
     private Button confirmButton;
 
-    private IPersonDAO personDAO;
     private GardenDAO gardenDAO;
     private GardenMapDAO gardenMapDAO;
-    private GardenUsersDAO gardenUsersDAO;
     private Garden garden;
     private Connection connection;
 
 
+    /**
+     * Garden controller constructor
+     */
     public GardenController()
     {
         connection = DatabaseConnection.getConnection();
-        personDAO = new PersonDAO();
         gardenDAO = new GardenDAO();
-        gardenUsersDAO = new GardenUsersDAO(connection);
         gardenMapDAO = new GardenMapDAO();
     }
 
+    /**
+     * Initializes the garden controller
+     */
     public void initialize() {
         // Retrieve user details from UserSession
         int personId = UserSession.getInstance().getPersonId();
-        IPerson gardenOwner = personDAO.getPerson(personId);
         gardenWidth.setMinWidth(30);
         gardenHeight.setMinWidth(30);
         plantedDatePicker.setMinWidth(250);
@@ -80,9 +81,12 @@ public class GardenController {
         syncGarden();
     }
 
+    /**
+     * Retrieves information for the garden and synchronises it to the controller
+     */
     private void syncGarden()
     {
-        gardenGrid.getRowConstraints().clear(); //idk but it works
+        gardenGrid.getRowConstraints().clear();
         gardenGrid.getColumnConstraints().clear();
         gardenGrid.getChildren().clear();
         gardenTitle.setText(garden.getGardenName());
@@ -90,14 +94,12 @@ public class GardenController {
 
         for (int row = 0 ; row < garden.getHeight() ; row++ ){
             RowConstraints rc = new RowConstraints();
-            //rc.setFillHeight(true);
             rc.setPercentHeight(100d / garden.getHeight());
             rc.setVgrow(Priority.NEVER);
             gardenGrid.getRowConstraints().add(rc);
         }
         for (int col = 0 ; col < garden.getWidth(); col++ ) {
             ColumnConstraints cc = new ColumnConstraints();
-            //cc.setFillWidth(true);
             cc.setPercentWidth(100d / garden.getWidth());
             cc.setHgrow(Priority.NEVER);
             gardenGrid.getColumnConstraints().add(cc);
@@ -110,21 +112,21 @@ public class GardenController {
             for (int y = 0; y < cells[0].length; y++)
             {
                 GardenCell cell = cells[x][y];
-                if (cell != null) { // added in cause it was telling me cells was null
+                if (cell != null) {
 
                     Button plotButton = createPlotButton(cell);
                     StackPane stack = new StackPane(plotButton);
-
-//                    GridPane.setFillWidth(plotButton, true);
-//                    GridPane.setFillHeight(plotButton, true);
-
-                    gardenGrid.add(stack, x, y); // it actually takes in y,x but it think we swapped the coords everywhere so it cancels out technically
-                    //gardenGrid.setMargin(plotButton, new Insets(1));
+                    gardenGrid.add(stack, x, y);
                 }
             }
         }
     }
 
+    /**
+     * Creates a garden cell button for the garden grid
+     * @param cell The cell to be turned into a button
+     * @return A button representing the garden cell
+     */
     private Button createPlotButton(GardenCell cell)
     {
         Button plotButton = new Button(cell.getPlant());
@@ -142,6 +144,11 @@ public class GardenController {
         return plotButton;
     }
 
+    /**
+     * Converts a color into a string recognised by java
+     * @param color The colour to be converted into a string
+     * @return
+     */
     private static String colorToString(Color color) {
         String colour_s = color.toString();
         colour_s = colour_s.substring(2, colour_s.length());
@@ -149,6 +156,9 @@ public class GardenController {
         return colour_s;
     }
 
+    /**
+     * Synchronises the garden details
+     */
     private void syncGardenDetails()
     {
         gardenNameText.setText(garden.getGardenName());
@@ -161,6 +171,10 @@ public class GardenController {
         colourDropDown.setDisable(true);
         confirmButton.setDisable(true);
     }
+
+    /**
+     * Method to change the garden name based on detecting the enter key
+     */
     @FXML
     private void changeGardenName(){
         gardenNameText.setOnKeyPressed((event -> {
@@ -170,6 +184,9 @@ public class GardenController {
         }));
     }
 
+    /**
+     * Changes the garden width and height
+     */
     @FXML
     private void changeGardenSize(){
         gardenWidth.setOnKeyPressed((event -> {
@@ -185,6 +202,9 @@ public class GardenController {
 
     }
 
+    /**
+     * Confirm popup for changing the garden size
+     */
     private void confirmChangeGardenSize() {
         String width = gardenWidth.getText().trim();
         String height = gardenHeight.getText().trim();
@@ -205,6 +225,9 @@ public class GardenController {
         }
     }
 
+    /**
+     * Confirm popup for changing the garden name
+     */
     private void confirmChangeGardenName(){
         String newName =  gardenNameText.getText();
         if (newName.equals(garden.getGardenName())){
@@ -219,6 +242,11 @@ public class GardenController {
             Popup.displayErrorPopup("Garden name change has been cancelled.");
         }
     }
+
+    /**
+     * Displays the cell on the garden grid
+     * @param cell The cell to be displayed
+     */
     private void displayCell(GardenCell cell)
     {
         plantTextField.setText(cell.getPlant());
@@ -249,6 +277,11 @@ public class GardenController {
         });
     }
 
+    /**
+     * Update the old cell to the new cell
+     * @param oldCell Previous cell that needs to be updated
+     * @param newCell New cell to replace the old cell
+     */
     private void updateCell(GardenCell oldCell, GardenCell newCell)
     {
         gardenMapDAO.updateCell(newCell);
@@ -257,20 +290,4 @@ public class GardenController {
         gardenGrid.add(plotButton, newCell.getX(), newCell.getY());
     }
 
-    /**
-     * Sets scene back to the main page of the application
-     * @param event The event that triggers the page change
-     */
-    public void goBackToMainPage(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/gardenapplication/main-page.fxml"));
-            Parent mainPageParent = loader.load();
-            Scene mainPageScene = new Scene(mainPageParent, 1200, 600);
-            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            window.setScene(mainPageScene);
-            window.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

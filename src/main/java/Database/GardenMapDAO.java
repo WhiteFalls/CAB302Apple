@@ -17,6 +17,10 @@ public class GardenMapDAO implements IGardenMapDAO{
         gardenDAO = new GardenDAO();
     }
 
+    /**
+     * Generates the default garden
+     * @param garden The newly generated garden
+     */
     @Override
     public void createDefaultMap(Garden garden) {
         for (int x = 0; x < garden.getWidth(); x++)
@@ -45,6 +49,11 @@ public class GardenMapDAO implements IGardenMapDAO{
 
     }
 
+    /**
+     * Retrieves te garden cells from the garden
+     * @param garden The garden to get the cells from
+     * @return
+     */
     @Override
     public GardenCell[][] getGardenCells(Garden garden) {
         GardenCell[][] plot = new GardenCell[garden.getWidth()][garden.getHeight()];
@@ -59,7 +68,6 @@ public class GardenMapDAO implements IGardenMapDAO{
                 int y = rs.getInt("y");
 
                 LocalDate harvestDate;
-                //String color =Integer.toHexString(rs.getInt("colour"));
                 try
                 {
                     harvestDate = rs.getDate("harvest_data").toLocalDate();
@@ -82,6 +90,10 @@ public class GardenMapDAO implements IGardenMapDAO{
         return plot;
     }
 
+    /**
+     * Updates the cell
+     * @param cell The new cell with the same x and y coordinates as the old cell
+     */
     @Override
     public void updateCell(GardenCell cell) {
         String query = "UPDATE Garden_Map SET plant_name = ?, planted_date = ?, harvest_date = ?, colour = ? WHERE x = ? AND y = ?";
@@ -105,6 +117,12 @@ public class GardenMapDAO implements IGardenMapDAO{
         }
     }
 
+    /**
+     * Resizes the garden map
+     * @param garden The garden to be resized
+     * @param newWidth The new width of the garden
+     * @param newHeight The new height of the garden
+     */
     @Override
     public void resizeMap(Garden garden, int newWidth, int newHeight) {
         GardenCell[][] newGrid = new GardenCell[newWidth][newHeight];
@@ -124,38 +142,42 @@ public class GardenMapDAO implements IGardenMapDAO{
         for (int i = 0; i < newWidth; i++){
             for (int j = 0; j < newHeight; j++){
                 if(newGrid[i][j] == null){
-                newGrid[i][j] = makeDefaultCell(i,j); // not really needed tbf
+                newGrid[i][j] = makeDefaultCell(i,j);
                 addDefaultCellsToGardenMap(garden,i,j);
-               // System.out.println(i + "," + j + " Added");
                 }
             }
         }
-        //removeOutOfBoundsCell(garden,newWidth,newHeight); // updates garden map
         updateGardenSize(garden,newWidth,newHeight);
     }
 
+    /**
+     * Updates the garden size
+     * @param garden The garden to be resized
+     * @param newWidth The new width of the garden
+     * @param newHeight The new height of the garden
+     */
     private void updateGardenSize(Garden garden, int newWidth, int newHeight) {
         garden.setWidth(newWidth);
         garden.setHeight(newHeight);
         gardenDAO.updateGarden(garden);
     }
 
-
-    private void removeOutOfBoundsCell(Garden garden, int newWidth, int newHeight){
-        for (int i = 0; i < garden.getWidth(); i++) { // Cells to the right of the new width
-            for (int j = 0; j < garden.getHeight(); j++) {
-                if( j >= newHeight || i >= newWidth) {
-                    removeCellsFromGardenMap(garden, i, j);
-                    //System.out.println(i + "," + j + " Removed");
-                }
-            }
-        }
-    }
-
+    /**
+     * Creates a default garden cell
+     * @param x The x coordinate of the garden cell
+     * @param y The y coordinate of the garden cell
+     * @return
+     */
     private GardenCell makeDefaultCell(int x, int y){
         return new GardenCell("Empty",x,y,LocalDate.now(),null,Color.PERU);
     }
 
+    /**
+     * Adds the default garden cells to the garden map
+     * @param garden The garden in which the cells are being added
+     * @param x The x coordinate of the garden cell
+     * @param y The y coordinate of the garden cell
+     */
     private void addDefaultCellsToGardenMap(Garden garden,int x, int y) {
         String query = "INSERT INTO Garden_Map (garden_id, x, y, plant_name, planted_date, harvest_date, colour) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
@@ -168,11 +190,17 @@ public class GardenMapDAO implements IGardenMapDAO{
             stmt.setDate(6, null);
             stmt.setString(7, Color.PERU.toString());
             stmt.executeUpdate();
-           // System.out.println("Coords added successfully.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Removes the garden cells from the garden
+     * @param garden The garden in which the cells are being removed
+     * @param x The x coordinate of the garden cell
+     * @param y The y coordinate of the garden cell
+     */
     private void removeCellsFromGardenMap(Garden garden,int x, int y) {
         String query = "DELETE FROM Garden_Map WHERE garden_id = ? AND x = ? and y = ?";
 
@@ -181,7 +209,6 @@ public class GardenMapDAO implements IGardenMapDAO{
             stmt.setInt(2, x);
             stmt.setInt(3, y);
             stmt.executeUpdate();
-            //System.out.println("Coords removed successfully.");
         } catch (SQLException e) {
             e.printStackTrace();
         }

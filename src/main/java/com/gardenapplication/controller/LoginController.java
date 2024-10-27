@@ -34,7 +34,7 @@ public class LoginController {
 
     public LoginController() {
         try {
-            aesKey = ConfigKeyLoader.getSecretKeyFromConfig();  // Very awesome.
+            aesKey = ConfigKeyLoader.getSecretKeyFromConfig();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -50,7 +50,7 @@ public class LoginController {
         String password = passwordField.getText();
 
         try {
-            // Retrieve the person(s) from the database (I'm working on it)
+            // Retrieve the person(s) from the database
             Person person = new PersonDAO().getPersonByEmail(email);
 
             if (person != null && validateInput(email, password)) {

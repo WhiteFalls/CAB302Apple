@@ -158,7 +158,3 @@ public class DatabaseInitializer {
         throw new SQLException("User with first name " + firstName + " not found.");
     }
 }
-
-//Debug SQL
-//ALTER TABLE Tasks ADD COLUMN category TEXT DEFAULT 'DAILY';
-//ALTER TABLE Users ADD COLUMN iv_base64 TEXT;

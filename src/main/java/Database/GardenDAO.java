@@ -18,6 +18,10 @@ public class GardenDAO implements IGardenDAO {
         connection = DatabaseConnection.getConnection();  // Get a connection from your utility
     }
 
+    /**
+     * Adds the garden to be database
+     * @param garden The garden to be added
+     */
     @Override
     public void addGarden(Garden garden) {
         String query = "INSERT INTO Gardens (garden_owner, garden_name, width, height) VALUES (?, ?, ?, ?)";
@@ -37,52 +41,11 @@ public class GardenDAO implements IGardenDAO {
         }
     }
 
-    @Override
-    public Garden getGardenById(int gardenId) {
-        String query = "SELECT * FROM Gardens WHERE garden_id = ?";
-        Garden garden = null;
-
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, gardenId);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                garden = new Garden(rs.getInt("garden_id"),
-                        rs.getString("garden_name"),
-                        rs.getInt("garden_owner"),
-                        rs.getInt("width"),
-                        rs.getInt("height"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return garden;
-    }
-
-    @Override
-    public List<Garden> getGardensByUserId(int userId) {
-        String query = "SELECT * FROM Gardens WHERE garden_owner = ?";
-        List<Garden> gardens = new ArrayList<>();
-
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, userId);
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                Garden garden = new Garden(rs.getInt("garden_id"),
-                        rs.getString("garden_name"),
-                        rs.getInt("garden_owner"),
-                        rs.getInt("width"),
-                        rs.getInt("height"));
-                gardens.add(garden);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return gardens;
-    }
-
-
+    /**
+     * Retrieves the garden based on the user ID
+     * @param userId The ID of the user
+     * @return The garden owned by the user
+     */
     @Override
     public Garden getGardenByUserId(int userId) {
         String query = "SELECT * FROM Gardens WHERE garden_owner = ?";
@@ -105,6 +68,10 @@ public class GardenDAO implements IGardenDAO {
         return garden;
     }
 
+    /**
+     * Updates the garden
+     * @param garden The garden to be updated
+     */
     @Override
     public void updateGarden(Garden garden) {
         String query = "UPDATE Gardens SET garden_name = ?, width = ?, height = ? WHERE garden_id = ?";
@@ -121,6 +88,10 @@ public class GardenDAO implements IGardenDAO {
         }
     }
 
+    /**
+     * Removes the garden from the database given the garden ID
+     * @param gardenId The ID of the garden to be deleted
+     */
     @Override
     public void deleteGarden(int gardenId) {
         String query = "DELETE FROM Gardens WHERE garden_id = ?";
@@ -134,21 +105,4 @@ public class GardenDAO implements IGardenDAO {
         }
     }
 
-    @Override
-    public Garden getGardenByTaskId(Task task)
-    {
-        String query = "SELECT * FROM Tasks WHERE task_id = ?";
-        Garden garden = null;
-
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, task.getId());
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                garden = getGardenById(rs.getInt("garden_id"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return garden;
-    }
 }
