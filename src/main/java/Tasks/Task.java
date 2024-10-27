@@ -88,4 +88,27 @@ public class Task implements ITask {
         this.category = newTask.category;
     }
 
+    /**
+     * Equality for tasks, matches if tasks ID are equal
+     * @param object Task to be compared
+     * @return True if task ID matches, false otherwise
+     */
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true; // Check if it's the same object
+        if (object == null || getClass() != object.getClass()) return false; // Check if they are the same type
+        Task task = (Task) object;
+        // Compare based on the fields you consider important for equality
+        return Objects.equals(taskId, task.taskId);
+    }
+
+    /**
+     * Generates hash code
+     * @return The hash code
+     */
+    @Override
+    public int hashCode() {
+        // Generate a hash code based on the same fields you used in equals()
+        return Objects.hash(taskId, taskDetails);
+    }
 }
