@@ -2,9 +2,6 @@ package Database;
 import People.IPerson;
 import People.Person;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Interface for the Contact Data Access Object that handles
  * the CRUD operations for the Contact class with the database.

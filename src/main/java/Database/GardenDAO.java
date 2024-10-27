@@ -1,11 +1,8 @@
 package Database;
 
 import GardenCell.Garden;
-import Tasks.Task;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class GardenDAO implements IGardenDAO {
 

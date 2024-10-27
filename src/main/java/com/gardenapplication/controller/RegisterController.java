@@ -21,7 +21,6 @@ import java.util.Base64;
 
 import java.io.IOException;
 
-import java.sql.Connection;
 
 public class RegisterController {
 

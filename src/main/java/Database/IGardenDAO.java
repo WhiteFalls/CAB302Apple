@@ -1,9 +1,6 @@
 package Database;
 
 import GardenCell.Garden;
-import Tasks.Task;
-
-import java.util.List;
 
 public interface IGardenDAO {
     /**

@@ -3,7 +3,6 @@ package Database;
 import GardenCell.Plant;
 
 import java.util.ArrayList;
-import java.util.List;
 public interface IPlantDAO {
 
     /**

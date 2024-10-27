@@ -1,5 +1,4 @@
 package Tasks;
-import People.IPerson;
 
 import java.time.LocalDate;
 import java.util.Objects;

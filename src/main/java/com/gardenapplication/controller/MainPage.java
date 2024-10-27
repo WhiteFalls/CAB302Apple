@@ -4,16 +4,12 @@ import Database.*;
 import GardenCell.Garden;
 import People.IPerson;
 import Util.Popup;
-import com.gardenapplication.Gary;
 import com.gardenapplication.UserSession;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
+
 import javafx.scene.control.*;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.Optional;
 
@@ -24,7 +20,7 @@ public class MainPage {
     @FXML
     private Button addGarden;
 
-    private UserSession currentUser = UserSession.getInstance();  // can be used to refactor initialize
+    private UserSession currentUser = UserSession.getInstance();
     private GardenDAO gardenDAO;
     private Connection connection;
     private IPerson loggedInUser;

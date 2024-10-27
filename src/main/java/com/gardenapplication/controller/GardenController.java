@@ -3,15 +3,11 @@ package com.gardenapplication.controller;
 import Database.*;
 import GardenCell.GardenCell;
 import GardenCell.Garden;
-import People.IPerson;
+
 import com.gardenapplication.UserSession;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import Util.Popup;

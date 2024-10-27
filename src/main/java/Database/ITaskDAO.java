@@ -2,13 +2,11 @@ package Database;
 
 import GardenCell.Garden;
 import People.IPerson;
-import People.Person;
 import Tasks.Task;
 import Tasks.taskCategory;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
 public interface ITaskDAO {
     /**
